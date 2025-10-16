@@ -57,7 +57,7 @@
               style="background-color: var(--color-secondary);"
               :aria-label="social.name"
             >
-              <component :is="social.icon" class="w-6 h-6" style="color: var(--color-background);" />
+              <component :is="social.icon" class="w-6 h-6" style="color: var(--color-primary);" />
             </a>
           </div>
         </div>

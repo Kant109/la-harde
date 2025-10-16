@@ -35,29 +35,50 @@
       </div>
     </section>
 
-    <!-- Section Statistiques -->
+    <!-- Section Profils Strava -->
     <section class="py-20" style="background-color: var(--color-primary);">
       <div class="container mx-auto px-4">
         <div class="text-center mb-12">
           <h2 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--color-secondary);">
-            L'Équipe en Chiffres
+            Suivez-nous sur Strava
           </h2>
+          <p class="text-lg max-w-2xl mx-auto" style="color: var(--color-accent); opacity: 0.8;">
+            Découvrez nos performances et nos entraînements en temps réel
+          </p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div
-            v-for="(stat, index) in stats"
-            :key="index"
-            class="text-center p-8 rounded-xl transition-all duration-300 hover:scale-105"
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          <a
+            v-for="member in teamMembers"
+            :key="member.id"
+            :href="member.strava"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group relative p-6 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl"
             style="background-color: var(--color-background);"
+            :class="{ 'opacity-50 pointer-events-none': !member.strava }"
           >
-            <div class="text-5xl font-bold mb-2" style="color: var(--color-secondary);">
-              {{ stat.value }}
+            <div class="text-center">
+              <img
+                :src="member.image"
+                :alt="member.name"
+                class="w-20 h-20 rounded-full mx-auto mb-4 object-cover border-4 transition-all duration-300 group-hover:border-orange-500"
+                style="border-color: var(--color-secondary);"
+              />
+              <h3 class="text-lg font-bold mb-2" style="color: var(--color-primary);">
+                {{ member.name }}
+              </h3>
+              <div v-if="member.strava" class="flex items-center justify-center text-sm" style="color: var(--color-primary);">
+                <svg class="w-5 h-5 mr-1" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/>
+                </svg>
+                Profil Strava
+              </div>
+              <div v-else class="text-sm" style="color: var(--color-text); opacity: 0.5;">
+                Bientôt disponible
+              </div>
             </div>
-            <div class="text-sm uppercase tracking-wide" style="color: var(--color-text); opacity: 0.7;">
-              {{ stat.label }}
-            </div>
-          </div>
+          </a>
         </div>
       </div>
     </section>
@@ -66,7 +87,7 @@
     <section class="py-20">
       <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-          <h2 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--color-secondary);">
+          <h2 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--color-primary);">
             Nos Valeurs
           </h2>
           <p class="text-lg max-w-2xl mx-auto" style="color: var(--color-text); opacity: 0.8;">
@@ -81,12 +102,12 @@
             class="card p-8 text-center"
           >
             <div class="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center " style="background-color: var(--color-secondary);">
-              <component :is="value.icon" class="w-8 h-8" style="color: var(--color-background);" />
+              <component :is="value.icon" class="w-8 h-8" style="color: var(--color-primary);" />
             </div>
             <h3 class="text-2xl font-bold mb-4" style="color: var(--color-secondary);">
               {{ value.title }}
             </h3>
-            <p class="text-sm leading-relaxed" style="color: var(--color-text); opacity: 0.8;">
+            <p class="text-sm leading-relaxed" style="color: var(--color-accent); opacity: 0.8;">
               {{ value.description }}
             </p>
           </div>
@@ -100,7 +121,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-6" style="color: var(--color-secondary);">
           Soutenez LA HARDE
         </h2>
-        <p class="text-lg mb-8 max-w-2xl mx-auto" style="color: var(--color-text); opacity: 0.8;">
+        <p class="text-lg mb-8 max-w-2xl mx-auto" style="color: var(--color-accent); opacity: 0.8;">
           Arborez les couleurs des Sangliers Explosifs et montrez votre soutien à notre équipe.
         </p>
         <NuxtLink to="/boutique" class="btn-primary">

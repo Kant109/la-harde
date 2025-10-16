@@ -25,7 +25,7 @@
             <h2 class="text-3xl font-bold mb-6" style="color: var(--color-secondary);">
               1. Éditeur du site
             </h2>
-            <div class="space-y-3" style="color: var(--color-text); opacity: 0.9;">
+            <div class="space-y-3" style="color: var(--color-accent); opacity: 0.9;">
               <p>
                 <strong>Raison sociale :</strong> LA HARDE - Les Sangliers Explosifs
               </p>
@@ -49,7 +49,7 @@
             <h2 class="text-3xl font-bold mb-6" style="color: var(--color-secondary);">
               2. Hébergement
             </h2>
-            <div class="space-y-3" style="color: var(--color-text); opacity: 0.9;">
+            <div class="space-y-3" style="color: var(--color-accent); opacity: 0.9;">
               <p>
                 Le site est hébergé par :
               </p>
@@ -70,7 +70,7 @@
             <h2 class="text-3xl font-bold mb-6" style="color: var(--color-secondary);">
               3. Propriété intellectuelle
             </h2>
-            <div class="space-y-4" style="color: var(--color-text); opacity: 0.9;">
+            <div class="space-y-4" style="color: var(--color-accent); opacity: 0.9;">
               <p>
                 L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques.
               </p>
@@ -88,7 +88,7 @@
             <h2 class="text-3xl font-bold mb-6" style="color: var(--color-secondary);">
               4. Protection des données personnelles
             </h2>
-            <div class="space-y-4" style="color: var(--color-text); opacity: 0.9;">
+            <div class="space-y-4" style="color: var(--color-accent); opacity: 0.9;">
               <p>
                 Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition aux données personnelles vous concernant.
               </p>
@@ -110,7 +110,7 @@
             <h2 class="text-3xl font-bold mb-6" style="color: var(--color-secondary);">
               5. Cookies
             </h2>
-            <div class="space-y-4" style="color: var(--color-text); opacity: 0.9;">
+            <div class="space-y-4" style="color: var(--color-accent); opacity: 0.9;">
               <p>
                 Le site LA HARDE utilise des cookies techniques nécessaires au bon fonctionnement du site, notamment pour :
               </p>
@@ -129,7 +129,7 @@
             <h2 class="text-3xl font-bold mb-6" style="color: var(--color-secondary);">
               6. Limitation de responsabilité
             </h2>
-            <div class="space-y-4" style="color: var(--color-text); opacity: 0.9;">
+            <div class="space-y-4" style="color: var(--color-accent); opacity: 0.9;">
               <p>
                 L'association LA HARDE s'efforce d'assurer au mieux de ses possibilités, l'exactitude et la mise à jour des informations diffusées sur ce site, dont elle se réserve le droit de corriger, à tout moment et sans préavis, le contenu.
               </p>
@@ -147,7 +147,7 @@
             <h2 class="text-3xl font-bold mb-6" style="color: var(--color-secondary);">
               7. Liens hypertextes
             </h2>
-            <div class="space-y-4" style="color: var(--color-text); opacity: 0.9;">
+            <div class="space-y-4" style="color: var(--color-accent); opacity: 0.9;">
               <p>
                 Le site LA HARDE peut contenir des liens hypertextes vers d'autres sites présents sur le réseau Internet. Les liens vers ces autres ressources vous font quitter le site LA HARDE.
               </p>
@@ -162,7 +162,7 @@
             <h2 class="text-3xl font-bold mb-6" style="color: var(--color-secondary);">
               8. Droit applicable
             </h2>
-            <div class="space-y-4" style="color: var(--color-text); opacity: 0.9;">
+            <div class="space-y-4" style="color: var(--color-accent); opacity: 0.9;">
               <p>
                 Le présent site et les mentions légales sont régis par le droit français. Tout litige sera soumis aux tribunaux compétents français.
               </p>
@@ -170,11 +170,11 @@
           </div>
 
           <!-- Section 9 : Contact -->
-          <div class="card p-8" style="background: linear-gradient(135deg, var(--color-primary), var(--color-accent));">
+          <div class="card p-8">
             <h2 class="text-3xl font-bold mb-6" style="color: var(--color-secondary);">
               9. Contact
             </h2>
-            <div class="space-y-3" style="color: var(--color-text); opacity: 0.9;">
+            <div class="space-y-3" style="color: var(--color-accent); opacity: 0.9;">
               <p>
                 Pour toute question ou demande d'information concernant le site, vous pouvez nous contacter :
               </p>
@@ -185,13 +185,13 @@
                 <strong>Réseaux sociaux :</strong>
               </p>
               <div class="flex space-x-4 mt-4">
-                <a href="https://instagram.com/laharde" target="_blank" class="px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105" style="background-color: var(--color-secondary); color: var(--color-background);">
+                <a href="https://instagram.com/laharde" target="_blank" class="px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105" style="background-color: var(--color-secondary); color: var(--color-primary);">
                   Instagram
                 </a>
-                <a href="https://x.com/laharde" target="_blank" class="px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105" style="background-color: var(--color-secondary); color: var(--color-background);">
+                <a href="https://x.com/laharde" target="_blank" class="px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105" style="background-color: var(--color-secondary); color: var(--color-primary);">
                   X (Twitter)
                 </a>
-                <a href="https://youtube.com/@laharde" target="_blank" class="px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105" style="background-color: var(--color-secondary); color: var(--color-background);">
+                <a href="https://youtube.com/@laharde" target="_blank" class="px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105" style="background-color: var(--color-secondary); color: var(--color-primary);">
                   YouTube
                 </a>
               </div>

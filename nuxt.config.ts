@@ -6,7 +6,8 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/google-fonts',
-    '@nuxt/image'
+    '@nuxt/image',
+    '@vite-pwa/nuxt'
   ],
 
   googleFonts: {
@@ -45,5 +46,82 @@ export default defineNuxtConfig({
     }
   },
 
-  css: ['~/assets/css/main.css']
+  css: ['~/assets/css/main.css'],
+
+  pwa: {
+    registerType: 'autoUpdate',
+    manifest: {
+      name: 'LA HARDE - Les Sangliers Explosifs',
+      short_name: 'LA HARDE',
+      description: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers Explosifs. Découvrez nos coureurs, notre histoire et notre boutique officielle.',
+      theme_color: '#000000',
+      background_color: '#ffffff',
+      display: 'standalone',
+      orientation: 'portrait-primary',
+      scope: '/',
+      start_url: '/',
+      icons: [
+        {
+          src: 'pwa-64x64.png',
+          sizes: '64x64',
+          type: 'image/png'
+        },
+        {
+          src: 'pwa-192x192.png',
+          sizes: '192x192',
+          type: 'image/png'
+        },
+        {
+          src: 'pwa-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any'
+        },
+        {
+          src: 'maskable-icon-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable'
+        }
+      ]
+    },
+    workbox: {
+      navigateFallback: '/',
+      maximumFileSizeToCacheInBytes: 5000000, // 5MB
+      runtimeCaching: [
+        {
+          urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'google-fonts-cache',
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        },
+        {
+          urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'gstatic-fonts-cache',
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        }
+      ]
+    },
+    devOptions: {
+      enabled: true,
+      type: 'module'
+    }
+  }
 })

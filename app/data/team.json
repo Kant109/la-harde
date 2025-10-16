@@ -5,7 +5,8 @@
     "role": "Le leader",
     "bio": "Chef de file de LA HARDE, Matis mène le peloton avec autorité et stratégie. Sa vision tactique et son charisme font de lui le capitaine incontesté.",
     "image": "/images/team/matis.png",
-    "speciality": "Sprint et tactique"
+    "speciality": "Sprint et tactique",
+    "strava": "https://www.strava.com/athletes/124138513"
   },
   {
     "id": 2,
@@ -13,7 +14,8 @@
     "role": "Le directeur sportif",
     "bio": "Cerveau derrière les victoires de l'équipe, Pierre orchestre chaque course depuis la voiture suiveuse. Son expérience est le pilier de LA HARDE.",
     "image": "/images/team/pierre.png",
-    "speciality": "Stratégie et management"
+    "speciality": "Stratégie et management",
+    "strava": "https://www.strava.com/athletes/11423661"
   },
   {
     "id": 3,
@@ -21,7 +23,8 @@
     "role": "Le tueur d'échappée",
     "bio": "Spécialiste des attaques surprises, Quentin excelle dans les échappées matinales. Quand il part, personne ne le rattrape.",
     "image": "/images/team/quentin.png",
-    "speciality": "Échappées et contre-la-montre"
+    "speciality": "Échappées et contre-la-montre",
+    "strava": "https://www.strava.com/athletes/103956742"
   },
   {
     "id": 4,
@@ -29,7 +32,8 @@
     "role": "Le futur puncheur",
     "bio": "Jeune talent prometteur, Corentin affiche un potentiel exceptionnel sur les arrivées vallonnées. L'avenir de l'équipe repose sur ses épaules.",
     "image": "/images/team/corentin.png",
-    "speciality": "Côtes courtes et finales nerveuses"
+    "speciality": "Côtes courtes et finals nerveux (plus proche de l'appareil photo la prochaine fois)",
+    "strava": "https://www.strava.com/athletes/179460880"
   },
   {
     "id": 5,
@@ -37,14 +41,16 @@
     "role": "Le baby rouleur",
     "bio": "Malgré son jeune âge, Baptiste démontre une endurance remarquable. Capable de tenir un rythme élevé pendant des heures, il est le moteur du peloton.",
     "image": "/images/team/baptiste.png",
-    "speciality": "Roulage et endurance"
+    "speciality": "Roulage et endurance",
+    "strava": "https://www.strava.com/athletes/125183686"
   },
   {
     "id": 6,
     "name": "Simon",
-    "role": "Le sanglier original",
+    "role": "Le sanglier originel",
     "bio": "Membre fondateur et âme de LA HARDE, Simon incarne l'esprit combatif de l'équipe. Son agressivité en course inspire tous ses coéquipiers.",
     "image": "/images/team/simon.png",
-    "speciality": "Combativité et esprit d'équipe"
+    "speciality": "Combativité et esprit d'équipe (ricard)",
+    "strava": "https://www.strava.com/athletes/89140976"
   }
 ]

@@ -64,8 +64,7 @@
     "images": [
       "/images/products/veste.png",
       "/images/products/veste-2.png",
-      "/images/products/veste-3.png",
-      "/images/products/veste-4.png"
+      "/images/products/veste-3.png"
     ],
     "category": "Vêtements",
     "stock": 30,
@@ -81,10 +80,7 @@
     "fullDescription": "Casque route haute performance aux couleurs de LA HARDE - Les Sangliers Explosifs. Design aérodynamique avec 18 ouvertures de ventilation optimisées pour un flux d'air maximal. Construction in-mold ultra-légère (230g en taille M), système de réglage micrométrique pour ajustement parfait, mousses intérieures antibactériennes amovibles et lavables. Conforme aux normes de sécurité CE EN 1078. Livré avec housse de protection.",
     "image": "/images/products/casque.png",
     "images": [
-      "/images/products/casque.png",
-      "/images/products/casque-2.png",
-      "/images/products/casque-3.png",
-      "/images/products/casque-4.png"
+      "/images/products/casque.png"
     ],
     "category": "Équipement",
     "stock": 20,

@@ -45,7 +45,7 @@
 
 @layer components {
   .btn-primary {
-    @apply px-8 py-4 rounded-lg transition-all duration-300;
+    @apply px-8 py-4 rounded-lg transition-all duration-300 scale-105 shadow-lg;
     background-color: var(--color-secondary);
     color: var(--color-primary);
     font-size: 18px;
@@ -53,23 +53,14 @@
     line-height: 1.5;
   }
 
-  .btn-primary:hover {
-    @apply scale-105 shadow-lg;
-  }
-
   .btn-secondary {
     @apply px-8 py-4 rounded-lg transition-all duration-300 border-2;
-    background-color: transparent;
-    color: var(--color-primary);
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
     border-color: var(--color-primary);
     font-size: 18px;
     font-weight: 700;
     line-height: 1.5;
-  }
-
-  .btn-secondary:hover {
-    background-color: var(--color-primary);
-    color: var(--color-secondary);
   }
 
   .card {
@@ -79,7 +70,7 @@
 
   .card:hover {
     @apply scale-105 shadow-2xl;
-    box-shadow: 0 10px 40px rgba(205, 164, 52, 0.3);
+    box-shadow: 0 10px 40px var(--color-secondary);
   }
 }
 

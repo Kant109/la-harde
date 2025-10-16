@@ -16,7 +16,7 @@
       </div>
 
       <!-- Badge stock faible -->
-      <div v-if="product.stock < 30" class="absolute top-4 left-4 px-4 py-2 rounded-full text-sm font-bold" style="background-color: var(--color-secondary); color: var(--color-background);">
+      <div v-if="product.stock < 30" class="absolute top-4 left-4 px-4 py-2 rounded-full text-sm font-bold" style="background-color: var(--color-secondary); color: var(--color-primary);">
         Stock limité
       </div>
       </div>
@@ -27,7 +27,7 @@
       <NuxtLink :to="`/produits/${product.slug}`">
         <h3 class="text-2xl font-extrabold mb-3 hover:underline" style="color: var(--color-secondary);">{{ product.name }}</h3>
       </NuxtLink>
-      <p class="text-base mb-4 line-clamp-2 font-medium" style="color: var(--color-text);">
+      <p class="text-base mb-4 line-clamp-2 font-medium" style="color: var(--color-accent);">
         {{ product.description }}
       </p>
 
@@ -39,7 +39,7 @@
       </div>
 
       <!-- Stock disponible -->
-      <p class="text-sm mt-3 font-semibold" style="color: var(--color-text);">
+      <p class="text-sm mt-3 font-semibold" style="color: var(--color-accent);">
         {{ product.stock }} en stock
       </p>
     </div>

@@ -37,13 +37,6 @@
           </NuxtLink>
         </div>
       </div>
-
-      <!-- Scroll indicator -->
-      <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: var(--color-secondary);">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-      </div>
     </section>
 
     <!-- Section Mise en avant de l'équipe -->
@@ -53,8 +46,8 @@
           <h2 class="text-5xl md:text-6xl font-extrabold mb-6" style="color: var(--color-primary);">
             Nos Guerriers du Bitume
           </h2>
-          <p class="text-xl md:text-2xl max-w-2xl mx-auto font-medium" style="color: var(--color-text);">
-            Six coureurs, une passion, un objectif : dominer les routes avec la force d'un peloton sauvage.
+          <p class="text-xl md:text-2xl max-w-2xl mx-auto font-medium" style="color: var(--color-primary);">
+            Une passion, un objectif : dominer les routes avec la force d'un peloton sauvage.
           </p>
         </div>
 

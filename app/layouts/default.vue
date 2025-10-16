@@ -20,6 +20,9 @@
       @remove-item="removeItem"
       @clear-cart="clearCart"
     />
+
+    <!-- PWA Install Prompt -->
+    <PwaInstallPrompt />
   </div>
 </template>
 
