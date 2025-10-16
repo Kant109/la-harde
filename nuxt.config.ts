@@ -53,32 +53,31 @@ export default defineNuxtConfig({
     manifest: {
       name: 'LA HARDE - Les Sangliers Explosifs',
       short_name: 'LA HARDE',
-      description: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers Explosifs. Découvrez nos coureurs, notre histoire et notre boutique officielle.',
-      theme_color: '#000000',
-      background_color: '#ffffff',
+      description: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers Explosifs',
+      theme_color: '#3B2F2F',
+      background_color: '#F5F1ED',
       display: 'standalone',
-      orientation: 'portrait-primary',
       scope: '/',
       start_url: '/',
       icons: [
         {
-          src: 'pwa-64x64.png',
+          src: '/pwa-64x64.png',
           sizes: '64x64',
           type: 'image/png'
         },
         {
-          src: 'pwa-192x192.png',
+          src: '/pwa-192x192.png',
           sizes: '192x192',
           type: 'image/png'
         },
         {
-          src: 'pwa-512x512.png',
+          src: '/pwa-512x512.png',
           sizes: '512x512',
           type: 'image/png',
           purpose: 'any'
         },
         {
-          src: 'maskable-icon-512x512.png',
+          src: '/maskable-icon-512x512.png',
           sizes: '512x512',
           type: 'image/png',
           purpose: 'maskable'
@@ -87,7 +86,8 @@ export default defineNuxtConfig({
     },
     workbox: {
       navigateFallback: '/',
-      maximumFileSizeToCacheInBytes: 5000000, // 5MB
+      globPatterns: ['**/*.{js,css,html,png,jpg,jpeg,svg,ico,json,woff,woff2}'],
+      cleanupOutdatedCaches: true,
       runtimeCaching: [
         {
           urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -96,7 +96,7 @@ export default defineNuxtConfig({
             cacheName: 'google-fonts-cache',
             expiration: {
               maxEntries: 10,
-              maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+              maxAgeSeconds: 60 * 60 * 24 * 365
             },
             cacheableResponse: {
               statuses: [0, 200]
@@ -110,14 +110,29 @@ export default defineNuxtConfig({
             cacheName: 'gstatic-fonts-cache',
             expiration: {
               maxEntries: 10,
-              maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+              maxAgeSeconds: 60 * 60 * 24 * 365
             },
             cacheableResponse: {
               statuses: [0, 200]
             }
           }
+        },
+        {
+          urlPattern: /^https:\/\/.*/i,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'external-resources',
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 60 * 60 * 24 * 7
+            }
+          }
         }
       ]
+    },
+    client: {
+      installPrompt: true,
+      periodicSyncForUpdates: 3600
     },
     devOptions: {
       enabled: true,
