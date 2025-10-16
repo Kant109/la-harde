@@ -52,5 +52,14 @@
     "image": "/images/team/simon.png",
     "speciality": "Combativité et esprit d'équipe (ricard)",
     "strava": "https://www.strava.com/athletes/89140976"
+  },
+  {
+    "id": 7,
+    "name": "Julien",
+    "role": "Le cascadeur",
+    "bio": "Un diamant brut mais qui restera brut pour cause de femme et enfant.",
+    "image": "/images/team/julien.png",
+    "speciality": "1 sortie = 1 chute",
+    "strava": "https://www.strava.com/athletes/33556755"
   }
 ]

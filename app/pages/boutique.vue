@@ -77,7 +77,7 @@
             <h3 class="text-2xl font-extrabold mb-3" style="color: var(--color-secondary);">
               {{ advantage.title }}
             </h3>
-            <p class="text-base font-medium" style="color: var(--color-text);">
+            <p class="text-base font-medium" style="color: var(--color-accent);">
               {{ advantage.description }}
             </p>
           </div>
