@@ -1,26 +1,14 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <section class="relative py-32 overflow-hidden">
-      <!-- Background -->
-      <div class="absolute inset-0" style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-background) 100%);"></div>
-
-      <div class="relative z-10 container mx-auto px-4 text-center">
-        <h1 class="text-5xl md:text-6xl font-extrabold mb-6" style="color: var(--color-secondary);">
+    <section class="py-16 md:py-24" style="background-color: var(--color-background);">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-4" style="color: var(--color-primary); line-height: 1.1;">
           Boutique Officielle
         </h1>
-        <p class="text-xl md:text-2xl max-w-3xl mx-auto font-medium" style="color: var(--color-text);">
-          Arborez fièrement les couleurs de LA HARDE avec notre collection officielle.
-          Devenez un Sanglier Explosif !
+        <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8" style="color: var(--color-text);">
+          Arborez fièrement les couleurs de LA HARDE avec notre collection officielle
         </p>
-      </div>
-
-      <!-- Shopping badge -->
-      <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex items-center space-x-2 px-6 py-3 rounded-full" style="background-color: var(--color-secondary);">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: var(--color-background);">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <span class="font-bold text-base" style="color: var(--color-background);">Livraison gratuite dès 50€</span>
       </div>
     </section>
 
@@ -47,7 +35,7 @@
           </div>
 
           <!-- Compteur produits -->
-          <div class="text-base font-semibold" style="color: var(--color-text);">
+          <div class="text-base font-semibold" style="color: var(--color-accent);">
             {{ filteredProducts.length }} produit(s)
           </div>
         </div>
@@ -84,7 +72,7 @@
             class="text-center"
           >
             <div class="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center " style="background-color: var(--color-secondary);">
-              <component :is="advantage.icon" class="w-10 h-10" style="color: var(--color-background);" />
+              <component :is="advantage.icon" class="w-10 h-10" style="color: var(--color-primary);" />
             </div>
             <h3 class="text-2xl font-extrabold mb-3" style="color: var(--color-secondary);">
               {{ advantage.title }}

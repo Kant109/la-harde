@@ -1,26 +1,19 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <section class="relative py-32 overflow-hidden">
-      <!-- Background -->
-      <div class="absolute inset-0" style="background: linear-gradient(135deg, var(--color-background) 0%, var(--color-primary) 100%);"></div>
-
-      <div class="relative z-10 container mx-auto px-4 text-center">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6" style="color: var(--color-secondary);">
+    <section class="py-16 md:py-24" style="background-color: var(--color-background);">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-4" style="color: var(--color-primary); line-height: 1.1;">
           Notre Histoire
         </h1>
-        <p class="text-xl md:text-2xl max-w-3xl mx-auto" style="color: var(--color-text); opacity: 0.9;">
-          De nos débuts en Touraine aux pavés de Roubaix, revivez les moments forts qui ont forgé la légende de LA HARDE.
+        <p class="text-lg md:text-xl max-w-2xl mx-auto" style="color: var(--color-text);">
+          De nos débuts en Touraine aux pavés de Roubaix, revivez les moments forts qui ont forgé la légende de LA HARDE
         </p>
       </div>
-
-      <!-- Decoration -->
-      <div class="absolute top-20 left-20 w-64 h-1 opacity-50 " style="background-color: var(--color-secondary);"></div>
-      <div class="absolute bottom-20 right-20 w-64 h-1 opacity-50 " style="background-color: var(--color-secondary); animation-delay: 1.5s;"></div>
     </section>
 
     <!-- Section Origine -->
-    <section class="py-20">
+    <section>
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <div class="card p-8 md:p-12 mb-16">
@@ -32,7 +25,7 @@
               </div>
               <div>
                 <h2 class="text-3xl md:text-4xl font-bold" style="color: var(--color-secondary);">L'Origine des Sangliers</h2>
-                <p class="text-sm" style="color: var(--color-secondary); opacity: 0.7;">2023 - Les débuts</p>
+                <p class="text-sm" style="color: var(--color-secondary); opacity: 0.7;">2025 - Les débuts</p>
               </div>
             </div>
 
