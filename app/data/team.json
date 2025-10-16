@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Matis",
+    "role": "Le leader",
+    "bio": "Chef de file de LA HARDE, Matis mène le peloton avec autorité et stratégie. Sa vision tactique et son charisme font de lui le capitaine incontesté.",
+    "image": "/images/team/matis.png",
+    "speciality": "Sprint et tactique"
+  },
+  {
+    "id": 2,
+    "name": "Pierre",
+    "role": "Le directeur sportif",
+    "bio": "Cerveau derrière les victoires de l'équipe, Pierre orchestre chaque course depuis la voiture suiveuse. Son expérience est le pilier de LA HARDE.",
+    "image": "/images/team/pierre.png",
+    "speciality": "Stratégie et management"
+  },
+  {
+    "id": 3,
+    "name": "Quentin",
+    "role": "Le tueur d'échappée",
+    "bio": "Spécialiste des attaques surprises, Quentin excelle dans les échappées matinales. Quand il part, personne ne le rattrape.",
+    "image": "/images/team/quentin.png",
+    "speciality": "Échappées et contre-la-montre"
+  },
+  {
+    "id": 4,
+    "name": "Corentin",
+    "role": "Le futur puncheur",
+    "bio": "Jeune talent prometteur, Corentin affiche un potentiel exceptionnel sur les arrivées vallonnées. L'avenir de l'équipe repose sur ses épaules.",
+    "image": "/images/team/corentin.png",
+    "speciality": "Côtes courtes et finales nerveuses"
+  },
+  {
+    "id": 5,
+    "name": "Baptiste",
+    "role": "Le baby rouleur",
+    "bio": "Malgré son jeune âge, Baptiste démontre une endurance remarquable. Capable de tenir un rythme élevé pendant des heures, il est le moteur du peloton.",
+    "image": "/images/team/baptiste.png",
+    "speciality": "Roulage et endurance"
+  },
+  {
+    "id": 6,
+    "name": "Simon",
+    "role": "Le sanglier original",
+    "bio": "Membre fondateur et âme de LA HARDE, Simon incarne l'esprit combatif de l'équipe. Son agressivité en course inspire tous ses coéquipiers.",
+    "image": "/images/team/simon.png",
+    "speciality": "Combativité et esprit d'équipe"
+  }
+]

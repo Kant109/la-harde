@@ -1,0 +1,7 @@
+:root {
+  --color-primary: #DBD2C3; /* Couleur principale - beige clair */
+  --color-secondary: #6D2A31; /* Couleur secondaire - bordeaux foncé */
+  --color-accent: #3A3A3A; /* Gris neutre pour contrastes */
+  --color-background: #1A1A1A; /* Fond sombre pour modernité */
+  --color-text: #F5F5F5; /* Texte clair */
+}
