@@ -178,4 +178,8 @@ const handleImageError = (e: Event) => {
   const target = e.target as HTMLImageElement
   target.src = 'https://via.placeholder.com/600x400/3B2F2F/CDA434?text=' + encodeURIComponent('LA HARDE')
 }
+
+onBeforeMount(() => {
+  fetch(import.meta.env.API_BASE_URL + '/obtorta/herd/wakeup')
+})
 </script>
