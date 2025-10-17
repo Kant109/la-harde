@@ -148,7 +148,7 @@ import { ref, onMounted, watch } from 'vue'
 
 // Types
 interface Event {
-  id?: string
+  _id?: string
   name: string
   date: string
   localisation: string
@@ -198,7 +198,7 @@ const loadEvent = async () => {
   try {
     const eventId = route.params.id as string
     const events = await getEvents()
-    event.value = events.find(e => e.id === eventId) || null
+    event.value = events.find(e => e._id === eventId) || null
 
     if (!event.value) {
       loadError.value = true
@@ -225,7 +225,7 @@ const loadParticipants = async () => {
 }
 
 const handleAddParticipant = async () => {
-  if (!event.value?.id || !newParticipantName.value.trim()) return
+  if (!event.value?._id || !newParticipantName.value.trim()) return
 
   isAddingParticipant.value = true
   addSuccess.value = false
@@ -233,7 +233,7 @@ const handleAddParticipant = async () => {
 
   try {
     const newParticipant = await addParticipant({
-      idEvent: event.value.id,
+      idEvent: event.value._id,
       participant: newParticipantName.value.trim()
     })
 
@@ -256,12 +256,12 @@ const handleAddParticipant = async () => {
 }
 
 const handleDeleteParticipant = async (participantId: string) => {
-  if (!event.value?.id) return
+  if (!event.value?._id) return
 
   deletingParticipantId.value = participantId
 
   try {
-    await deleteParticipant(participantId, event.value.id)
+    await deleteParticipant(participantId, event.value._id)
     participants.value = participants.value.filter(p => p.id !== participantId)
   } catch (error) {
     console.error('Erreur:', error)

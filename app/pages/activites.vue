@@ -188,7 +188,7 @@
       </div>
 
       <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <NuxtLink v-for="event in sortedEvents" :key="event.id" :to="`/race/${event.id}`"
+        <NuxtLink v-for="event in sortedEvents" :key="event._id" :to="`/race/${event._id}`"
           class="relative rounded-2xl border-4 cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl group flex flex-col"
           style="background: var(--color-primary); border-color: var(--color-secondary);">
           <div class="relative p-6 flex-1 flex flex-col">
@@ -295,7 +295,7 @@ useHead({
 
 // Types
 interface Event {
-  id?: string
+  _id?: string
   name: string
   date: string
   localisation: string
