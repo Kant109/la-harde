@@ -4,165 +4,188 @@
       <h1 class="text-5xl md:text-6xl font-extrabold mb-6" style="color: var(--color-primary);">
         Nos Activités
       </h1>
-      <p class="text-xl md:text-2xl font-medium mb-8" style="color: var(--color-text);">
-        Gérez et consultez toutes les activités de LA HARDE
-      </p>
     </div>
 
-    <!-- Formulaire de création d'activité -->
-    <div class="relative rounded-2xl mb-12 border-4"
-      style="background: var(--color-primary); border-color: var(--color-secondary);">
-      <div class="relative p-8 md:p-10">
-        <div class="text-center mb-8">
-          <div class="inline-block px-6 py-2 rounded-full mb-4" style="background-color: var(--color-accent);">
-            <span class="text-sm font-bold uppercase tracking-wider" style="color: var(--color-primary);">Nouvelle
-              activité</span>
-          </div>
-          <h2 class="text-4xl font-extrabold" style="color: var(--color-accent);">
-            Créer un événement
-          </h2>
-          <p class="mt-2 text-lg" style="color: var(--color-secondary); opacity: 0.9;">
-            Planifiez la prochaine sortie de LA HARDE
-          </p>
-        </div>
+    <!-- Bouton pour ouvrir la modale -->
+    <div class="mb-12 text-center">
+      <button @click="showModal = true"
+        class="px-8 py-5 rounded-xl text-xl font-extrabold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
+        style="background-color: var(--color-accent); color: var(--color-primary);">
+        ✨ Créer une nouvelle activité
+      </button>
+    </div>
 
-        <form @submit.prevent="handleCreateEvent" class="space-y-6 max-w-4xl mx-auto">
-          <div class="relative">
-            <label for="name" class="block text-base font-bold mb-3 uppercase tracking-wide"
-              style="color: var(--color-accent);">
-              📝 Nom de l'activité *
-            </label>
-            <input id="name" v-model="newEvent.name" type="text" required
-              class="w-full px-5 py-4 rounded-xl text-lg font-semibold"
-              style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
-              :style="{ borderColor: newEvent.name ? 'var(--color-accent)' : 'transparent' }"
-              placeholder="Ex: La Roue Tourangelle" />
-          </div>
+    <!-- Modale de création d'activité -->
+    <Teleport to="body">
+      <Transition name="modal">
+        <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center p-4" @click="closeModal">
+          <!-- Overlay -->
+          <div class="absolute inset-0 bg-black bg-opacity-70"></div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="relative calendar-wrapper">
-              <label class="block text-base font-bold mb-3 uppercase tracking-wide" style="color: var(--color-accent);">
-                📅 Date *
-              </label>
-              <button type="button" @click.stop="showCalendar = !showCalendar"
-                class="w-full px-5 py-4 pr-14 rounded-xl text-lg font-semibold cursor-pointer text-left"
-                style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
-                :style="{ borderColor: newEvent.date ? 'var(--color-accent)' : 'transparent' }">
-                {{ newEvent.date ? formatDatePreview(newEvent.date) : 'Sélectionner une date' }}
-              </button>
-              <div class="absolute right-4 top-16 transform -translate-y-1/2 pointer-events-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
-                  stroke="currentColor" style="color: var(--color-accent);">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-
-              <!-- Calendrier popup -->
-              <div v-if="showCalendar" @click.stop class="calendar-popup absolute mt-2 rounded-xl shadow-2xl p-6"
-                style="background-color: rgba(245, 241, 237, 0.98); border: 3px solid var(--color-accent); z-index: 9999; min-width: 350px;">
-                <div class="calendar-header flex justify-between items-center mb-4">
-                  <button type="button" @click="previousMonth"
-                    class="px-3 py-1 rounded-lg font-bold transition-all duration-300 hover:scale-110"
-                    style="color: var(--color-accent); background-color: rgba(205, 164, 52, 0.1);">
-                    ←
-                  </button>
-                  <h4 class="text-xl font-bold" style="color: var(--color-accent);">
-                    {{ monthText }}
-                  </h4>
-                  <button type="button" @click="nextMonth"
-                    class="px-3 py-1 rounded-lg font-bold transition-all duration-300 hover:scale-110"
-                    style="color: var(--color-accent); background-color: rgba(205, 164, 52, 0.1);">
-                    →
-                  </button>
-                </div>
-
-                <div class="calendar-grid grid grid-cols-7 gap-1">
-                  <div v-for="day in days" :key="day" class="text-center py-2 font-bold text-sm"
-                    style="color: var(--color-accent);">
-                    {{ day }}
-                  </div>
-                  <div v-for="n in startingDayOfWeek" :key="'empty-' + n" class="text-center py-3"></div>
-                  <div v-for="date in dates" :key="date.getTime()" @click="selectDate(date)"
-                    class="text-center py-3 rounded-lg cursor-pointer font-semibold transition-all duration-300 hover:scale-110"
-                    :class="{
-                      'selected-date': selectedDate && date.getTime() === selectedDate.getTime()
-                    }" style="color: var(--color-accent);">
-                    {{ date.getDate() }}
-                  </div>
-                </div>
-              </div>
-
-              <p v-if="newEvent.date" class="mt-2 text-sm font-semibold" style="color: var(--color-accent);">
-                ✓ {{ formatDatePreview(newEvent.date) }}
-              </p>
-            </div>
-
-            <div class="relative">
-              <label for="type" class="block text-base font-bold mb-3 uppercase tracking-wide"
-                style="color: var(--color-accent);">
-                🏁 Type *
-              </label>
-              <select id="type" v-model="newEvent.type" required
-                class="w-full px-5 py-4 rounded-xl text-lg font-semibold  cursor-pointer"
-                style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid var(--color-accent);">
-                <option value="RANDO">🚴 Randonnée</option>
-                <option value="COURSE">🏆 Course</option>
-                <option value="ENTRAINEMENT">💪 Entraînement</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="relative">
-              <label for="localisation" class="block text-base font-bold mb-3 uppercase tracking-wide"
-                style="color: var(--color-accent);">
-                📍 Localisation *
-              </label>
-              <input id="localisation" v-model="newEvent.localisation" type="text" required
-                class="w-full px-5 py-4 rounded-xl text-lg font-semibold "
-                style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
-                :style="{ borderColor: newEvent.localisation ? 'var(--color-accent)' : 'transparent' }"
-                placeholder="Ex: Chinon" />
-            </div>
-
-            <div class="relative">
-              <label for="distance" class="block text-base font-bold mb-3 uppercase tracking-wide"
-                style="color: var(--color-accent);">
-                🚴 Distance *
-              </label>
-              <input id="distance" v-model="newEvent.distance" type="text" required
-                class="w-full px-5 py-4 rounded-xl text-lg font-semibold "
-                style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
-                :style="{ borderColor: newEvent.distance ? 'var(--color-accent)' : 'transparent' }"
-                placeholder="Ex: 59km" />
-            </div>
-          </div>
-
-          <div class="pt-4">
-            <button type="submit" :disabled="isCreating"
-              class="w-full px-8 py-5 rounded-xl text-xl font-extrabold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+          <!-- Contenu de la modale -->
+          <div @click.stop class="relative rounded-2xl border-4 w-full max-w-5xl max-h-[90vh] overflow-y-auto"
+            style="background: var(--color-primary); border-color: var(--color-secondary);">
+            <!-- Bouton de fermeture -->
+            <button @click="closeModal"
+              class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 z-10"
               style="background-color: var(--color-accent); color: var(--color-primary);">
-              {{ isCreating ? '⏳ Création en cours...' : '✨ Créer l\'activité' }}
+              <span class="text-2xl font-bold">×</span>
             </button>
-          </div>
 
-          <div v-if="createSuccess" class="text-center p-4 rounded-lg animate-pulse"
-            style="background-color: rgba(34, 197, 94, 0.2);">
-            <p class="text-xl font-bold text-green-400">
-              ✓ Activité créée avec succès !
-            </p>
-          </div>
+            <div class="relative p-8 md:p-10">
+              <div class="text-center mb-8">
+                <div class="inline-block px-6 py-2 rounded-full mb-4" style="background-color: var(--color-accent);">
+                  <span class="text-sm font-bold uppercase tracking-wider" style="color: var(--color-primary);">Nouvelle
+                    activité</span>
+                </div>
+                <h2 class="text-4xl font-extrabold" style="color: var(--color-accent);">
+                  Créer un événement
+                </h2>
+                <p class="mt-2 text-lg" style="color: var(--color-secondary); opacity: 0.9;">
+                  Planifiez la prochaine sortie de LA HARDE
+                </p>
+              </div>
 
-          <div v-if="createError" class="text-center p-4 rounded-lg animate-pulse"
-            style="background-color: rgba(239, 68, 68, 0.2);">
-            <p class="text-xl font-bold text-red-400">
-              ✗ Erreur lors de la création
-            </p>
+              <form @submit.prevent="handleCreateEvent" class="space-y-6 max-w-4xl mx-auto">
+                <div class="relative">
+                  <label for="name" class="block text-base font-bold mb-3 uppercase tracking-wide"
+                    style="color: var(--color-accent);">
+                    📝 Nom de l'activité *
+                  </label>
+                  <input id="name" v-model="newEvent.name" type="text" required
+                    class="w-full px-5 py-4 rounded-xl text-lg font-semibold"
+                    style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
+                    :style="{ borderColor: newEvent.name ? 'var(--color-accent)' : 'transparent' }"
+                    placeholder="Ex: La Roue Tourangelle" />
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div class="relative calendar-wrapper">
+                    <label class="block text-base font-bold mb-3 uppercase tracking-wide" style="color: var(--color-accent);">
+                      📅 Date *
+                    </label>
+                    <button type="button" @click.stop="showCalendar = !showCalendar"
+                      class="w-full px-5 py-4 pr-14 rounded-xl text-lg font-semibold cursor-pointer text-left"
+                      style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
+                      :style="{ borderColor: newEvent.date ? 'var(--color-accent)' : 'transparent' }">
+                      {{ newEvent.date ? formatDatePreview(newEvent.date) : 'Sélectionner une date' }}
+                    </button>
+                    <div class="absolute right-4 top-16 transform -translate-y-1/2 pointer-events-none">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" style="color: var(--color-accent);">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+
+                    <!-- Calendrier popup -->
+                    <div v-if="showCalendar" @click.stop class="calendar-popup absolute mt-2 rounded-xl shadow-2xl p-6"
+                      style="background-color: rgba(245, 241, 237, 0.98); border: 3px solid var(--color-accent); z-index: 9999; min-width: 350px;">
+                      <div class="calendar-header flex justify-between items-center mb-4">
+                        <button type="button" @click="previousMonth"
+                          class="px-3 py-1 rounded-lg font-bold transition-all duration-300 hover:scale-110"
+                          style="color: var(--color-accent); background-color: rgba(205, 164, 52, 0.1);">
+                          ←
+                        </button>
+                        <h4 class="text-xl font-bold" style="color: var(--color-accent);">
+                          {{ monthText }}
+                        </h4>
+                        <button type="button" @click="nextMonth"
+                          class="px-3 py-1 rounded-lg font-bold transition-all duration-300 hover:scale-110"
+                          style="color: var(--color-accent); background-color: rgba(205, 164, 52, 0.1);">
+                          →
+                        </button>
+                      </div>
+
+                      <div class="calendar-grid grid grid-cols-7 gap-1">
+                        <div v-for="day in days" :key="day" class="text-center py-2 font-bold text-sm"
+                          style="color: var(--color-accent);">
+                          {{ day }}
+                        </div>
+                        <div v-for="n in startingDayOfWeek" :key="'empty-' + n" class="text-center py-3"></div>
+                        <div v-for="date in dates" :key="date.getTime()" @click="selectDate(date)"
+                          class="text-center py-3 rounded-lg cursor-pointer font-semibold transition-all duration-300 hover:scale-110"
+                          :class="{
+                            'selected-date': selectedDate && date.getTime() === selectedDate.getTime()
+                          }" style="color: var(--color-accent);">
+                          {{ date.getDate() }}
+                        </div>
+                      </div>
+                    </div>
+
+                    <p v-if="newEvent.date" class="mt-2 text-sm font-semibold" style="color: var(--color-accent);">
+                      ✓ {{ formatDatePreview(newEvent.date) }}
+                    </p>
+                  </div>
+
+                  <div class="relative">
+                    <label for="type" class="block text-base font-bold mb-3 uppercase tracking-wide"
+                      style="color: var(--color-accent);">
+                      🏁 Type *
+                    </label>
+                    <select id="type" v-model="newEvent.type" required
+                      class="w-full px-5 py-4 rounded-xl text-lg font-semibold  cursor-pointer"
+                      style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid var(--color-accent);">
+                      <option value="RANDO">🚴 Randonnée</option>
+                      <option value="COURSE">🏆 Course</option>
+                      <option value="ENTRAINEMENT">💪 Entraînement</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div class="relative">
+                    <label for="localisation" class="block text-base font-bold mb-3 uppercase tracking-wide"
+                      style="color: var(--color-accent);">
+                      📍 Localisation *
+                    </label>
+                    <input id="localisation" v-model="newEvent.localisation" type="text" required
+                      class="w-full px-5 py-4 rounded-xl text-lg font-semibold "
+                      style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
+                      :style="{ borderColor: newEvent.localisation ? 'var(--color-accent)' : 'transparent' }"
+                      placeholder="Ex: Chinon" />
+                  </div>
+
+                  <div class="relative">
+                    <label for="distance" class="block text-base font-bold mb-3 uppercase tracking-wide"
+                      style="color: var(--color-accent);">
+                      🚴 Distance *
+                    </label>
+                    <input id="distance" v-model="newEvent.distance" type="text" required
+                      class="w-full px-5 py-4 rounded-xl text-lg font-semibold "
+                      style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
+                      :style="{ borderColor: newEvent.distance ? 'var(--color-accent)' : 'transparent' }"
+                      placeholder="Ex: 59km" />
+                  </div>
+                </div>
+
+                <div class="pt-4">
+                  <button type="submit" :disabled="isCreating"
+                    class="w-full px-8 py-5 rounded-xl text-xl font-extrabold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    style="background-color: var(--color-accent); color: var(--color-primary);">
+                    {{ isCreating ? '⏳ Création en cours...' : '✨ Créer l\'activité' }}
+                  </button>
+                </div>
+
+                <div v-if="createSuccess" class="text-center p-4 rounded-lg animate-pulse"
+                  style="background-color: rgba(34, 197, 94, 0.2);">
+                  <p class="text-xl font-bold text-green-400">
+                    ✓ Activité créée avec succès !
+                  </p>
+                </div>
+
+                <div v-if="createError" class="text-center p-4 rounded-lg animate-pulse"
+                  style="background-color: rgba(239, 68, 68, 0.2);">
+                  <p class="text-xl font-bold text-red-400">
+                    ✗ Erreur lors de la création
+                  </p>
+                </div>
+              </form>
+            </div>
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+      </Transition>
+    </Teleport>
 
     <!-- Liste des activités -->
     <div>
@@ -313,6 +336,7 @@ const loadError = ref(false)
 const isCreating = ref(false)
 const createSuccess = ref(false)
 const createError = ref(false)
+const showModal = ref(false)
 
 const newEvent = ref<Event>({
   name: '',
@@ -374,11 +398,13 @@ const handleCreateEvent = async () => {
       distance: '',
       type: 'RANDO'
     }
+    selectedDate.value = null
 
     createSuccess.value = true
     setTimeout(() => {
       createSuccess.value = false
-    }, 3000)
+      showModal.value = false
+    }, 1500)
   } catch (error) {
     createError.value = true
     setTimeout(() => {
@@ -489,6 +515,11 @@ const closeCalendar = () => {
   showCalendar.value = false
 }
 
+const closeModal = () => {
+  showModal.value = false
+  showCalendar.value = false
+}
+
 // Chargement initial
 onMounted(() => {
   loadEvents()
@@ -539,5 +570,27 @@ onMounted(() => {
 .calendar-grid>div:nth-child(-n+7) {
   font-weight: bold;
   pointer-events: none;
+}
+
+/* Animations de la modale */
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-enter-active > div:last-child,
+.modal-leave-active > div:last-child {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-enter-from > div:last-child,
+.modal-leave-to > div:last-child {
+  transform: scale(0.9);
+  opacity: 0;
 }
 </style>
