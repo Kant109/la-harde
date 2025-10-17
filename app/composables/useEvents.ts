@@ -20,6 +20,7 @@ export const useEvents = () => {
 
   // Récupérer tous les événements
   const getEvents = async (): Promise<Event[]> => {
+    console.log('Récupération des événements depuis:', `${baseURL}/herd/events`)
     try {
       const response = await $fetch<Event[]>(`${baseURL}/herd/events`)
       return response
@@ -32,7 +33,7 @@ export const useEvents = () => {
   // Créer un événement
   const createEvent = async (event: Event): Promise<Event> => {
     try {
-      const response = await $fetch<Event>(`${baseURL}/herd/events`, {
+      const response = await $fetch<Event>(`${baseURL}/obtorta/herd/events`, {
         method: 'POST',
         body: event
       })
@@ -46,7 +47,7 @@ export const useEvents = () => {
   // Récupérer les participants d'un événement
   const getParticipants = async (eventId: string): Promise<Participant[]> => {
     try {
-      const response = await $fetch<Participant[]>(`${baseURL}/herd/participants`, {
+      const response = await $fetch<Participant[]>(`${baseURL}/obtorta/herd/participants`, {
         params: { event: eventId }
       })
       return response
@@ -59,7 +60,7 @@ export const useEvents = () => {
   // Ajouter un participant à un événement
   const addParticipant = async (participant: Participant): Promise<Participant> => {
     try {
-      const response = await $fetch<Participant>(`${baseURL}/herd/participants`, {
+      const response = await $fetch<Participant>(`${baseURL}/obtorta/herd/participants`, {
         method: 'POST',
         body: participant
       })
@@ -73,7 +74,7 @@ export const useEvents = () => {
   // Supprimer un participant d'un événement
   const deleteParticipant = async (participantId: string, eventId: string): Promise<void> => {
     try {
-      await $fetch(`${baseURL}/herd/participants`, {
+      await $fetch(`${baseURL}/obtorta/herd/participants`, {
         method: 'DELETE',
         params: {
           participant: participantId,
