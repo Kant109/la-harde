@@ -118,7 +118,7 @@
         <div v-else class="space-y-3">
           <div
             v-for="(participant, index) in participants"
-            :key="participant._id"
+            :key="participant.id"
             class="flex items-center justify-between p-4 rounded-lg border-2 border-gray-200 hover:border-amber-400 transition-colors"
           >
             <div class="flex items-center space-x-4">
@@ -130,11 +130,11 @@
               </span>
             </div>
             <button
-              @click="handleDeleteParticipant(participant._id!)"
-              :disabled="deletingParticipantId === participant._id"
+              @click="handleDeleteParticipant(participant.id!)"
+              :disabled="deletingParticipantId === participant.id"
               class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50"
             >
-              {{ deletingParticipantId === participant._id ? 'Suppression...' : 'Retirer' }}
+              {{ deletingParticipantId === participant.id ? 'Suppression...' : 'Retirer' }}
             </button>
           </div>
         </div>
@@ -144,11 +144,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 
 // Types
 interface Event {
-  _id?: string
+  id?: string
   name: string
   date: string
   localisation: string
@@ -157,7 +157,7 @@ interface Event {
 }
 
 interface Participant {
-  _id?: string
+  id?: string
   idEvent: string
   participant: string
 }
@@ -198,7 +198,7 @@ const loadEvent = async () => {
   try {
     const eventId = route.params.id as string
     const events = await getEvents()
-    event.value = events.find(e => e._id === eventId) || null
+    event.value = events.find(e => e.id === eventId) || null
 
     if (!event.value) {
       loadError.value = true
@@ -212,11 +212,11 @@ const loadEvent = async () => {
 }
 
 const loadParticipants = async () => {
-  if (!event.value?._id) return
+  if (!event.value?.id) return
 
   isLoadingParticipants.value = true
   try {
-    participants.value = await getParticipants(event.value._id)
+    participants.value = await getParticipants(event.value.id)
   } catch (error) {
     console.error('Erreur:', error)
   } finally {
@@ -225,7 +225,7 @@ const loadParticipants = async () => {
 }
 
 const handleAddParticipant = async () => {
-  if (!event.value?._id || !newParticipantName.value.trim()) return
+  if (!event.value?.id || !newParticipantName.value.trim()) return
 
   isAddingParticipant.value = true
   addSuccess.value = false
@@ -233,7 +233,7 @@ const handleAddParticipant = async () => {
 
   try {
     const newParticipant = await addParticipant({
-      idEvent: event.value._id,
+      idEvent: event.value.id,
       participant: newParticipantName.value.trim()
     })
 
@@ -256,13 +256,13 @@ const handleAddParticipant = async () => {
 }
 
 const handleDeleteParticipant = async (participantId: string) => {
-  if (!event.value?._id) return
+  if (!event.value?.id) return
 
   deletingParticipantId.value = participantId
 
   try {
-    await deleteParticipant(participantId, event.value._id)
-    participants.value = participants.value.filter(p => p._id !== participantId)
+    await deleteParticipant(participantId, event.value.id)
+    participants.value = participants.value.filter(p => p.id !== participantId)
   } catch (error) {
     console.error('Erreur:', error)
     alert('Erreur lors de la suppression du participant')
@@ -303,6 +303,16 @@ onMounted(async () => {
   await loadEvent()
   if (event.value) {
     await loadParticipants()
+  }
+})
+
+// Surveiller les changements de paramètre de route
+watch(() => route.params.id, async (newId) => {
+  if (newId) {
+    await loadEvent()
+    if (event.value) {
+      await loadParticipants()
+    }
   }
 })
 </script>

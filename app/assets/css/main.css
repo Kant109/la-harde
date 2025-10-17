@@ -69,7 +69,6 @@
   }
 
   .card:hover {
-    @apply scale-105 shadow-2xl;
     box-shadow: 0 10px 40px var(--color-secondary);
   }
 }

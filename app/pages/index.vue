@@ -32,12 +32,6 @@
           <NuxtLink to="/histoire" class="btn-secondary">
             Notre histoire
           </NuxtLink>
-          <NuxtLink to="/activites" class="btn-primary">
-            Nos activités
-          </NuxtLink>
-          <NuxtLink to="/boutique" class="btn-primary">
-            Boutique officielle
-          </NuxtLink>
         </div>
       </div>
     </section>
