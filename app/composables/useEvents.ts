@@ -21,7 +21,7 @@ export const useEvents = () => {
   // Récupérer tous les événements
   const getEvents = async (): Promise<Event[]> => {
     try {
-      const response = await $fetch<Event[]>(`${baseURL}/harde/events`)
+      const response = await $fetch<Event[]>(`${baseURL}/herd/events`)
       return response
     } catch (error) {
       console.error('Erreur lors de la récupération des événements:', error)
@@ -32,7 +32,7 @@ export const useEvents = () => {
   // Créer un événement
   const createEvent = async (event: Event): Promise<Event> => {
     try {
-      const response = await $fetch<Event>(`${baseURL}/harde/events`, {
+      const response = await $fetch<Event>(`${baseURL}/herd/events`, {
         method: 'POST',
         body: event
       })
@@ -46,7 +46,7 @@ export const useEvents = () => {
   // Récupérer les participants d'un événement
   const getParticipants = async (eventId: string): Promise<Participant[]> => {
     try {
-      const response = await $fetch<Participant[]>(`${baseURL}/harde/participants`, {
+      const response = await $fetch<Participant[]>(`${baseURL}/herd/participants`, {
         params: { event: eventId }
       })
       return response
@@ -59,7 +59,7 @@ export const useEvents = () => {
   // Ajouter un participant à un événement
   const addParticipant = async (participant: Participant): Promise<Participant> => {
     try {
-      const response = await $fetch<Participant>(`${baseURL}/harde/participants`, {
+      const response = await $fetch<Participant>(`${baseURL}/herd/participants`, {
         method: 'POST',
         body: participant
       })
@@ -73,7 +73,7 @@ export const useEvents = () => {
   // Supprimer un participant d'un événement
   const deleteParticipant = async (participantId: string, eventId: string): Promise<void> => {
     try {
-      await $fetch(`${baseURL}/harde/participants`, {
+      await $fetch(`${baseURL}/herd/participants`, {
         method: 'DELETE',
         params: {
           participant: participantId,
