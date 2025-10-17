@@ -20,9 +20,8 @@ export const useEvents = () => {
 
   // Récupérer tous les événements
   const getEvents = async (): Promise<Event[]> => {
-    console.log('Récupération des événements depuis:', `${baseURL}/herd/events`)
     try {
-      const response = await $fetch<Event[]>(`${baseURL}/herd/events`)
+      const response = await $fetch<Event[]>(`${baseURL}/obtorta/herd/events`)
       return response
     } catch (error) {
       console.error('Erreur lors de la récupération des événements:', error)
