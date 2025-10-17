@@ -49,6 +49,14 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  runtimeConfig: {
+    // Variables privées (côté serveur uniquement)
+    // public: Variables publiques (accessibles côté client)
+    public: {
+      apiBaseUrl: '' // Sera automatiquement rempli depuis NUXT_PUBLIC_API_BASE_URL
+    }
+  },
+
   pwa: {
     registerType: 'autoUpdate',
     includeAssets: ['favicon.ico', 'pwa-64x64.png', 'pwa-192x192.png', 'pwa-512x512.png', 'maskable-icon-512x512.png'],

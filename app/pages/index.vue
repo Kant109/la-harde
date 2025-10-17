@@ -179,7 +179,12 @@ const handleImageError = (e: Event) => {
   target.src = 'https://via.placeholder.com/600x400/3B2F2F/CDA434?text=' + encodeURIComponent('LA HARDE')
 }
 
+const config = useRuntimeConfig()
+
 onBeforeMount(() => {
-  fetch(import.meta.env.API_BASE_URL + '/obtorta/herd/wakeup')
+  console.log('API Base URL:', config.public.apiBaseUrl)
+  fetch(config.public.apiBaseUrl + '/obtorta/herd/wakeup')
+    .then(() => console.log('Wake up request sent'))
+    .catch(err => console.error('Wake up request failed:', err))
 })
 </script>
