@@ -107,6 +107,7 @@ const navLinks = [
   { name: 'Accueil', path: '/' },
   { name: 'L\'équipe', path: '/equipe' },
   { name: 'Histoire', path: '/histoire' },
+  { name: 'Activités', path: '/activites' },
   { name: 'Boutique', path: '/boutique' }
 ]
 
