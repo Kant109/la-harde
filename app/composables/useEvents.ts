@@ -1,6 +1,5 @@
 export const useEvents = () => {
-  const config = useRuntimeConfig()
-  const baseURL = config.public.apiBaseUrl
+  const baseURL = import.meta.env.API_BASE_URL
 
   // Types
   interface Event {

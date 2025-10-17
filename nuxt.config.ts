@@ -49,12 +49,6 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  runtimeConfig: {
-    public: {
-      apiBaseUrl: import.meta.env.API_BASE_URL || 'http://localhost:3001'
-    }
-  },
-
   pwa: {
     registerType: 'autoUpdate',
     includeAssets: ['favicon.ico', 'pwa-64x64.png', 'pwa-192x192.png', 'pwa-512x512.png', 'maskable-icon-512x512.png'],
