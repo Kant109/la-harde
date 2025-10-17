@@ -41,7 +41,8 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/images/logo-harde.png' },
         { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/images/logo-harde.png' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/images/logo-harde.png' },
-        { rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.ico' }
+        { rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'manifest', href: '/manifest.webmanifest' }
       ]
     }
   },
@@ -50,6 +51,7 @@ export default defineNuxtConfig({
 
   pwa: {
     registerType: 'autoUpdate',
+    includeAssets: ['favicon.ico', 'pwa-64x64.png', 'pwa-192x192.png', 'pwa-512x512.png', 'maskable-icon-512x512.png'],
     manifest: {
       name: 'LA HARDE - Les Sangliers Explosifs',
       short_name: 'LA HARDE',
@@ -59,6 +61,7 @@ export default defineNuxtConfig({
       display: 'standalone',
       scope: '/',
       start_url: '/',
+      lang: 'fr',
       icons: [
         {
           src: '/pwa-64x64.png',
@@ -86,7 +89,7 @@ export default defineNuxtConfig({
     },
     workbox: {
       navigateFallback: '/',
-      maximumFileSizeToCacheInBytes: 5000000, // 5MB
+      maximumFileSizeToCacheInBytes: 5000000,
       globPatterns: ['**/*.{js,css,html,png,jpg,jpeg,svg,ico,json,woff,woff2}'],
       cleanupOutdatedCaches: true,
       runtimeCaching: [
@@ -137,6 +140,8 @@ export default defineNuxtConfig({
     },
     devOptions: {
       enabled: true,
+      suppressWarnings: true,
+      navigateFallback: '/',
       type: 'module'
     }
   }
