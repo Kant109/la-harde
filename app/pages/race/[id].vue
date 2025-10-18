@@ -277,14 +277,7 @@ const route = useRoute()
 const { getEvents, getParticipants, addParticipant, deleteParticipant } = useEvents()
 
 // État
-const event = ref<Event | null>({
-  "_id": "68f200f131a976d0e310ed35",
-  "name": "Paris Roubaix",
-  "date": "2026-04-12T00:00:00.000Z",
-  "localisation": "Roubaix",
-  "distance": "70km",
-  "type": "RANDO"
-})
+const event = ref<Event | null>(null)
 const participants = ref<Participant[]>([])
 const isLoading = ref(false)
 const loadError = ref(false)
