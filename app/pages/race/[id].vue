@@ -224,7 +224,7 @@
           <div v-else class="space-y-3 max-w-3xl mx-auto">
             <div
               v-for="(participant, index) in participants"
-              :key="participant.id"
+              :key="participant._id"
               class="flex items-center justify-between p-4 rounded-xl border-3 transition-all duration-300 hover:scale-102 hover:shadow-lg"
               style="background-color: rgba(245, 241, 237, 0.95); border: 3px solid var(--color-secondary);"
             >
@@ -238,12 +238,12 @@
                 </span>
               </div>
               <button
-                @click="handleDeleteParticipant(participant.id!)"
-                :disabled="deletingParticipantId === participant.id"
+                @click="handleDeleteParticipant(participant._id!)"
+                :disabled="deletingParticipantId === participant._id"
                 class="px-5 py-2 rounded-lg font-bold uppercase tracking-wide transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                 style="background-color: #ef4444; color: white;"
               >
-                {{ deletingParticipantId === participant.id ? '⏳ Suppression...' : '🗑️ Retirer' }}
+                {{ deletingParticipantId === participant._id ? '⏳ Suppression...' : '🗑️ Retirer' }}
               </button>
             </div>
           </div>
@@ -267,7 +267,7 @@ interface Event {
 }
 
 interface Participant {
-  id?: string
+  _id?: string
   idEvent: string
   participant: string
 }
@@ -372,8 +372,7 @@ const handleDeleteParticipant = async (participantId: string) => {
 
   try {
     await deleteParticipant(participantId, event.value._id)
-    console.log(participantId)
-    participants.value = participants.value.filter(p => p.id !== participantId)
+    participants.value = participants.value.filter(p => p._id !== participantId)
   } catch (error) {
     console.error('Erreur:', error)
     alert('Erreur lors de la suppression du participant')
