@@ -24,8 +24,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import L from 'leaflet'
-import 'leaflet/dist/leaflet.css'
+
+// Import Leaflet uniquement côté client
+let L: any = null
+if (process.client) {
+  L = (await import('leaflet')).default
+  await import('leaflet/dist/leaflet.css')
+}
 
 // Props
 const props = defineProps<{
@@ -79,7 +84,8 @@ const geocodeLocation = async (location: string): Promise<{ lat: number; lon: nu
 
 // Initialiser la carte
 const initMap = async () => {
-  if (!mapContainer.value || !props.location) return
+  // Vérifier que nous sommes côté client et que Leaflet est chargé
+  if (!process.client || !L || !mapContainer.value || !props.location) return
 
   isLoading.value = true
   error.value = null

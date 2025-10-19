@@ -146,11 +146,26 @@
               📍 Localisation
             </span>
           </div>
-          <h2 class="text-3xl font-extrabold mt-4" style="color: var(--color-primary);">
+          <h2 class="text-3xl font-extrabold mt-4" style="color: var(--color-accent);">
             Où se déroule l'activité ?
           </h2>
         </div>
-        <EventMap v-if="event" :location="event.localisation" />
+        <ClientOnly>
+          <EventMap v-if="event" :location="event.localisation" />
+          <template #fallback>
+            <div class="relative rounded-2xl border-4 overflow-hidden" style="border-color: var(--color-secondary);">
+              <div class="flex items-center justify-center z-10 p-12" style="background-color: rgba(245, 241, 237, 0.95); min-height: 400px;">
+                <div class="text-center">
+                  <div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center animate-pulse"
+                    style="background-color: var(--color-accent);">
+                    <span class="text-3xl">📍</span>
+                  </div>
+                  <p class="text-lg font-bold" style="color: var(--color-accent);">Chargement de la carte...</p>
+                </div>
+              </div>
+            </div>
+          </template>
+        </ClientOnly>
       </div>
 
       <!-- Gestion des participants -->
