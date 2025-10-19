@@ -648,7 +648,7 @@ onMounted(() => {
 /* Conteneur de l'autocomplétion des villes */
 .city-autocomplete-wrapper {
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
 .city-suggestion-item {
@@ -667,7 +667,7 @@ onMounted(() => {
 /* Conteneur du calendrier avec z-index élevé */
 .calendar-wrapper {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* Popup du calendrier */
