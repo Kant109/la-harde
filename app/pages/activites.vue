@@ -134,16 +134,63 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div class="relative">
+                  <div class="relative city-autocomplete-wrapper" @click.stop>
                     <label for="localisation" class="block text-base font-bold mb-3 uppercase tracking-wide"
                       style="color: var(--color-accent);">
                       📍 Localisation *
                     </label>
-                    <input id="localisation" v-model="newEvent.localisation" type="text" required
+                    <input
+                      id="localisation"
+                      v-model="citySearchQuery"
+                      @input="handleCitySearch"
+                      @focus="showCitySuggestions = true"
+                      type="text"
+                      required
+                      autocomplete="off"
                       class="w-full px-5 py-4 rounded-xl text-lg font-semibold "
                       style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
-                      :style="{ borderColor: newEvent.localisation ? 'var(--color-accent)' : 'transparent' }"
-                      placeholder="Ex: Chinon" />
+                      :style="{ borderColor: newEvent.localisation || citySearchQuery ? 'var(--color-accent)' : 'transparent' }"
+                      placeholder="Ex: Chinon, Tours..." />
+
+                    <!-- Liste d'autocomplétion -->
+                    <div
+                      v-if="showCitySuggestions && citySuggestions.length > 0"
+                      @click.stop
+                      class="absolute mt-2 rounded-xl shadow-2xl overflow-hidden max-h-80 overflow-y-auto"
+                      style="background-color: rgba(245, 241, 237, 0.98); border: 3px solid var(--color-accent); z-index: 9999; width: 100%;">
+                      <div
+                        v-for="city in citySuggestions"
+                        :key="city.code"
+                        @click="selectCity(city)"
+                        class="city-suggestion-item px-5 py-3 cursor-pointer transition-all duration-200 border-b border-opacity-20"
+                        style="border-color: var(--color-accent);"
+                      >
+                        <div class="flex items-center justify-between">
+                          <div>
+                            <div class="text-base font-bold" style="color: var(--color-accent);">
+                              {{ city.nom }}
+                            </div>
+                            <div class="text-sm font-semibold opacity-70" style="color: var(--color-secondary);">
+                              Département {{ city.codeDepartement }}
+                            </div>
+                          </div>
+                          <div class="text-xs font-bold px-3 py-1 rounded-full"
+                            style="background-color: var(--color-accent); color: var(--color-primary);">
+                            {{ formatPopulation(city.population) }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Message de chargement -->
+                    <div
+                      v-if="isSearchingCities && citySearchQuery.length >= 2"
+                      class="absolute mt-2 px-5 py-3 rounded-xl shadow-lg"
+                      style="background-color: rgba(245, 241, 237, 0.98); border: 3px solid var(--color-accent); z-index: 9999;">
+                      <p class="text-sm font-semibold" style="color: var(--color-accent);">
+                        🔍 Recherche en cours...
+                      </p>
+                    </div>
                   </div>
 
                   <div class="relative">
@@ -326,8 +373,17 @@ interface Event {
   type: 'RANDO' | 'COURSE' | 'ENTRAINEMENT'
 }
 
+interface City {
+  nom: string
+  code: string
+  codeDepartement: string
+  codeRegion: string
+  population: number
+}
+
 // Composables
 const { getEvents, createEvent } = useEvents()
+const { searchCities, formatCityName } = useCityAutocomplete()
 
 // État
 const events = ref<Event[]>([])
@@ -345,6 +401,13 @@ const newEvent = ref<Event>({
   distance: '',
   type: 'RANDO'
 })
+
+// État pour l'autocomplétion des villes
+const citySearchQuery = ref('')
+const citySuggestions = ref<City[]>([])
+const showCitySuggestions = ref(false)
+const isSearchingCities = ref(false)
+let searchTimeout: ReturnType<typeof setTimeout> | null = null
 
 // État du calendrier
 const days = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
@@ -520,16 +583,87 @@ const closeModal = () => {
   showCalendar.value = false
 }
 
+// Fonctions d'autocomplétion des villes
+const handleCitySearch = async () => {
+  const query = citySearchQuery.value.trim()
+
+  // Annuler la recherche précédente
+  if (searchTimeout) {
+    clearTimeout(searchTimeout)
+  }
+
+  if (query.length < 2) {
+    citySuggestions.value = []
+    showCitySuggestions.value = false
+    return
+  }
+
+  // Debounce de 300ms
+  searchTimeout = setTimeout(async () => {
+    isSearchingCities.value = true
+    try {
+      const results = await searchCities(query, 8)
+      citySuggestions.value = results
+      showCitySuggestions.value = results.length > 0
+    } catch (error) {
+      console.error('Erreur de recherche:', error)
+      citySuggestions.value = []
+    } finally {
+      isSearchingCities.value = false
+    }
+  }, 300)
+}
+
+const selectCity = (city: City) => {
+  newEvent.value.localisation = formatCityName(city)
+  citySearchQuery.value = formatCityName(city)
+  citySuggestions.value = []
+  showCitySuggestions.value = false
+}
+
+const formatPopulation = (population: number): string => {
+  if (population >= 1000) {
+    return `${Math.round(population / 1000)}k hab.`
+  }
+  return `${population} hab.`
+}
+
 // Chargement initial
 onMounted(() => {
   loadEvents()
   // Initialiser le calendrier
   getDatesOfMonth(calendarDate.value.getMonth(), calendarDate.value.getFullYear())
   updateCalendar()
+
+  // Fermer les suggestions en cliquant à l'extérieur
+  if (typeof window !== 'undefined') {
+    document.addEventListener('click', () => {
+      showCitySuggestions.value = false
+    })
+  }
 })
 </script>
 
 <style scoped>
+/* Conteneur de l'autocomplétion des villes */
+.city-autocomplete-wrapper {
+  position: relative;
+  z-index: 2;
+}
+
+.city-suggestion-item {
+  background-color: transparent;
+}
+
+.city-suggestion-item:hover {
+  background-color: rgba(58, 58, 58, 0.1);
+  transform: translateX(4px);
+}
+
+.city-suggestion-item:last-child {
+  border-bottom: none;
+}
+
 /* Conteneur du calendrier avec z-index élevé */
 .calendar-wrapper {
   position: relative;
