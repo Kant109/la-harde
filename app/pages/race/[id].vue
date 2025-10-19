@@ -146,7 +146,7 @@
               📍 Localisation
             </span>
           </div>
-          <h2 class="text-3xl font-extrabold mt-4" style="color: var(--color-accent);">
+          <h2 class="text-3xl font-extrabold mt-4" style="color: var(--color-primary);">
             Où se déroule l'activité ?
           </h2>
         </div>
