@@ -150,22 +150,24 @@
             Où se déroule l'activité ?
           </h2>
         </div>
-        <ClientOnly>
-          <EventMap v-if="event" :location="event.localisation" />
-          <template #fallback>
-            <div class="relative rounded-2xl border-4 overflow-hidden" style="border-color: var(--color-secondary);">
-              <div class="flex items-center justify-center z-10 p-12" style="background-color: rgba(245, 241, 237, 0.95); min-height: 400px;">
-                <div class="text-center">
-                  <div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center animate-pulse"
-                    style="background-color: var(--color-accent);">
-                    <span class="text-3xl">📍</span>
+        <div class="map-container">
+          <ClientOnly>
+            <EventMap v-if="event" :location="event.localisation" />
+            <template #fallback>
+              <div class="relative rounded-2xl border-4 overflow-hidden" style="border-color: var(--color-secondary);">
+                <div class="flex items-center justify-center p-12" style="background-color: rgba(245, 241, 237, 0.95); min-height: 400px;">
+                  <div class="text-center">
+                    <div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center animate-pulse"
+                      style="background-color: var(--color-accent);">
+                      <span class="text-3xl">📍</span>
+                    </div>
+                    <p class="text-lg font-bold" style="color: var(--color-accent);">Chargement de la carte...</p>
                   </div>
-                  <p class="text-lg font-bold" style="color: var(--color-accent);">Chargement de la carte...</p>
                 </div>
               </div>
-            </div>
-          </template>
-        </ClientOnly>
+            </template>
+          </ClientOnly>
+        </div>
       </div>
 
       <!-- Gestion des participants -->
@@ -490,3 +492,24 @@ watch(() => route.params.id, async (newId) => {
   }
 })
 </script>
+
+<style scoped>
+/* Limiter le z-index de la carte pour qu'elle reste sous le header (z-50) */
+.map-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Forcer tous les éléments enfants de la carte à rester sous le header */
+.map-container :deep(*) {
+  z-index: auto !important;
+  max-height: 400px;
+}
+
+/* Exception pour les éléments de la carte Leaflet qui ont besoin d'un z-index relatif */
+.map-container :deep(.leaflet-pane),
+.map-container :deep(.leaflet-control),
+.map-container :deep(.leaflet-popup) {
+  z-index: 1 !important;
+}
+</style>
