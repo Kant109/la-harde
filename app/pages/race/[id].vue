@@ -128,6 +128,21 @@
         </div>
       </div>
 
+      <!-- Carte de localisation -->
+      <div class="mb-8">
+        <div class="mb-6">
+          <div class="inline-block px-6 py-2 rounded-full" style="background-color: var(--color-accent);">
+            <span class="text-sm font-bold uppercase tracking-wider" style="color: var(--color-primary);">
+              📍 Localisation
+            </span>
+          </div>
+          <h2 class="text-3xl font-extrabold mt-4" style="color: var(--color-accent);">
+            Où se déroule l'activité ?
+          </h2>
+        </div>
+        <EventMap v-if="event" :location="event.localisation" />
+      </div>
+
       <!-- Gestion des participants -->
       <div class="relative rounded-2xl border-4 mb-8"
         style="background: var(--color-primary); border-color: var(--color-secondary);">
