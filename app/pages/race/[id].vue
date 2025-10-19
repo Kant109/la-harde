@@ -372,8 +372,8 @@ const handleDeleteParticipant = async (participantId: string) => {
 
   try {
     await deleteParticipant(participantId, event.value._id)
+    console.log(participantId)
     participants.value = participants.value.filter(p => p.id !== participantId)
-    console.log(participants.value)
   } catch (error) {
     console.error('Erreur:', error)
     alert('Erreur lors de la suppression du participant')
