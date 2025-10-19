@@ -25,12 +25,22 @@
         style="background-color: rgba(239, 68, 68, 0.2);">
         <span class="text-4xl">❌</span>
       </div>
-      <p class="text-2xl font-bold text-red-400 mb-6">Erreur lors du chargement de l'activité</p>
-      <NuxtLink to="/activites"
-        class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-lg"
-        style="background-color: var(--color-accent); color: var(--color-primary);">
-        Retour aux activités
-      </NuxtLink>
+      <p class="text-2xl font-bold text-red-400 mb-4">Erreur lors du chargement de l'activité</p>
+      <p v-if="errorMessage" class="text-base text-red-300 mb-6 max-w-2xl mx-auto">{{ errorMessage }}</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <button
+          @click="retryLoad"
+          :disabled="isRetrying"
+          class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          style="background-color: var(--color-secondary); color: var(--color-primary);">
+          {{ isRetrying ? '⏳ Chargement...' : '🔄 Réessayer' }}
+        </button>
+        <NuxtLink to="/activites"
+          class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-lg"
+          style="background-color: var(--color-accent); color: var(--color-primary);">
+          ← Retour aux activités
+        </NuxtLink>
+      </div>
     </div>
 
     <!-- Détails de l'activité -->
@@ -136,7 +146,7 @@
               📍 Localisation
             </span>
           </div>
-          <h2 class="text-3xl font-extrabold mt-4" style="color: var(--color-accent);">
+          <h2 class="text-3xl font-extrabold mt-4" style="color: var(--color-primary);">
             Où se déroule l'activité ?
           </h2>
         </div>
@@ -296,6 +306,8 @@ const event = ref<Event | null>(null)
 const participants = ref<Participant[]>([])
 const isLoading = ref(false)
 const loadError = ref(false)
+const errorMessage = ref<string>('')
+const isRetrying = ref(false)
 const isLoadingParticipants = ref(false)
 const isAddingParticipant = ref(false)
 const addSuccess = ref(false)
@@ -320,6 +332,7 @@ useHead({
 const loadEvent = async () => {
   isLoading.value = true
   loadError.value = false
+  errorMessage.value = ''
   try {
     const eventId = route.params.id as string
     const events = await getEvents()
@@ -327,12 +340,33 @@ const loadEvent = async () => {
 
     if (!event.value) {
       loadError.value = true
+      errorMessage.value = 'Activité introuvable. Elle a peut-être été supprimée.'
     }
-  } catch (error) {
+  } catch (error: any) {
     loadError.value = true
-    console.error('Erreur:', error)
+    console.error('Erreur lors du chargement:', error)
+
+    // Message d'erreur plus détaillé
+    if (error.message?.includes('fetch')) {
+      errorMessage.value = 'Impossible de se connecter au serveur. Vérifiez votre connexion internet et réessayez.'
+    } else if (error.statusCode === 404) {
+      errorMessage.value = 'L\'activité demandée n\'existe pas ou a été supprimée.'
+    } else if (error.statusCode >= 500) {
+      errorMessage.value = 'Le serveur rencontre des difficultés. Veuillez réessayer dans quelques instants.'
+    } else {
+      errorMessage.value = error.message || 'Une erreur inattendue s\'est produite. Veuillez réessayer.'
+    }
   } finally {
     isLoading.value = false
+    isRetrying.value = false
+  }
+}
+
+const retryLoad = async () => {
+  isRetrying.value = true
+  await loadEvent()
+  if (event.value && !loadError.value) {
+    await loadParticipants()
   }
 }
 
