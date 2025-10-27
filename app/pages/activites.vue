@@ -480,14 +480,13 @@ const handleCreateEvent = async () => {
   createError.value = false
 
   try {
-    // Créer l'événement d'abord
-    const createdEvent = await createEvent(newEvent.value)
-
-    // Si un fichier GPX est sélectionné, l'uploader
-    if (gpxFile.value && createdEvent._id) {
-      const { uploadGpx } = useEvents()
-      await uploadGpx(createdEvent._id, gpxFile.value)
+    // Créer l'événement avec le fichier GPX directement
+    const eventData = {
+      ...newEvent.value,
+      gpx: gpxFile.value || undefined
     }
+
+    const createdEvent = await createEvent(eventData)
 
     events.value.push(createdEvent)
 

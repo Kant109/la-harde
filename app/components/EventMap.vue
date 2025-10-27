@@ -36,6 +36,7 @@ if (process.client) {
 const props = defineProps<{
   location: string
   eventId?: string
+  gpxData?: any // Données GPX de l'événement
 }>()
 
 // État
@@ -80,6 +81,23 @@ const geocodeLocation = async (location: string): Promise<{ lat: number; lon: nu
     return null
   } catch (err) {
     console.error('Erreur de géocodage:', err)
+    return null
+  }
+}
+
+// Fonction pour convertir les données GPX du buffer en string
+const convertGpxBufferToString = (gpxData: any): string | null => {
+  try {
+    if (!gpxData || !gpxData.file || !gpxData.file.data || gpxData.file.data.length === 0) {
+      return null
+    }
+
+    // Convertir le Buffer en string
+    const buffer = new Uint8Array(gpxData.file.data)
+    const decoder = new TextDecoder('utf-8')
+    return decoder.decode(buffer)
+  } catch (err) {
+    console.error('Erreur lors de la conversion du GPX:', err)
     return null
   }
 }
@@ -132,22 +150,6 @@ const parseAndDisplayGpx = async (gpxContent: string) => {
     }
   } catch (err) {
     console.error('Erreur lors du parsing du GPX:', err)
-  }
-}
-
-// Fonction pour charger le GPX depuis l'API
-const loadGpxTrack = async () => {
-  if (!props.eventId) return
-
-  try {
-    const { getGpx } = useEvents()
-    const gpxContent = await getGpx(props.eventId)
-
-    if (gpxContent) {
-      await parseAndDisplayGpx(gpxContent)
-    }
-  } catch (err) {
-    console.error('Erreur lors du chargement du GPX:', err)
   }
 }
 
@@ -216,9 +218,12 @@ const initMap = async () => {
       </div>
     `).openPopup()
 
-    // Charger le tracé GPX si un eventId est fourni
-    if (props.eventId) {
-      await loadGpxTrack()
+    // Charger le tracé GPX si des données GPX sont fournies
+    if (props.gpxData) {
+      const gpxString = convertGpxBufferToString(props.gpxData)
+      if (gpxString) {
+        await parseAndDisplayGpx(gpxString)
+      }
     }
 
     isLoading.value = false
@@ -236,10 +241,13 @@ watch(() => props.location, () => {
   }
 })
 
-// Surveiller les changements d'eventId pour recharger le GPX
-watch(() => props.eventId, async () => {
-  if (props.eventId && map) {
-    await loadGpxTrack()
+// Surveiller les changements de gpxData pour recharger le GPX
+watch(() => props.gpxData, async () => {
+  if (props.gpxData && map) {
+    const gpxString = convertGpxBufferToString(props.gpxData)
+    if (gpxString) {
+      await parseAndDisplayGpx(gpxString)
+    }
   }
 })
 

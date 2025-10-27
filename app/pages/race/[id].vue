@@ -152,7 +152,11 @@
         </div>
         <div class="map-container">
           <ClientOnly>
-            <EventMap v-if="event" :location="event.localisation" :event-id="event._id" />
+            <EventMap
+              v-if="event"
+              :location="event.localisation"
+              :gpx-data="event.gpx && event.gpx.length > 0 ? event.gpx[0] : undefined"
+            />
             <template #fallback>
               <div class="relative rounded-2xl border-4 overflow-hidden" style="border-color: var(--color-secondary);">
                 <div class="flex items-center justify-center p-12" style="background-color: rgba(245, 241, 237, 0.95); min-height: 400px;">
@@ -306,6 +310,7 @@ interface Event {
   localisation: string
   distance: string
   type: 'RANDO' | 'COURSE' | 'ENTRAINEMENT'
+  gpx?: any[]
 }
 
 interface Participant {

@@ -10,6 +10,7 @@ export const useEvents = () => {
     localisation: string
     distance: string
     type: 'RANDO' | 'COURSE' | 'ENTRAINEMENT'
+    gpx?: File
   }
 
   interface Participant {
@@ -32,9 +33,20 @@ export const useEvents = () => {
   // Créer un événement
   const createEvent = async (event: Event): Promise<Event> => {
     try {
+      const formData = new FormData()
+      formData.append('name', event.name)
+      formData.append('date', event.date)
+      formData.append('localisation', event.localisation)
+      formData.append('distance', event.distance)
+      formData.append('type', event.type)
+
+      if (event.gpx) {
+        formData.append('file', event.gpx)
+      }
+
       const response = await $fetch<Event>(`${baseURL}/obtorta/herd/events`, {
         method: 'POST',
-        body: event
+        body: formData
       })
       return response
     } catch (error) {
@@ -86,44 +98,11 @@ export const useEvents = () => {
     }
   }
 
-  // Uploader un fichier GPX
-  const uploadGpx = async (eventId: string, file: File): Promise<any> => {
-    try {
-      const formData = new FormData()
-      formData.append('gpx', file)
-      formData.append('eventId', eventId)
-
-      const response = await $fetch(`${baseURL}/obtorta/herd/gpx`, {
-        method: 'POST',
-        body: formData
-      })
-      return response
-    } catch (error) {
-      console.error('Erreur lors de l\'upload du GPX:', error)
-      throw error
-    }
-  }
-
-  // Récupérer le GPX d'un événement
-  const getGpx = async (eventId: string): Promise<string | null> => {
-    try {
-      const response = await $fetch<{ gpx?: string }>(`${baseURL}/obtorta/herd/gpx`, {
-        params: { eventId }
-      })
-      return response.gpx || null
-    } catch (error) {
-      console.error('Erreur lors de la récupération du GPX:', error)
-      return null
-    }
-  }
-
   return {
     getEvents,
     createEvent,
     getParticipants,
     addParticipant,
-    deleteParticipant,
-    uploadGpx,
-    getGpx
+    deleteParticipant
   }
 }
