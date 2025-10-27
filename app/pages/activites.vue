@@ -18,7 +18,7 @@
     <!-- Modale de création d'activité -->
     <Teleport to="body">
       <Transition name="modal">
-        <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center p-4" @click="closeModal">
+        <div v-if="showModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4" @click="closeModal">
           <!-- Overlay -->
           <div class="absolute inset-0 bg-black bg-opacity-70"></div>
 
@@ -203,6 +203,32 @@
                       style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
                       :style="{ borderColor: newEvent.distance ? 'var(--color-accent)' : 'transparent' }"
                       placeholder="Ex: 59km" />
+                  </div>
+                </div>
+
+                <div class="relative">
+                  <label for="gpx" class="block text-base font-bold mb-3 uppercase tracking-wide"
+                    style="color: var(--color-accent);">
+                    🗺️ Fichier GPX (optionnel)
+                  </label>
+                  <div class="flex flex-col gap-3">
+                    <label for="gpx"
+                      class="w-full px-5 py-4 rounded-xl text-lg font-semibold cursor-pointer flex items-center justify-center gap-3 transition-all duration-300 hover:scale-102"
+                      style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
+                      :style="{ borderColor: gpxFile ? 'var(--color-accent)' : 'transparent' }">
+                      <span class="text-2xl">📁</span>
+                      <span>{{ gpxFile ? gpxFile.name : 'Choisir un fichier GPX' }}</span>
+                    </label>
+                    <input
+                      id="gpx"
+                      type="file"
+                      accept=".gpx"
+                      @change="handleGpxFileChange"
+                      class="hidden"
+                    />
+                    <p v-if="gpxFile" class="text-sm font-semibold" style="color: var(--color-accent);">
+                      ✓ {{ gpxFile.name }} ({{ formatFileSize(gpxFile.size) }})
+                    </p>
                   </div>
                 </div>
 
@@ -409,6 +435,10 @@ const showCitySuggestions = ref(false)
 const isSearchingCities = ref(false)
 let searchTimeout: ReturnType<typeof setTimeout> | null = null
 
+// État pour le fichier GPX
+const gpxFile = ref<File | null>(null)
+const uploadedGpxId = ref<string | null>(null)
+
 // État du calendrier
 const days = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
 const months = [
@@ -450,7 +480,15 @@ const handleCreateEvent = async () => {
   createError.value = false
 
   try {
+    // Créer l'événement d'abord
     const createdEvent = await createEvent(newEvent.value)
+
+    // Si un fichier GPX est sélectionné, l'uploader
+    if (gpxFile.value && createdEvent._id) {
+      const { uploadGpx } = useEvents()
+      await uploadGpx(createdEvent._id, gpxFile.value)
+    }
+
     events.value.push(createdEvent)
 
     // Réinitialiser le formulaire
@@ -462,6 +500,9 @@ const handleCreateEvent = async () => {
       type: 'RANDO'
     }
     selectedDate.value = null
+    gpxFile.value = null
+    uploadedGpxId.value = null
+    citySearchQuery.value = ''
 
     createSuccess.value = true
     setTimeout(() => {
@@ -626,6 +667,23 @@ const formatPopulation = (population: number): string => {
     return `${Math.round(population / 1000)}k hab.`
   }
   return `${population} hab.`
+}
+
+// Fonction pour gérer le changement de fichier GPX
+const handleGpxFileChange = (e: any) => {
+  const target = e.target as HTMLInputElement
+  if (target.files && target.files[0]) {
+    gpxFile.value = target.files[0]
+  }
+}
+
+// Fonction pour formater la taille du fichier
+const formatFileSize = (bytes: number): string => {
+  if (bytes === 0) return '0 Bytes'
+  const k = 1024
+  const sizes = ['Bytes', 'KB', 'MB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i]
 }
 
 // Chargement initial

@@ -152,7 +152,7 @@
         </div>
         <div class="map-container">
           <ClientOnly>
-            <EventMap v-if="event" :location="event.localisation" />
+            <EventMap v-if="event" :location="event.localisation" :event-id="event._id" />
             <template #fallback>
               <div class="relative rounded-2xl border-4 overflow-hidden" style="border-color: var(--color-secondary);">
                 <div class="flex items-center justify-center p-12" style="background-color: rgba(245, 241, 237, 0.95); min-height: 400px;">

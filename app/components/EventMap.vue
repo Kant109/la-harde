@@ -35,14 +35,16 @@ if (process.client) {
 // Props
 const props = defineProps<{
   location: string
+  eventId?: string
 }>()
 
 // État
 const mapContainer = ref<HTMLElement | null>(null)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
-let map: L.Map | null = null
-let marker: L.Marker | null = null
+let map: any = null
+let marker: any = null
+let gpxLayer: any = null
 
 // Fonction pour géocoder une ville française
 const geocodeLocation = async (location: string): Promise<{ lat: number; lon: number; displayName: string } | null> => {
@@ -79,6 +81,73 @@ const geocodeLocation = async (location: string): Promise<{ lat: number; lon: nu
   } catch (err) {
     console.error('Erreur de géocodage:', err)
     return null
+  }
+}
+
+// Fonction pour parser et afficher le GPX
+const parseAndDisplayGpx = async (gpxContent: string) => {
+  if (!L || !map) return
+
+  try {
+    // Parser le GPX
+    const parser = new DOMParser()
+    const gpxDoc = parser.parseFromString(gpxContent, 'text/xml')
+
+    // Extraire les points de trace
+    const trackPoints = gpxDoc.querySelectorAll('trkpt')
+
+    if (trackPoints.length === 0) {
+      console.warn('Aucun point de trace trouvé dans le GPX')
+      return
+    }
+
+    // Convertir les points en coordonnées Leaflet
+    const latLngs: [number, number][] = []
+    trackPoints.forEach((point) => {
+      const lat = parseFloat(point.getAttribute('lat') || '0')
+      const lon = parseFloat(point.getAttribute('lon') || '0')
+      latLngs.push([lat, lon])
+    })
+
+    // Supprimer l'ancien tracé s'il existe
+    if (gpxLayer) {
+      gpxLayer.remove()
+    }
+
+    // Créer une polyligne pour le tracé GPX
+    gpxLayer = L.polyline(latLngs, {
+      color: '#CDA434',
+      weight: 4,
+      opacity: 0.8,
+      smoothFactor: 1
+    }).addTo(map)
+
+    // Ajuster la vue pour afficher tout le tracé
+    map.fitBounds(gpxLayer.getBounds(), { padding: [50, 50] })
+
+    // Supprimer le marqueur de localisation si on affiche un GPX
+    if (marker) {
+      marker.remove()
+      marker = null
+    }
+  } catch (err) {
+    console.error('Erreur lors du parsing du GPX:', err)
+  }
+}
+
+// Fonction pour charger le GPX depuis l'API
+const loadGpxTrack = async () => {
+  if (!props.eventId) return
+
+  try {
+    const { getGpx } = useEvents()
+    const gpxContent = await getGpx(props.eventId)
+
+    if (gpxContent) {
+      await parseAndDisplayGpx(gpxContent)
+    }
+  } catch (err) {
+    console.error('Erreur lors du chargement du GPX:', err)
   }
 }
 
@@ -147,6 +216,11 @@ const initMap = async () => {
       </div>
     `).openPopup()
 
+    // Charger le tracé GPX si un eventId est fourni
+    if (props.eventId) {
+      await loadGpxTrack()
+    }
+
     isLoading.value = false
   } catch (err) {
     console.error('Erreur lors de l\'initialisation de la carte:', err)
@@ -159,6 +233,13 @@ const initMap = async () => {
 watch(() => props.location, () => {
   if (props.location) {
     initMap()
+  }
+})
+
+// Surveiller les changements d'eventId pour recharger le GPX
+watch(() => props.eventId, async () => {
+  if (props.eventId && map) {
+    await loadGpxTrack()
   }
 })
 

@@ -86,11 +86,44 @@ export const useEvents = () => {
     }
   }
 
+  // Uploader un fichier GPX
+  const uploadGpx = async (eventId: string, file: File): Promise<any> => {
+    try {
+      const formData = new FormData()
+      formData.append('gpx', file)
+      formData.append('eventId', eventId)
+
+      const response = await $fetch(`${baseURL}/obtorta/herd/gpx`, {
+        method: 'POST',
+        body: formData
+      })
+      return response
+    } catch (error) {
+      console.error('Erreur lors de l\'upload du GPX:', error)
+      throw error
+    }
+  }
+
+  // Récupérer le GPX d'un événement
+  const getGpx = async (eventId: string): Promise<string | null> => {
+    try {
+      const response = await $fetch<{ gpx?: string }>(`${baseURL}/obtorta/herd/gpx`, {
+        params: { eventId }
+      })
+      return response.gpx || null
+    } catch (error) {
+      console.error('Erreur lors de la récupération du GPX:', error)
+      return null
+    }
+  }
+
   return {
     getEvents,
     createEvent,
     getParticipants,
     addParticipant,
-    deleteParticipant
+    deleteParticipant,
+    uploadGpx,
+    getGpx
   }
 }
