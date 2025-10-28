@@ -45,94 +45,215 @@
 
     <!-- Détails de l'activité -->
     <div v-else-if="event">
-      <!-- En-tête de l'activité -->
-      <div class="relative rounded-2xl border-4 mb-8"
-        style="background: var(--color-primary); border-color: var(--color-secondary);">
-        <div class="relative p-6 md:p-8">
-          <!-- Badge de type -->
-          <div class="mb-6">
-            <div class="inline-block px-4 py-2 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg"
-              style="background-color: var(--color-accent); color: var(--color-primary);">
-              {{ getTypeIcon(event.type) }} {{ getTypeLabel(event.type) }}
+      <!-- Grid pour bloc détails et ajout participant -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <!-- Bloc détails de l'activité (2/3) -->
+        <div class="lg:col-span-2">
+          <div class="relative rounded-2xl border-4 h-full"
+            style="background: var(--color-primary); border-color: var(--color-secondary);">
+            <div class="relative p-6 md:p-8">
+              <!-- Badge de type -->
+              <div class="mb-6">
+                <div class="inline-block px-4 py-2 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg"
+                  style="background-color: var(--color-accent); color: var(--color-primary);">
+                  {{ getTypeIcon(event.type) }} {{ getTypeLabel(event.type) }}
+                </div>
+              </div>
+
+              <!-- Titre -->
+              <div class="mb-8">
+                <h1 class="text-4xl md:text-5xl font-extrabold leading-tight"
+                  style="color: var(--color-accent);">
+                  {{ event.name }}
+                </h1>
+              </div>
+
+              <!-- Détails de l'événement -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                      style="background-color: rgba(245, 241, 237, 0.9);">
+                      <span class="text-2xl">📅</span>
+                    </div>
+                    <div>
+                      <div class="text-xs font-bold uppercase tracking-wide opacity-80"
+                        style="color: var(--color-secondary);">
+                        Date
+                      </div>
+                      <div class="text-lg font-bold" style="color: var(--color-secondary);">
+                        {{ formatDate(event.date) }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                      style="background-color: rgba(245, 241, 237, 0.9);">
+                      <span class="text-2xl">📍</span>
+                    </div>
+                    <div>
+                      <div class="text-xs font-bold uppercase tracking-wide opacity-80"
+                        style="color: var(--color-secondary);">
+                        Lieu
+                      </div>
+                      <div class="text-lg font-bold" style="color: var(--color-secondary);">
+                        {{ event.localisation }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                      style="background-color: rgba(245, 241, 237, 0.9);">
+                      <span class="text-2xl">🚴</span>
+                    </div>
+                    <div>
+                      <div class="text-xs font-bold uppercase tracking-wide opacity-80"
+                        style="color: var(--color-secondary);">
+                        Distance
+                      </div>
+                      <div class="text-lg font-bold" style="color: var(--color-secondary);">
+                        {{ event.distance }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+                      style="background-color: rgba(245, 241, 237, 0.9);">
+                      <span class="text-2xl">👥</span>
+                    </div>
+                    <div>
+                      <div class="text-xs font-bold uppercase tracking-wide opacity-80"
+                        style="color: var(--color-secondary);">
+                        Participants
+                      </div>
+                      <div class="text-lg font-bold" style="color: var(--color-accent);">
+                        {{ participants.length === 0 ? "0" : participants.length }} inscrit{{ participants.length > 1 ? 's' : '' }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Liste des participants -->
+              <div class="mt-8 pt-8 border-t-4" style="border-color: var(--color-secondary);">
+                <div class="mb-6">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-2xl font-extrabold" style="color: var(--color-accent);">
+                      👥 Participants
+                    </h3>
+                    <div class="text-lg font-bold px-4 py-2 rounded-full"
+                      style="background-color: var(--color-accent); color: var(--color-primary);">
+                      {{ participants.length }}
+                    </div>
+                  </div>
+                </div>
+
+                <div v-if="isLoadingParticipants" class="text-center py-6">
+                  <p class="text-base font-semibold" style="color: var(--color-accent);">⏳ Chargement...</p>
+                </div>
+
+                <div v-else-if="participants.length === 0" class="text-center py-8">
+                  <div class="w-16 h-16 rounded-full mx-auto mb-3 flex items-center justify-center"
+                    style="background-color: rgba(245, 241, 237, 0.9);">
+                    <span class="text-3xl">👥</span>
+                  </div>
+                  <p class="text-base font-semibold" style="color: var(--color-secondary);">
+                    Aucun participant
+                  </p>
+                </div>
+
+                <div v-else class="space-y-2">
+                  <div
+                    v-for="(participant, index) in participants"
+                    :key="participant._id"
+                    class="flex items-center justify-between p-3 rounded-lg border-2 transition-all duration-200 hover:scale-[1.02]"
+                    style="background-color: rgba(245, 241, 237, 0.95); border: 2px solid var(--color-secondary);"
+                  >
+                    <div class="flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm"
+                        style="background-color: var(--color-accent); color: var(--color-primary);">
+                        {{ index + 1 }}
+                      </div>
+                      <span class="text-base font-bold" style="color: var(--color-accent);">
+                        {{ participant.participant }}
+                      </span>
+                    </div>
+                    <button
+                      @click="handleDeleteParticipant(participant._id!)"
+                      :disabled="deletingParticipantId === participant._id"
+                      class="px-3 py-1 rounded-lg font-bold text-sm uppercase tracking-wide transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                      style="background-color: #ef4444; color: white;"
+                    >
+                      {{ deletingParticipantId === participant._id ? '⏳' : '🗑️' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
-          <!-- Titre -->
-          <div class="mb-8">
-            <h1 class="text-4xl md:text-5xl font-extrabold leading-tight"
-              style="color: var(--color-accent);">
-              {{ event.name }}
-            </h1>
-          </div>
-
-          <!-- Détails de l'événement -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-4">
-              <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
-                  style="background-color: rgba(245, 241, 237, 0.9);">
-                  <span class="text-2xl">📅</span>
+        <!-- Bloc ajout participant (1/3) -->
+        <div class="lg:col-span-1">
+          <div class="relative rounded-2xl border-4 h-full"
+            style="background: var(--color-primary); border-color: var(--color-secondary);">
+            <div class="relative p-6 md:p-8">
+              <div class="text-center mb-6">
+                <div class="inline-block px-6 py-2 rounded-full mb-4" style="background-color: var(--color-accent);">
+                  <span class="text-sm font-bold uppercase tracking-wider" style="color: var(--color-primary);">
+                    Inscription
+                  </span>
                 </div>
-                <div>
-                  <div class="text-xs font-bold uppercase tracking-wide opacity-80"
-                    style="color: var(--color-secondary);">
-                    Date
-                  </div>
-                  <div class="text-lg font-bold" style="color: var(--color-secondary);">
-                    {{ formatDate(event.date) }}
-                  </div>
-                </div>
+                <h2 class="text-2xl font-extrabold" style="color: var(--color-accent);">
+                  Ajouter un participant
+                </h2>
               </div>
 
-              <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
-                  style="background-color: rgba(245, 241, 237, 0.9);">
-                  <span class="text-2xl">📍</span>
+              <form @submit.prevent="handleAddParticipant" class="space-y-4">
+                <div class="relative">
+                  <label for="participant" class="block text-base font-bold mb-3 uppercase tracking-wide"
+                    style="color: var(--color-accent);">
+                    👤 Nom du participant *
+                  </label>
+                  <input
+                    id="participant"
+                    v-model="newParticipantName"
+                    type="text"
+                    required
+                    class="w-full px-5 py-4 rounded-xl text-lg font-semibold"
+                    style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
+                    :style="{ borderColor: newParticipantName ? 'var(--color-accent)' : 'transparent' }"
+                    placeholder="Ex: Matis Charrier"
+                  />
                 </div>
-                <div>
-                  <div class="text-xs font-bold uppercase tracking-wide opacity-80"
-                    style="color: var(--color-secondary);">
-                    Lieu
-                  </div>
-                  <div class="text-lg font-bold" style="color: var(--color-secondary);">
-                    {{ event.localisation }}
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="space-y-4">
-              <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
-                  style="background-color: rgba(245, 241, 237, 0.9);">
-                  <span class="text-2xl">🚴</span>
-                </div>
-                <div>
-                  <div class="text-xs font-bold uppercase tracking-wide opacity-80"
-                    style="color: var(--color-secondary);">
-                    Distance
-                  </div>
-                  <div class="text-lg font-bold" style="color: var(--color-secondary);">
-                    {{ event.distance }}
-                  </div>
-                </div>
-              </div>
+                <button
+                  type="submit"
+                  :disabled="isAddingParticipant"
+                  class="w-full px-8 py-4 rounded-xl text-xl font-extrabold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  style="background-color: var(--color-accent); color: var(--color-primary);">
+                  {{ isAddingParticipant ? '⏳ Ajout en cours...' : '✨ Ajouter' }}
+                </button>
 
-              <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
-                  style="background-color: rgba(245, 241, 237, 0.9);">
-                  <span class="text-2xl">👥</span>
+                <div v-if="addSuccess" class="text-center p-4 rounded-lg animate-pulse"
+                  style="background-color: rgba(34, 197, 94, 0.2);">
+                  <p class="text-xl font-bold text-green-400">
+                    ✓ Participant ajouté avec succès !
+                  </p>
                 </div>
-                <div>
-                  <div class="text-xs font-bold uppercase tracking-wide opacity-80"
-                    style="color: var(--color-secondary);">
-                    Participants
-                  </div>
-                  <div class="text-lg font-bold" style="color: var(--color-accent);">
-                    {{ participants.length }} inscrit{{ participants.length > 1 ? 's' : '' }}
-                  </div>
+
+                <div v-if="addError" class="text-center p-4 rounded-lg animate-pulse"
+                  style="background-color: rgba(239, 68, 68, 0.2);">
+                  <p class="text-xl font-bold text-red-400">
+                    ✗ Erreur lors de l'ajout du participant
+                  </p>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -155,7 +276,7 @@
             <EventMap
               v-if="event"
               :location="event.localisation"
-              :gpx-data="event.gpx && event.gpx.length > 0 ? event.gpx[0] : undefined"
+              :gpx-data="event.gpx && Array.isArray(event.gpx) && event.gpx.length > 0 ? event.gpx[0] : undefined"
             />
             <template #fallback>
               <div class="relative rounded-2xl border-4 overflow-hidden" style="border-color: var(--color-secondary);">
@@ -174,127 +295,6 @@
         </div>
       </div>
 
-      <!-- Gestion des participants -->
-      <div class="relative rounded-2xl border-4 mb-8"
-        style="background: var(--color-primary); border-color: var(--color-secondary);">
-        <div class="relative p-6 md:p-8">
-          <div class="text-center mb-8">
-            <div class="inline-block px-6 py-2 rounded-full mb-4" style="background-color: var(--color-accent);">
-              <span class="text-sm font-bold uppercase tracking-wider" style="color: var(--color-primary);">
-                Inscription
-              </span>
-            </div>
-            <h2 class="text-3xl font-extrabold" style="color: var(--color-accent);">
-              Ajouter un participant
-            </h2>
-          </div>
-
-          <form @submit.prevent="handleAddParticipant" class="space-y-4 max-w-2xl mx-auto">
-            <div class="relative">
-              <label for="participant" class="block text-base font-bold mb-3 uppercase tracking-wide"
-                style="color: var(--color-accent);">
-                👤 Nom du participant *
-              </label>
-              <input
-                id="participant"
-                v-model="newParticipantName"
-                type="text"
-                required
-                class="w-full px-5 py-4 rounded-xl text-lg font-semibold"
-                style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
-                :style="{ borderColor: newParticipantName ? 'var(--color-accent)' : 'transparent' }"
-                placeholder="Ex: Matis Charrier"
-              />
-            </div>
-
-            <button
-              type="submit"
-              :disabled="isAddingParticipant"
-              class="w-full px-8 py-4 rounded-xl text-xl font-extrabold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-              style="background-color: var(--color-accent); color: var(--color-primary);">
-              {{ isAddingParticipant ? '⏳ Ajout en cours...' : '✨ Ajouter' }}
-            </button>
-
-            <div v-if="addSuccess" class="text-center p-4 rounded-lg animate-pulse"
-              style="background-color: rgba(34, 197, 94, 0.2);">
-              <p class="text-xl font-bold text-green-400">
-                ✓ Participant ajouté avec succès !
-              </p>
-            </div>
-
-            <div v-if="addError" class="text-center p-4 rounded-lg animate-pulse"
-              style="background-color: rgba(239, 68, 68, 0.2);">
-              <p class="text-xl font-bold text-red-400">
-                ✗ Erreur lors de l'ajout du participant
-              </p>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- Liste des participants -->
-      <div class="relative rounded-2xl border-4"
-        style="background: var(--color-primary); border-color: var(--color-secondary);">
-        <div class="relative p-6 md:p-8">
-          <div class="text-center mb-8">
-            <div class="inline-block px-6 py-2 rounded-full mb-4" style="background-color: var(--color-accent);">
-              <span class="text-sm font-bold uppercase tracking-wider" style="color: var(--color-primary);">
-                Équipe
-              </span>
-            </div>
-            <h2 class="text-3xl font-extrabold" style="color: var(--color-accent);">
-              Liste des participants
-            </h2>
-            <p v-if="participants.length > 0" class="mt-2 text-lg" style="color: var(--color-secondary); opacity: 0.9;">
-              {{ participants.length }} cycliste{{ participants.length > 1 ? 's' : '' }} inscrit{{ participants.length > 1 ? 's' : '' }}
-            </p>
-          </div>
-
-          <div v-if="isLoadingParticipants" class="text-center py-8">
-            <p class="text-lg font-semibold" style="color: var(--color-accent);">⏳ Chargement des participants...</p>
-          </div>
-
-          <div v-else-if="participants.length === 0" class="text-center py-12">
-            <div class="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center"
-              style="background-color: rgba(245, 241, 237, 0.9);">
-              <span class="text-4xl">👥</span>
-            </div>
-            <p class="text-xl font-semibold" style="color: var(--color-secondary);">
-              Aucun participant pour le moment
-            </p>
-            <p class="mt-2 text-base" style="color: var(--color-secondary); opacity: 0.7;">
-              Soyez le premier à vous inscrire !
-            </p>
-          </div>
-
-          <div v-else class="space-y-3 max-w-3xl mx-auto">
-            <div
-              v-for="(participant, index) in participants"
-              :key="participant._id"
-              class="flex items-center justify-between p-4 rounded-xl border-3 transition-all duration-300 hover:scale-102 hover:shadow-lg"
-              style="background-color: rgba(245, 241, 237, 0.95); border: 3px solid var(--color-secondary);"
-            >
-              <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 font-extrabold text-xl"
-                  style="background-color: var(--color-accent); color: var(--color-primary);">
-                  {{ index + 1 }}
-                </div>
-                <span class="text-xl font-bold" style="color: var(--color-accent);">
-                  {{ participant.participant }}
-                </span>
-              </div>
-              <button
-                @click="handleDeleteParticipant(participant._id!)"
-                :disabled="deletingParticipantId === participant._id"
-                class="px-5 py-2 rounded-lg font-bold uppercase tracking-wide transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                style="background-color: #ef4444; color: white;"
-              >
-                {{ deletingParticipantId === participant._id ? '⏳ Suppression...' : '🗑️ Retirer' }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -302,26 +302,13 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 
-// Types
-interface Event {
-  _id?: string
-  name: string
-  date: string
-  localisation: string
-  distance: string
-  type: 'RANDO' | 'COURSE' | 'ENTRAINEMENT'
-  gpx?: any[]
-}
-
-interface Participant {
-  _id?: string
-  idEvent: string
-  participant: string
-}
-
 // Composables
 const route = useRoute()
-const { getEvents, getParticipants, addParticipant, deleteParticipant } = useEvents()
+const { getEvents, addParticipant, deleteParticipant } = useEvents()
+
+// Types (importés du composable)
+type Event = Awaited<ReturnType<typeof getEvents>>[number]
+type Participant = NonNullable<Event['participants']>[number]
 
 // État
 const event = ref<Event | null>(null)
@@ -355,6 +342,8 @@ const loadEvent = async () => {
   isLoading.value = true
   loadError.value = false
   errorMessage.value = ''
+  isLoadingParticipants.value = true
+
   try {
     const eventId = route.params.id as string
     const events = await getEvents()
@@ -363,6 +352,9 @@ const loadEvent = async () => {
     if (!event.value) {
       loadError.value = true
       errorMessage.value = 'Activité introuvable. Elle a peut-être été supprimée.'
+    } else {
+      // Les participants sont maintenant inclus dans l'event
+      participants.value = event.value.participants || []
     }
   } catch (error: any) {
     loadError.value = true
@@ -381,28 +373,13 @@ const loadEvent = async () => {
   } finally {
     isLoading.value = false
     isRetrying.value = false
+    isLoadingParticipants.value = false
   }
 }
 
 const retryLoad = async () => {
   isRetrying.value = true
   await loadEvent()
-  if (event.value && !loadError.value) {
-    await loadParticipants()
-  }
-}
-
-const loadParticipants = async () => {
-  if (!event.value?._id) return
-
-  isLoadingParticipants.value = true
-  try {
-    participants.value = await getParticipants(event.value._id)
-  } catch (error) {
-    console.error('Erreur:', error)
-  } finally {
-    isLoadingParticipants.value = false
-  }
 }
 
 const handleAddParticipant = async () => {
@@ -482,18 +459,12 @@ const getTypeIcon = (type: string) => {
 // Chargement initial
 onMounted(async () => {
   await loadEvent()
-  if (event.value) {
-    await loadParticipants()
-  }
 })
 
 // Surveiller les changements de paramètre de route
 watch(() => route.params.id, async (newId) => {
   if (newId) {
     await loadEvent()
-    if (event.value) {
-      await loadParticipants()
-    }
   }
 })
 </script>

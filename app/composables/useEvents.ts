@@ -3,6 +3,12 @@ export const useEvents = () => {
   const baseURL = config.public.apiBaseUrl
 
   // Types
+  interface Participant {
+    _id?: string
+    idEvent: string
+    participant: string
+  }
+
   interface Event {
     _id?: string
     name: string
@@ -10,13 +16,8 @@ export const useEvents = () => {
     localisation: string
     distance: string
     type: 'RANDO' | 'COURSE' | 'ENTRAINEMENT'
-    gpx?: File
-  }
-
-  interface Participant {
-    _id?: string
-    idEvent: string
-    participant: string
+    gpx?: File | any[] // File pour création, any[] pour lecture
+    participants?: Participant[]
   }
 
   // Récupérer tous les événements
