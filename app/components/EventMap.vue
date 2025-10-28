@@ -1,24 +1,37 @@
 <template>
-  <div class="relative rounded-2xl border-4 overflow-hidden" style="border-color: var(--color-secondary);">
-    <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center z-10" style="background-color: rgba(245, 241, 237, 0.95);">
-      <div class="text-center">
-        <div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center animate-pulse"
-          style="background-color: var(--color-accent);">
-          <span class="text-3xl">📍</span>
+  <div>
+    <div class="relative rounded-2xl border-4 overflow-hidden" style="border-color: var(--color-secondary);">
+      <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center z-10" style="background-color: rgba(245, 241, 237, 0.95);">
+        <div class="text-center">
+          <div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center animate-pulse"
+            style="background-color: var(--color-accent);">
+            <span class="text-3xl">📍</span>
+          </div>
+          <p class="text-lg font-bold" style="color: var(--color-accent);">Chargement de la carte...</p>
         </div>
-        <p class="text-lg font-bold" style="color: var(--color-accent);">Chargement de la carte...</p>
       </div>
+
+      <div v-if="error" class="p-8 text-center" style="background-color: rgba(245, 241, 237, 0.95);">
+        <div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center"
+          style="background-color: rgba(239, 68, 68, 0.2);">
+          <span class="text-3xl">⚠️</span>
+        </div>
+        <p class="text-base font-semibold text-red-600">{{ error }}</p>
+      </div>
+
+      <div ref="mapContainer" class="w-full" style="height: 400px;"></div>
     </div>
 
-    <div v-if="error" class="p-8 text-center" style="background-color: rgba(245, 241, 237, 0.95);">
-      <div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center"
-        style="background-color: rgba(239, 68, 68, 0.2);">
-        <span class="text-3xl">⚠️</span>
-      </div>
-      <p class="text-base font-semibold text-red-600">{{ error }}</p>
+    <!-- Bouton de téléchargement GPX -->
+    <div v-if="hasGpxData" class="mt-4 text-center">
+      <button
+        @click="downloadGpx"
+        class="px-6 py-3 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-lg inline-flex items-center gap-2"
+        style="background-color: var(--color-accent); color: var(--color-primary);">
+        <span class="text-xl">📥</span>
+        Télécharger le parcours GPX
+      </button>
     </div>
-
-    <div ref="mapContainer" class="w-full" style="height: 400px;"></div>
   </div>
 </template>
 
@@ -43,6 +56,8 @@ const props = defineProps<{
 const mapContainer = ref<HTMLElement | null>(null)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
+const gpxContent = ref<string | null>(null)
+const hasGpxData = ref(false)
 let map: any = null
 let marker: any = null
 let gpxLayer: any = null
@@ -103,13 +118,17 @@ const convertGpxBufferToString = (gpxData: any): string | null => {
 }
 
 // Fonction pour parser et afficher le GPX
-const parseAndDisplayGpx = async (gpxContent: string) => {
+const parseAndDisplayGpx = async (gpxContentString: string) => {
   if (!L || !map) return
 
   try {
+    // Stocker le contenu GPX pour le téléchargement
+    gpxContent.value = gpxContentString
+    hasGpxData.value = true
+
     // Parser le GPX
     const parser = new DOMParser()
-    const gpxDoc = parser.parseFromString(gpxContent, 'text/xml')
+    const gpxDoc = parser.parseFromString(gpxContentString, 'text/xml')
 
     // Extraire les points de trace
     const trackPoints = gpxDoc.querySelectorAll('trkpt')
@@ -142,8 +161,52 @@ const parseAndDisplayGpx = async (gpxContent: string) => {
 
     // Ajuster la vue pour afficher tout le tracé
     map.fitBounds(gpxLayer.getBounds(), { padding: [50, 50] })
+
+    // Déplacer le marqueur au début de la trace GPX si il existe
+    if (marker && latLngs.length > 0) {
+      const startPoint = latLngs[0]
+      marker.setLatLng(startPoint)
+
+      // Mettre à jour la popup avec les informations du point de départ
+      marker.bindPopup(`
+        <div style="text-align: center; font-family: 'Montserrat', sans-serif;">
+          <div style="font-weight: bold; font-size: 16px; color: #3A3A3A; margin-bottom: 4px;">
+            🚴 Départ
+          </div>
+          <div style="font-size: 12px; color: #6D2A31; opacity: 0.8;">
+            ${props.location}
+          </div>
+        </div>
+      `).openPopup()
+    }
   } catch (err) {
     console.error('Erreur lors du parsing du GPX:', err)
+  }
+}
+
+// Fonction pour télécharger le fichier GPX
+const downloadGpx = () => {
+  if (!gpxContent.value) return
+
+  try {
+    // Créer un blob avec le contenu GPX
+    const blob = new Blob([gpxContent.value], { type: 'application/gpx+xml' })
+    const url = window.URL.createObjectURL(blob)
+
+    // Créer un lien de téléchargement
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `parcours-${props.location.replace(/\s+/g, '-').toLowerCase()}.gpx`
+
+    // Déclencher le téléchargement
+    document.body.appendChild(link)
+    link.click()
+
+    // Nettoyer
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('Erreur lors du téléchargement du GPX:', err)
   }
 }
 
