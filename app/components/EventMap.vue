@@ -134,7 +134,7 @@ const parseAndDisplayGpx = async (gpxContent: string) => {
 
     // Créer une polyligne pour le tracé GPX
     gpxLayer = L.polyline(latLngs, {
-      color: '#CDA434',
+      color: '#3B2077',
       weight: 4,
       opacity: 0.8,
       smoothFactor: 1
@@ -142,12 +142,6 @@ const parseAndDisplayGpx = async (gpxContent: string) => {
 
     // Ajuster la vue pour afficher tout le tracé
     map.fitBounds(gpxLayer.getBounds(), { padding: [50, 50] })
-
-    // Supprimer le marqueur de localisation si on affiche un GPX
-    if (marker) {
-      marker.remove()
-      marker = null
-    }
   } catch (err) {
     console.error('Erreur lors du parsing du GPX:', err)
   }

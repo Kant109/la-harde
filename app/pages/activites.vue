@@ -80,10 +80,12 @@
 
                     <!-- Calendrier popup -->
                     <div v-if="showCalendar" @click.stop class="calendar-popup absolute mt-2 rounded-xl shadow-2xl p-6"
-                      style="background-color: rgba(245, 241, 237, 0.98); border: 3px solid var(--color-accent); z-index: 9999; min-width: 350px;">
+                      style="background-color: rgba(245, 241, 237, 0.98); border: 3px solid var(--color-accent); z-index: 10000; min-width: 350px;">
                       <div class="calendar-header flex justify-between items-center mb-4">
                         <button type="button" @click="previousMonth"
-                          class="px-3 py-1 rounded-lg font-bold transition-all duration-300 hover:scale-110"
+                          :disabled="isPreviousMonthDisabled"
+                          class="px-3 py-1 rounded-lg font-bold transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed"
+                          :class="{ 'hover:scale-110': !isPreviousMonthDisabled }"
                           style="color: var(--color-accent); background-color: rgba(205, 164, 52, 0.1);">
                           ←
                         </button>
@@ -103,10 +105,12 @@
                           {{ day }}
                         </div>
                         <div v-for="n in startingDayOfWeek" :key="'empty-' + n" class="text-center py-3"></div>
-                        <div v-for="date in dates" :key="date.getTime()" @click="selectDate(date)"
-                          class="text-center py-3 rounded-lg cursor-pointer font-semibold transition-all duration-300 hover:scale-110"
+                        <div v-for="date in dates" :key="date.getTime()" @click="isDateDisabled(date) ? null : selectDate(date)"
+                          class="text-center py-3 rounded-lg font-semibold transition-all duration-300"
                           :class="{
-                            'selected-date': selectedDate && date.getTime() === selectedDate.getTime()
+                            'selected-date': selectedDate && date.getTime() === selectedDate.getTime(),
+                            'cursor-pointer hover:scale-110': !isDateDisabled(date),
+                            'opacity-30 cursor-not-allowed': isDateDisabled(date)
                           }" style="color: var(--color-accent);">
                           {{ date.getDate() }}
                         </div>
@@ -134,62 +138,56 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div class="relative city-autocomplete-wrapper" @click.stop>
+                  <div class="relative address-autocomplete-wrapper" @click.stop>
                     <label for="localisation" class="block text-base font-bold mb-3 uppercase tracking-wide"
                       style="color: var(--color-accent);">
                       📍 Localisation *
                     </label>
                     <input
                       id="localisation"
-                      v-model="citySearchQuery"
-                      @input="handleCitySearch"
-                      @focus="showCitySuggestions = true"
+                      v-model="addressSearchQuery"
+                      @input="handleAddressSearch"
+                      @focus="showAddressSuggestions = true"
                       type="text"
                       required
                       autocomplete="off"
                       class="w-full px-5 py-4 rounded-xl text-lg font-semibold "
                       style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
-                      :style="{ borderColor: newEvent.localisation || citySearchQuery ? 'var(--color-accent)' : 'transparent' }"
-                      placeholder="Ex: Chinon, Tours..." />
-
-                    <!-- Liste d'autocomplétion -->
-                    <div
-                      v-if="showCitySuggestions && citySuggestions.length > 0"
-                      @click.stop
-                      class="absolute mt-2 rounded-xl shadow-2xl overflow-hidden max-h-80 overflow-y-auto"
-                      style="background-color: rgba(245, 241, 237, 0.98); border: 3px solid var(--color-accent); z-index: 9999; width: 100%;">
-                      <div
-                        v-for="city in citySuggestions"
-                        :key="city.code"
-                        @click="selectCity(city)"
-                        class="city-suggestion-item px-5 py-3 cursor-pointer transition-all duration-200 border-b border-opacity-20"
-                        style="border-color: var(--color-accent);"
-                      >
-                        <div class="flex items-center justify-between">
-                          <div>
-                            <div class="text-base font-bold" style="color: var(--color-accent);">
-                              {{ city.nom }}
-                            </div>
-                            <div class="text-sm font-semibold opacity-70" style="color: var(--color-secondary);">
-                              Département {{ city.codeDepartement }}
-                            </div>
-                          </div>
-                          <div class="text-xs font-bold px-3 py-1 rounded-full"
-                            style="background-color: var(--color-accent); color: var(--color-primary);">
-                            {{ formatPopulation(city.population) }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                      :style="{ borderColor: newEvent.localisation || addressSearchQuery ? 'var(--color-accent)' : 'transparent' }"
+                      placeholder="Ex: 10 rue de la Paix, Tours ou Chinon..." />
 
                     <!-- Message de chargement -->
                     <div
-                      v-if="isSearchingCities && citySearchQuery.length >= 2"
+                      v-if="isSearchingAddresses && addressSearchQuery.length >= 3"
                       class="absolute mt-2 px-5 py-3 rounded-xl shadow-lg"
-                      style="background-color: rgba(245, 241, 237, 0.98); border: 3px solid var(--color-accent); z-index: 9999;">
+                      style="background-color: rgba(245, 241, 237, 0.98); border: 3px solid var(--color-accent); z-index: 10000;">
                       <p class="text-sm font-semibold" style="color: var(--color-accent);">
                         🔍 Recherche en cours...
                       </p>
+                    </div>
+
+                    <!-- Liste d'autocomplétion -->
+                    <div
+                      v-else-if="showAddressSuggestions && addressSuggestions.length > 0"
+                      @click.stop
+                      class="absolute mt-2 rounded-xl shadow-2xl overflow-hidden max-h-96 overflow-y-auto"
+                      style="background-color: rgba(245, 241, 237, 0.98); border: 3px solid var(--color-accent); z-index: 10000; width: 100%;">
+                      <div
+                        v-for="(address, index) in addressSuggestions"
+                        :key="index"
+                        @click="selectAddress(address)"
+                        class="address-suggestion-item px-5 py-3 cursor-pointer transition-all duration-200 border-b border-opacity-20 hover:bg-opacity-80"
+                        style="border-color: var(--color-accent);"
+                      >
+                        <div>
+                          <div class="text-base font-bold" style="color: var(--color-accent);">
+                            {{ address.label }}
+                          </div>
+                          <div v-if="address.context" class="text-xs font-semibold opacity-70 mt-1" style="color: var(--color-secondary);">
+                            {{ address.context }}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -399,17 +397,23 @@ interface Event {
   type: 'RANDO' | 'COURSE' | 'ENTRAINEMENT'
 }
 
-interface City {
-  nom: string
-  code: string
-  codeDepartement: string
-  codeRegion: string
-  population: number
+interface Address {
+  label: string
+  score: number
+  housenumber?: string
+  street?: string
+  postcode?: string
+  city?: string
+  context?: string
+  coordinates: {
+    lon: number
+    lat: number
+  }
 }
 
 // Composables
 const { getEvents, createEvent } = useEvents()
-const { searchCities, formatCityName } = useCityAutocomplete()
+const { searchAddresses, formatAddress, getShortAddress } = useAddressAutocomplete()
 
 // État
 const events = ref<Event[]>([])
@@ -428,11 +432,11 @@ const newEvent = ref<Event>({
   type: 'RANDO'
 })
 
-// État pour l'autocomplétion des villes
-const citySearchQuery = ref('')
-const citySuggestions = ref<City[]>([])
-const showCitySuggestions = ref(false)
-const isSearchingCities = ref(false)
+// État pour l'autocomplétion des adresses
+const addressSearchQuery = ref('')
+const addressSuggestions = ref<Address[]>([])
+const showAddressSuggestions = ref(false)
+const isSearchingAddresses = ref(false)
 let searchTimeout: ReturnType<typeof setTimeout> | null = null
 
 // État pour le fichier GPX
@@ -458,6 +462,18 @@ const sortedEvents = computed(() => {
   return [...events.value].sort((a, b) => {
     return new Date(a.date).getTime() - new Date(b.date).getTime()
   })
+})
+
+// Computed pour vérifier si le bouton du mois précédent doit être désactivé
+const isPreviousMonthDisabled = computed(() => {
+  const today = new Date()
+  const currentMonth = today.getMonth()
+  const currentYear = today.getFullYear()
+  const calendarMonth = calendarDate.value.getMonth()
+  const calendarYear = calendarDate.value.getFullYear()
+
+  // Désactiver si on est sur le mois actuel ou un mois dans le passé
+  return (calendarYear < currentYear) || (calendarYear === currentYear && calendarMonth <= currentMonth)
 })
 
 // Fonctions
@@ -501,7 +517,8 @@ const handleCreateEvent = async () => {
     selectedDate.value = null
     gpxFile.value = null
     uploadedGpxId.value = null
-    citySearchQuery.value = ''
+    addressSearchQuery.value = ''
+    addressSuggestions.value = []
 
     createSuccess.value = true
     setTimeout(() => {
@@ -587,7 +604,18 @@ const nextMonth = () => {
   updateCalendar()
 }
 
+const isDateDisabled = (date: Date): boolean => {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0) // Réinitialiser l'heure pour comparer uniquement la date
+  const compareDate = new Date(date)
+  compareDate.setHours(0, 0, 0, 0)
+
+  return compareDate < today
+}
+
 const selectDate = (date: Date) => {
+  if (isDateDisabled(date)) return
+
   selectedDate.value = date
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -623,49 +651,42 @@ const closeModal = () => {
   showCalendar.value = false
 }
 
-// Fonctions d'autocomplétion des villes
-const handleCitySearch = async () => {
-  const query = citySearchQuery.value.trim()
+// Fonctions d'autocomplétion des adresses
+const handleAddressSearch = async () => {
+  const query = addressSearchQuery.value.trim()
 
   // Annuler la recherche précédente
   if (searchTimeout) {
     clearTimeout(searchTimeout)
   }
 
-  if (query.length < 2) {
-    citySuggestions.value = []
-    showCitySuggestions.value = false
+  if (query.length < 3) {
+    addressSuggestions.value = []
+    showAddressSuggestions.value = false
     return
   }
 
   // Debounce de 300ms
   searchTimeout = setTimeout(async () => {
-    isSearchingCities.value = true
+    isSearchingAddresses.value = true
     try {
-      const results = await searchCities(query, 8)
-      citySuggestions.value = results
-      showCitySuggestions.value = results.length > 0
+      const results = await searchAddresses(query, 10)
+      addressSuggestions.value = results
+      showAddressSuggestions.value = results.length > 0
     } catch (error) {
       console.error('Erreur de recherche:', error)
-      citySuggestions.value = []
+      addressSuggestions.value = []
     } finally {
-      isSearchingCities.value = false
+      isSearchingAddresses.value = false
     }
   }, 300)
 }
 
-const selectCity = (city: City) => {
-  newEvent.value.localisation = formatCityName(city)
-  citySearchQuery.value = formatCityName(city)
-  citySuggestions.value = []
-  showCitySuggestions.value = false
-}
-
-const formatPopulation = (population: number): string => {
-  if (population >= 1000) {
-    return `${Math.round(population / 1000)}k hab.`
-  }
-  return `${population} hab.`
+const selectAddress = (address: Address) => {
+  newEvent.value.localisation = formatAddress(address)
+  addressSearchQuery.value = formatAddress(address)
+  addressSuggestions.value = []
+  showAddressSuggestions.value = false
 }
 
 // Fonction pour gérer le changement de fichier GPX
@@ -695,29 +716,29 @@ onMounted(() => {
   // Fermer les suggestions en cliquant à l'extérieur
   if (typeof window !== 'undefined') {
     document.addEventListener('click', () => {
-      showCitySuggestions.value = false
+      showAddressSuggestions.value = false
     })
   }
 })
 </script>
 
 <style scoped>
-/* Conteneur de l'autocomplétion des villes */
-.city-autocomplete-wrapper {
+/* Conteneur de l'autocomplétion des adresses */
+.address-autocomplete-wrapper {
   position: relative;
   z-index: 1;
 }
 
-.city-suggestion-item {
+.address-suggestion-item {
   background-color: transparent;
 }
 
-.city-suggestion-item:hover {
+.address-suggestion-item:hover {
   background-color: rgba(58, 58, 58, 0.1);
   transform: translateX(4px);
 }
 
-.city-suggestion-item:last-child {
+.address-suggestion-item:last-child {
   border-bottom: none;
 }
 
