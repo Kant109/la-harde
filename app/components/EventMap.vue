@@ -22,14 +22,22 @@
       <div ref="mapContainer" class="w-full" style="height: 400px;"></div>
     </div>
 
-    <!-- Bouton de téléchargement GPX -->
-    <div v-if="hasGpxData" class="mt-4 text-center">
+    <!-- Boutons d'actions GPX -->
+    <div v-if="hasGpxData" class="mt-4 flex flex-wrap justify-center gap-4">
       <button
         @click="downloadGpx"
         class="px-6 py-3 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-lg inline-flex items-center gap-2"
         style="background-color: var(--color-accent); color: var(--color-primary);">
         <span class="text-xl">📥</span>
         Télécharger le parcours GPX
+      </button>
+
+      <button
+        @click="openGPS"
+        class="px-6 py-3 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-lg inline-flex items-center gap-2"
+        style="background-color: var(--color-secondary); color: var(--color-primary);">
+        <span class="text-xl">🧭</span>
+        Naviguer vers le départ
       </button>
     </div>
   </div>
@@ -58,6 +66,7 @@ const isLoading = ref(true)
 const error = ref<string | null>(null)
 const gpxContent = ref<string | null>(null)
 const hasGpxData = ref(false)
+const startPoint = ref<{ lat: number; lon: number } | null>(null)
 let map: any = null
 let marker: any = null
 let gpxLayer: any = null
@@ -146,6 +155,11 @@ const parseAndDisplayGpx = async (gpxContentString: string) => {
       latLngs.push([lat, lon])
     })
 
+    // Stocker le point de départ pour la navigation GPS
+    if (latLngs.length > 0) {
+      startPoint.value = { lat: latLngs[0][0], lon: latLngs[0][1] }
+    }
+
     // Supprimer l'ancien tracé s'il existe
     if (gpxLayer) {
       gpxLayer.remove()
@@ -164,8 +178,8 @@ const parseAndDisplayGpx = async (gpxContentString: string) => {
 
     // Déplacer le marqueur au début de la trace GPX si il existe
     if (marker && latLngs.length > 0) {
-      const startPoint = latLngs[0]
-      marker.setLatLng(startPoint)
+      const startPointCoords = latLngs[0]
+      marker.setLatLng(startPointCoords)
 
       // Mettre à jour la popup avec les informations du point de départ
       marker.bindPopup(`
@@ -207,6 +221,41 @@ const downloadGpx = () => {
     window.URL.revokeObjectURL(url)
   } catch (err) {
     console.error('Erreur lors du téléchargement du GPX:', err)
+  }
+}
+
+// Fonction pour ouvrir l'application GPS
+const openGPS = () => {
+  if (!startPoint.value) return
+
+  const { lat, lon } = startPoint.value
+
+  // Détection du système d'exploitation
+  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera
+  const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream
+  const isAndroid = /android/i.test(userAgent)
+
+  // URLs pour différentes applications GPS
+  let url = ''
+
+  if (isIOS) {
+    // iOS : Ouvre Apple Maps par défaut, ou Google Maps si installé
+    url = `maps://maps.apple.com/?daddr=${lat},${lon}&dirflg=d`
+
+    // Tentative d'ouverture d'Apple Maps
+    window.location.href = url
+
+    // Fallback vers Google Maps après un délai court
+    setTimeout(() => {
+      window.open(`https://maps.google.com/maps?daddr=${lat},${lon}&dir_action=navigate`, '_blank')
+    }, 500)
+  } else if (isAndroid) {
+    // Android : Intent pour ouvrir Waze ou Google Maps
+    url = `geo:${lat},${lon}?q=${lat},${lon}(Point de départ)`
+    window.location.href = url
+  } else {
+    // Desktop ou autre : Ouvre Google Maps dans le navigateur
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}&travelmode=driving`, '_blank')
   }
 }
 
