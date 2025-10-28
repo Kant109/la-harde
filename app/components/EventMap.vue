@@ -235,23 +235,58 @@ const openGPS = () => {
   const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream
   const isAndroid = /android/i.test(userAgent)
 
-  // URLs pour différentes applications GPS
-  let url = ''
-
   if (isIOS) {
-    // iOS : Ouvre Apple Maps par défaut, ou Google Maps si installé
-    url = `maps://maps.apple.com/?daddr=${lat},${lon}&dirflg=d`
+    // iOS : Essayer Waze en premier, puis Apple Maps, puis Google Maps
+    const wazeUrl = `waze://?ll=${lat},${lon}&navigate=yes`
+    const appleMapsUrl = `maps://maps.apple.com/?daddr=${lat},${lon}&dirflg=d`
+    const googleMapsUrl = `https://maps.google.com/maps?daddr=${lat},${lon}&dir_action=navigate`
 
-    // Tentative d'ouverture d'Apple Maps
-    window.location.href = url
+    // Créer un iframe invisible pour tester Waze
+    const iframe = document.createElement('iframe')
+    iframe.style.display = 'none'
+    iframe.src = wazeUrl
+    document.body.appendChild(iframe)
 
-    // Fallback vers Google Maps après un délai court
+    // Vérifier après un court délai si Waze s'est ouvert
+    let appOpened = false
+    const timeout = setTimeout(() => {
+      if (!appOpened) {
+        // Waze n'est pas installé, essayer Apple Maps
+        document.body.removeChild(iframe)
+
+        // Tentative d'ouverture d'Apple Maps
+        window.location.href = appleMapsUrl
+
+        // Fallback vers Google Maps après un délai
+        setTimeout(() => {
+          window.open(googleMapsUrl, '_blank')
+        }, 500)
+      }
+    }, 1000)
+
+    // Détecter si l'utilisateur quitte la page (app s'est ouverte)
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        appOpened = true
+        clearTimeout(timeout)
+        document.body.removeChild(iframe)
+        document.removeEventListener('visibilitychange', handleVisibilityChange)
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    // Cleanup au cas où
     setTimeout(() => {
-      window.open(`https://maps.google.com/maps?daddr=${lat},${lon}&dir_action=navigate`, '_blank')
-    }, 500)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      if (document.body.contains(iframe)) {
+        document.body.removeChild(iframe)
+      }
+    }, 2000)
+
   } else if (isAndroid) {
     // Android : Intent pour ouvrir Waze ou Google Maps
-    url = `geo:${lat},${lon}?q=${lat},${lon}(Point de départ)`
+    const url = `geo:${lat},${lon}?q=${lat},${lon}(Point de départ)`
     window.location.href = url
   } else {
     // Desktop ou autre : Ouvre Google Maps dans le navigateur
