@@ -357,11 +357,11 @@
             <div class="mt-6 pt-4 border-t-2" style="border-color: var(--color-secondary); opacity: 0.3;">
               <div class="flex items-center justify-between">
                 <div class="text-sm font-extrabold uppercase tracking-wider group-hover:translate-x-1 transition-transform duration-300"
-                  style="color: var(--color-accent);">
+                  style="color: var(--color-secondary);">
                   Voir les détails
                 </div>
                 <span class="text-xl group-hover:translate-x-1 transition-transform duration-300"
-                  style="color: var(--color-accent);">
+                  style="color: var(--color-secondary);">
                   →
                 </span>
               </div>

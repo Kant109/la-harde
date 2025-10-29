@@ -26,13 +26,6 @@
         {{ member.bio }}
       </p>
 
-      <!-- Badge animé -->
-      <div class="mt-4 inline-flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-bold" style="background-color: var(--color-secondary); color: var(--color-background);">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="#DBD2C3">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-        <span style="color: var(--color-primary);">Sanglier Explosif</span>
-      </div>
     </div>
   </div>
 </template>

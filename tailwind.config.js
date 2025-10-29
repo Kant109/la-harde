@@ -11,15 +11,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#DBD2C3',     // Beige clair (sync avec CSS variables)
-        secondary: '#6D2A31',   // Bordeaux foncé (sync avec CSS variables)
-        accent: '#3A3A3A',      // Gris neutre (sync avec CSS variables)
+        primary: '#F4442E',     // Beige clair (sync avec CSS variables)
+        secondary: '#FC9E4F',   // Bordeaux foncé (sync avec CSS variables)
+        accent: '#EDD382',      // Gris neutre (sync avec CSS variables)
         background: '#1A1A1A',  // Fond sombre (sync avec CSS variables)
-        text: '#F5F5F5',        // Texte clair (sync avec CSS variables)
+        text: '#F2F3AE',        // Texte clair (sync avec CSS variables)
       },
       fontFamily: {
         sans: ['Roboto', 'sans-serif'],
-        heading: ['Montserrat', 'sans-serif'],
+        heading: ['Montserrat', 'fantasy'],
       },
     },
   },

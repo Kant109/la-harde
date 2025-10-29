@@ -60,7 +60,7 @@
         <div>
           <!-- Category badge -->
           <div class="mb-4">
-            <span class="inline-block px-4 py-2 rounded-full text-sm font-bold" style="background-color: var(--color-accent); color: var(--color-text);">
+            <span class="inline-block px-4 py-2 rounded-full text-sm font-bold" style="background-color: var(--color-accent); color: var(--color-secondary);">
               {{ product.category }}
             </span>
           </div>

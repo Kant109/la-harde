@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <section class="py-16 md:py-24" style="background-color: var(--color-background);">
+    <section class="py-8 md:py-8" style="background-color: var(--color-background);">
       <div class="container mx-auto px-4 text-center">
         <h1 class="text-5xl md:text-7xl font-extrabold mb-4" style="color: var(--color-primary); line-height: 1.1;">
           Boutique Officielle
@@ -13,7 +13,7 @@
     </section>
 
     <!-- Filtres -->
-    <section class="py-8" style="background-color: var(--color-primary);">
+    <section class="py-2" >
       <div class="container mx-auto px-4">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <!-- Catégories -->
@@ -24,7 +24,7 @@
               @click="selectedCategory = category"
               class="px-6 py-3 rounded-lg font-bold text-base transition-all duration-300 hover:scale-105"
               :style="{
-                backgroundColor: selectedCategory === category ? 'var(--color-secondary)' : 'var(--color-accent)',
+                backgroundColor: selectedCategory === category ? 'var(--color-secondary)' : 'var(--color-secondary)',
                 color: selectedCategory === category ? 'var(--color-primary)' : 'var(--color-text)',
                 border: selectedCategory === category ? '3px solid var(--color-secondary)' : '2px solid rgba(109, 42, 49, 0.3)',
                 boxShadow: selectedCategory === category ? '0 4px 12px rgba(109, 42, 49, 0.4)' : 'none'
