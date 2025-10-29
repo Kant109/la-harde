@@ -61,5 +61,14 @@
     "image": "/images/team/julien.png",
     "speciality": "1 sortie = 1 chute",
     "strava": "https://www.strava.com/athletes/33556755"
+  },
+  {
+    "id": 8,
+    "name": "BBech",
+    "role": "Le rouleur qui ne s'entraine pas",
+    "bio": "Il subit son vélo plus que personne.",
+    "image": "/images/team/bbech.png",
+    "speciality": "L'homme au 1000 hypoglycémies",
+    "strava": "https://www.strava.com/athletes/105352604"
   }
 ]
