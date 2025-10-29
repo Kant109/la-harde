@@ -4,11 +4,18 @@
     <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
       <!-- Background avec overlay -->
       <div class="absolute inset-0">
-        <img
-          src="/images/backgound-hero.jpg"
-          alt="Équipe cycliste LA HARDE"
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          poster="/images/background-hero.jpg"
           class="w-full h-full object-cover"
-        />
+        >
+          <source src="/images/background-hero.mp4" type="video/mp4" />
+          <!-- Image de fallback si la vidéo ne charge pas -->
+          <img src="/images/background-hero.jpg" alt="Équipe cycliste LA HARDE" />
+        </video>
         <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0,0,0,0.4), var(--color-background));"></div>
       </div>
 
