@@ -193,7 +193,70 @@ const voteOptions = ref<VoteOption[]>([
     image1: '/images/maillots/maillot2-face.png',
     image2: '/images/maillots/maillot2-dos.png',
     votes: 0
-  }
+  },
+  {
+    id: '3',
+    name: 'Maillot 3',
+    image1: '/images/maillots/maillot3-face.png',
+    image2: '/images/maillots/maillot3-dos.png',
+    votes: 0
+  },
+  {
+    id: '4',
+    name: 'Maillot 4',
+    image1: '/images/maillots/maillot4-face.png',
+    image2: '/images/maillots/maillot4-dos.png',
+    votes: 0
+  },
+  {
+    id: '5',
+    name: 'Maillot 5',
+    image1: '/images/maillots/maillot5-face.png',
+    image2: '/images/maillots/maillot5-dos.png',
+    votes: 0
+  },
+  {
+    id: '6',
+    name: 'Maillot 6',
+    image1: '/images/maillots/maillot6-face.png',
+    image2: '/images/maillots/maillot6-dos.png',
+    votes: 0
+  },
+  {
+    id: '7',
+    name: 'Maillot 7',
+    image1: '/images/maillots/maillot7-face.png',
+    image2: '/images/maillots/maillot7-dos.png',
+    votes: 0
+  },
+  {
+    id: '8',
+    name: 'Maillot 8',
+    image1: '/images/maillots/maillot8-face.png',
+    image2: '/images/maillots/maillot8-dos.png',
+    votes: 0
+  },
+  {
+    id: '9',
+    name: 'Maillot 9',
+    image1: '/images/maillots/maillot9-face.png',
+    image2: '/images/maillots/maillot9-dos.png',
+    votes: 0
+  },
+  {
+    id: '10',
+    name: 'Maillot 10',
+    image1: '/images/maillots/maillot10-face.png',
+    image2: '/images/maillots/maillot10-dos.png',
+    votes: 0
+  },
+  {
+    id: '11',
+    name: 'Maillot 11',
+    image1: '/images/maillots/maillot11-face.png',
+    image2: '/images/maillots/maillot11-dos.png',
+    votes: 0
+  },
 ])
 
 // State

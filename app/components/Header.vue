@@ -108,7 +108,6 @@ const navLinks = [
   { name: 'L\'équipe', path: '/equipe' },
   { name: 'Histoire', path: '/histoire' },
   { name: 'Activités', path: '/activites' },
-  { name: 'Vote', path: '/vote' },
   { name: 'Boutique', path: '/boutique' }
 ]
 
