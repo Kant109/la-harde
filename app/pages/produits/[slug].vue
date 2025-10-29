@@ -222,7 +222,7 @@ useHead({
   meta: computed(() => [
     {
       name: 'description',
-      content: product.value?.description || 'Boutique officielle LA HARDE - Les Sangliers Explosifs'
+      content: product.value?.description || 'Boutique officielle LA HARDE - Les Sangliers atomiques'
     },
     {
       property: 'og:title',

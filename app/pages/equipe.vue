@@ -114,7 +114,7 @@
           Soutenez LA HARDE
         </h2>
         <p class="text-lg mb-8 max-w-2xl mx-auto" style="color: var(--color-accent); opacity: 0.8;">
-          Arborez les couleurs des Sangliers Explosifs et montrez votre soutien à notre équipe.
+          Arborez les couleurs des Sangliers atomiques et montrez votre soutien à notre équipe.
         </p>
         <NuxtLink to="/boutique" class="btn-primary">
           Visiter la boutique
@@ -134,7 +134,7 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: 'Découvrez les membres de l\'équipe cycliste LA HARDE - Les Sangliers Explosifs. Six coureurs unis par la passion et l\'esprit de compétition.'
+      content: 'Découvrez les membres de l\'équipe cycliste LA HARDE - Les Sangliers atomiques. Six coureurs unis par la passion et l\'esprit de compétition.'
     }
   ]
 })

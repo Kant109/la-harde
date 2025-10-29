@@ -17,7 +17,7 @@
             </div>
             <div>
               <h3 class="text-2xl font-extrabold" style="color: var(--color-secondary);">LA HARDE</h3>
-              <p class="text-base font-semibold" style="color: var(--color-secondary);">Les Sangliers Explosifs</p>
+              <p class="text-base font-semibold" style="color: var(--color-secondary);">Les Sangliers atomiques</p>
             </div>
           </div>
           <p class="text-base font-medium leading-relaxed" style="color: var(--color-secondary);">
@@ -66,7 +66,7 @@
       <!-- Copyright et mentions légales -->
       <div class="mt-12 pt-8 border-t text-center" style="border-color: rgba(109, 42, 49, 0.5);">
         <p class="text-base mb-3 font-semibold" style="color: var(--color-secondary);">
-          © 2025 LA HARDE - Les Sangliers Explosifs. Tous droits réservés.
+          © 2025 LA HARDE - Les Sangliers atomiques. Tous droits réservés.
         </p>
         <p class="text-sm font-medium" style="color: var(--color-text);">
           <NuxtLink to="/mentions-legales" class="hover:underline font-bold" style="color: var(--color-secondary);">

@@ -1,6 +1,6 @@
 # LA HARDE - Site Officiel
 
-Site web officiel de l'équipe cycliste professionnelle **LA HARDE - Les Sangliers Explosifs**.
+Site web officiel de l'équipe cycliste professionnelle **LA HARDE - Les Sangliers atomiques**.
 
 Site moderne et responsive développé avec Nuxt 3, Vue 3, TypeScript et Tailwind CSS.
 
@@ -267,4 +267,4 @@ Ce projet utilise:
 
 ## Licence
 
-Tous droits réservés - LA HARDE - Les Sangliers Explosifs
+Tous droits réservés - LA HARDE - Les Sangliers atomiques

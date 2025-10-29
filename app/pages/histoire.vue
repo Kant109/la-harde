@@ -34,7 +34,7 @@
                 Tout a commencé en 2025, lorsque six amis passionnés de cyclisme ont décidé d'unir leurs forces pour créer plus qu'une simple équipe : une véritable harde, comme ces groupes de sangliers qui parcourent les forêts avec force et détermination.
               </p>
               <p class="leading-relaxed">
-                Le surnom "Les Sangliers Explosifs" n'est pas venu par hasard. Il reflète parfaitement l'esprit de l'équipe : une attaque explosive, une combativité sans faille, et une capacité à charger ensemble vers la victoire, peu importe les obstacles.
+                Le surnom "Les Sangliers atomiques" n'est pas venu par hasard. Il reflète parfaitement l'esprit de l'équipe : une attaque explosive, une combativité sans faille, et une capacité à charger ensemble vers la victoire, peu importe les obstacles.
               </p>
               <p class="leading-relaxed">
                 Simon, membre fondateur et "sanglier originel", a été le catalyseur de cette aventure. Sa vision : créer une équipe où la passion, l'amitié et la performance se mêlent pour repousser les limites du possible.
@@ -142,7 +142,7 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: 'Découvrez l\'histoire de LA HARDE - Les Sangliers Explosifs, de nos débuts en Touraine aux pavés de Paris-Roubaix. Revivez nos exploits sportifs.'
+      content: 'Découvrez l\'histoire de LA HARDE - Les Sangliers atomiques, de nos débuts en Touraine aux pavés de Paris-Roubaix. Revivez nos exploits sportifs.'
     }
   ]
 })

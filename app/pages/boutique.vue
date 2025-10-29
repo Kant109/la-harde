@@ -97,7 +97,7 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: 'Boutique officielle de l\'équipe cycliste LA HARDE. Maillots, accessoires et équipements aux couleurs des Sangliers Explosifs. Livraison gratuite dès 50€.'
+      content: 'Boutique officielle de l\'équipe cycliste LA HARDE. Maillots, accessoires et équipements aux couleurs des Sangliers atomiques. Livraison gratuite dès 50€.'
     }
   ]
 })

@@ -19,22 +19,22 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'LA HARDE - Les Sangliers Explosifs',
+      title: 'LA HARDE - Les Sangliers atomiques',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           name: 'description',
-          content: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers Explosifs. Découvrez nos coureurs, notre histoire et notre boutique officielle.'
+          content: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers atomiques. Découvrez nos coureurs, notre histoire et notre boutique officielle.'
         },
-        { name: 'keywords', content: 'cyclisme, équipe cycliste, LA HARDE, Sangliers Explosifs, vélo' },
-        { property: 'og:title', content: 'LA HARDE - Les Sangliers Explosifs' },
-        { property: 'og:description', content: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers Explosifs' },
+        { name: 'keywords', content: 'cyclisme, équipe cycliste, LA HARDE, Sangliers atomiques, vélo' },
+        { property: 'og:title', content: 'LA HARDE - Les Sangliers atomiques' },
+        { property: 'og:description', content: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers atomiques' },
         { property: 'og:image', content: '/images/logo-og.png' },
         { property: 'og:type', content: 'website' },
         { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:title', content: 'LA HARDE - Les Sangliers Explosifs' },
-        { name: 'twitter:description', content: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers Explosifs' },
+        { name: 'twitter:title', content: 'LA HARDE - Les Sangliers atomiques' },
+        { name: 'twitter:description', content: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers atomiques' },
         { name: 'twitter:image', content: '/images/logo-og.png' }
       ],
       link: [
@@ -61,9 +61,9 @@ export default defineNuxtConfig({
     registerType: 'autoUpdate',
     includeAssets: ['favicon.ico', 'pwa-64x64.png', 'pwa-192x192.png', 'pwa-512x512.png', 'maskable-icon-512x512.png'],
     manifest: {
-      name: 'LA HARDE - Les Sangliers Explosifs',
+      name: 'LA HARDE - Les Sangliers atomiques',
       short_name: 'LA HARDE',
-      description: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers Explosifs',
+      description: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers atomiques',
       theme_color: '#3B2F2F',
       background_color: '#F5F1ED',
       display: 'standalone',

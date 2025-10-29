@@ -18,7 +18,7 @@
           LA HARDE
         </h1>
         <p class="text-3xl md:text-5xl mb-6 font-bold" style="color: var(--color-primary);">
-          Les Sangliers Explosifs
+          Les Sangliers atomiques
         </p>
         <p class="text-2xl md:text-3xl mb-12 font-medium" style="color: var(--color-primary);">
           La puissance du peloton sauvage
@@ -123,7 +123,7 @@
             Boutique Officielle
           </h2>
           <p class="text-xl md:text-2xl max-w-2xl mx-auto font-medium" style="color: var(--color-text);">
-            Arborez les couleurs des Sangliers Explosifs avec notre collection officielle.
+            Arborez les couleurs des Sangliers atomiques avec notre collection officielle.
           </p>
         </div>
 
@@ -154,11 +154,11 @@ import productsData from '~/data/products.json'
 
 // SEO
 useHead({
-  title: 'LA HARDE - Les Sangliers Explosifs | Équipe Cycliste Professionnelle',
+  title: 'LA HARDE - Les Sangliers atomiques | Équipe Cycliste Professionnelle',
   meta: [
     {
       name: 'description',
-      content: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers Explosifs. Découvrez nos coureurs, nos exploits et notre boutique officielle.'
+      content: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers atomiques. Découvrez nos coureurs, nos exploits et notre boutique officielle.'
     }
   ]
 })

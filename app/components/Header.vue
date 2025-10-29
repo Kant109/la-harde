@@ -2,13 +2,13 @@
   <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" :class="{ 'bg-opacity-95': scrolled, 'bg-transparent': !scrolled }" style="background-color: var(--color-primary);">
     <nav class="container mx-auto px-4 py-4">
       <div class="flex items-center justify-center">
-        <div class="flex items-center justify-between w-full max-w-7xl">
+        <div class="flex items-center justify-between w-full max-w-7xl gap-4">
           <!-- Logo -->
-          <NuxtLink to="/" class="flex items-center space-x-3 group flex-shrink-0">
+          <NuxtLink to="/" class="flex items-center space-x-3 group flex-shrink-0 min-w-0">
             <div class="w-12 h-12 flex items-center justify-center transition-all duration-300 group-hover:scale-110 flex-shrink-0">
               <NuxtImg
                 src="/images/logo-harde.png"
-                alt="LA HARDE - Les Sangliers Explosifs"
+                alt="LA HARDE - Les Sangliers atomiques"
                 class="w-full h-full object-contain"
                 width="48"
                 height="48"
@@ -16,18 +16,18 @@
                 format="webp"
               />
             </div>
-            <div class="hidden md:flex md:flex-col md:justify-center">
-              <h1 class="text-2xl font-extrabold" style="color: var(--color-secondary);">LA HARDE</h1>
-              <div class="text-sm font-semibold" style="color: var(--color-text); opacity: 0.9;">Les Sangliers Explosifs</div>
+            <div class="hidden lg:flex lg:flex-col lg:justify-center min-w-0">
+              <h1 class="text-2xl font-extrabold whitespace-nowrap" style="color: var(--color-secondary);">LA HARDE</h1>
+              <div class="text-sm font-semibold whitespace-nowrap" style="color: var(--color-text); opacity: 0.9;">Les Sangliers atomiques</div>
             </div>
           </NuxtLink>
 
           <!-- Navigation Desktop -->
-          <ul class="hidden md:flex space-x-8 items-center absolute left-1/2 transform -translate-x-1/2">
-            <li v-for="link in navLinks" :key="link.path">
+          <ul class="hidden md:flex space-x-4 lg:space-x-8 items-center flex-1 justify-center min-w-0">
+            <li v-for="link in navLinks" :key="link.path" class="flex-shrink-0">
               <NuxtLink
                 :to="link.path"
-                class="font-bold text-lg transition-all duration-300 hover:scale-110 inline-block"
+                class="font-bold text-base lg:text-lg transition-all duration-300 hover:scale-110 inline-block whitespace-nowrap"
                 :style="{ color: isActive(link.path) ? 'var(--color-secondary)' : 'var(--color-text)' }"
                 @mouseenter="(e) => e.target.style.color = 'var(--color-secondary)'"
                 @mouseleave="(e) => e.target.style.color = isActive(link.path) ? 'var(--color-secondary)' : 'var(--color-text)'"

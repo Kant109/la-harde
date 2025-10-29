@@ -27,7 +27,7 @@
             </h2>
             <div class="space-y-3" style="color: var(--color-accent); opacity: 0.9;">
               <p>
-                <strong>Raison sociale :</strong> LA HARDE - Les Sangliers Explosifs
+                <strong>Raison sociale :</strong> LA HARDE - Les Sangliers atomiques
               </p>
               <p>
                 <strong>Type :</strong> Association sportive
@@ -78,7 +78,7 @@
                 La reproduction de tout ou partie de ce site sur un support électronique ou autre quel qu'il soit est formellement interdite sauf autorisation expresse du directeur de la publication.
               </p>
               <p>
-                Les marques et logos LA HARDE et Les Sangliers Explosifs sont des marques déposées. Toute reproduction totale ou partielle de ces marques sans autorisation préalable et écrite est strictement interdite.
+                Les marques et logos LA HARDE et Les Sangliers atomiques sont des marques déposées. Toute reproduction totale ou partielle de ces marques sans autorisation préalable et écrite est strictement interdite.
               </p>
             </div>
           </div>
@@ -238,7 +238,7 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: 'Mentions légales du site LA HARDE - Les Sangliers Explosifs. Informations sur l\'éditeur, l\'hébergement, la protection des données personnelles et le droit applicable.'
+      content: 'Mentions légales du site LA HARDE - Les Sangliers atomiques. Informations sur l\'éditeur, l\'hébergement, la protection des données personnelles et le droit applicable.'
     },
     {
       name: 'robots',
