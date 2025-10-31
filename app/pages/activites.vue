@@ -265,11 +265,16 @@
       </h2>
 
       <div v-if="isLoading" class="text-center py-12">
-        <p class="text-xl" style="color: var(--color-text);">Chargement des activités...</p>
+        <ThreeModel
+          model-path="/models/sanglier.glb"
+          :auto-rotate="true"
+          :auto-rotate-speed="0.02"
+        />
       </div>
 
       <div v-else-if="loadError" class="card text-center py-12">
         <p class="text-xl text-red-600 mb-4">Erreur lors du chargement des activités</p>
+        <ThreeModel model-path="/models/sanglier.glb" />
         <button @click="loadEvents" class="btn-secondary">
           Réessayer
         </button>
@@ -486,7 +491,9 @@ const loadEvents = async () => {
     loadError.value = true
     console.error('Erreur:', error)
   } finally {
-    isLoading.value = false
+    setTimeout(() => {
+      isLoading.value = false
+    }, 5000) // Petite attente pour l'effet visuel
   }
 }
 
