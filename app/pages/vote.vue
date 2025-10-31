@@ -257,6 +257,34 @@ const voteOptions = ref<VoteOption[]>([
     image2: '/images/maillots/maillot11-dos.png',
     votes: 0
   },
+  {
+    id: '12',
+    name: 'Maillot 12',
+    image1: '/images/maillots/maillot12-face.png',
+    image2: '/images/maillots/maillot12-dos.png',
+    votes: 0
+  },
+  {
+    id: '13',
+    name: 'Maillot 13',
+    image1: '/images/maillots/maillot13-face.png',
+    image2: '/images/maillots/maillot13-dos.png',
+    votes: 0
+  },
+  {
+    id: '14',
+    name: 'Maillot 14',
+    image1: '/images/maillots/maillot14-face.png',
+    image2: '/images/maillots/maillot14-dos.png',
+    votes: 0
+  },
+  {
+    id: '15',
+    name: 'Maillot 15',
+    image1: '/images/maillots/maillot15-face.png',
+    image2: '/images/maillots/maillot15-dos.png',
+    votes: 0
+  },
 ])
 
 // State
