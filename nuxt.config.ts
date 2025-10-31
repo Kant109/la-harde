@@ -100,6 +100,11 @@ export default defineNuxtConfig({
       maximumFileSizeToCacheInBytes: 5000000,
       globPatterns: ['**/*.{js,css,html,png,jpg,jpeg,svg,ico,json,woff,woff2}'],
       cleanupOutdatedCaches: true,
+      // Ajouter le support des événements push
+      skipWaiting: true,
+      clientsClaim: true,
+      // Importer le gestionnaire de notifications personnalisé
+      importScripts: ['/sw-notification-handler.js'],
       runtimeCaching: [
         {
           urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -145,6 +150,9 @@ export default defineNuxtConfig({
     client: {
       installPrompt: true,
       periodicSyncForUpdates: 3600
+    },
+    injectManifest: {
+      globPatterns: ['**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}']
     },
     devOptions: {
       enabled: true,

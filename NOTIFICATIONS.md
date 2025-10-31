@@ -289,6 +289,26 @@ await fetch('/obtorta/herd/notifications/send', {
 
 ## Débogage
 
+### Tester depuis les DevTools (Edge/Chrome)
+
+1. Ouvrir les DevTools (F12)
+2. Aller dans l'onglet "Application" > "Service Workers"
+3. Vérifier que le service worker est actif
+4. Dans la section "Push", cliquer sur le bouton "Push" pour envoyer une notification de test
+5. Vous devriez voir une notification apparaître avec le titre "LA HARDE"
+
+**Note importante**: Pour que le test de push depuis les DevTools fonctionne, assurez-vous que:
+- Le service worker est bien activé et enregistré
+- Les permissions de notification sont accordées
+- Le service worker inclut bien le fichier `sw-notification-handler.js` (vérifiez dans le code source du SW)
+
+### Vérifier que le gestionnaire est chargé
+
+Dans la console du service worker (DevTools > Application > Service Workers > Source), vérifiez que le fichier contient:
+```javascript
+importScripts("/sw-notification-handler.js")
+```
+
 ### Vérifier le statut du service worker
 
 ```javascript
