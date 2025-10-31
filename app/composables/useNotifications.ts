@@ -55,7 +55,7 @@ export const useNotifications = () => {
       if (!subscription) {
         // Créer un nouvel abonnement
         // Note: Vous devrez remplacer cette clé VAPID par votre clé publique du backend
-        const vapidPublicKey = 'BOPVOJGX6_jBhRV1wgOLM7szwPAzOSswISWGDsv5BGqUeD5EP4lcprYjewQl7SWW7YrekAXR5T1mOyppLR167II' // À remplacer par votre clé VAPID
+        const vapidPublicKey = 'BD9x-LFbcMQeRTQ1Eg6wbKmZZuvyzXOUNcsHJnBJcfEZ_KYWZS0Pp9A3Hbb9SkUA_D7CH-8iogwLOfuUEu0cknE' // À remplacer par votre clé VAPID
 
         subscription = await registration.pushManager.subscribe({
           userVisibleOnly: true,
