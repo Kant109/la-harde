@@ -10,7 +10,7 @@
     <div class="mb-12 text-center">
       <button @click="showModal = true"
         class="px-8 py-5 rounded-xl text-xl font-extrabold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
-        style="background-color: var(--color-accent); color: var(--color-primary);">
+        style="background-color: var(--color-primary); color: var(--color-accent);">
         ✨ Créer une nouvelle activité
       </button>
     </div>
@@ -264,7 +264,33 @@
         Prochaines activités
       </h2>
 
-      <div v-if="isLoading" class="text-center py-12">
+      <!-- État: Erreur -->
+      <div v-if="viewState === 'error'" class="card text-center">
+        <p class="text-xl text-red-600 mb-4">Erreur lors du chargement des activités</p>
+        <ThreeModel model-path="/models/sanglier.glb" />
+        <button @click="loadEvents" class="btn-secondary mt-6">
+          Réessayer
+        </button>
+      </div>
+
+      <!-- État: Aucune activité -->
+      <div v-else-if="viewState === 'empty'" class="card text-center">
+        <p class="text-xl" style="color: var(--color-text);">
+          Aucune activité pour le moment. Créez-en une !
+        </p>
+      </div>
+
+      <!-- État: Chargement et Modèle 3D (même instance) -->
+      <div v-else-if="viewState === 'loading' || viewState === 'model'" class="text-center">
+        <div class="mb-8">
+          <button
+            @click="viewState === 'model' ? viewState = 'activities' : null"
+            :disabled="viewState === 'loading'"
+            class="px-8 py-5 rounded-xl text-xl font-extrabold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            style="background-color: var(--color-primary); color: var(--color-accent);">
+            {{ viewState === 'loading' ? '⏳ Chargement des activités...' : '🚴 Voir les activités' }}
+          </button>
+        </div>
         <ThreeModel
           model-path="/models/sanglier.glb"
           :auto-rotate="true"
@@ -272,21 +298,9 @@
         />
       </div>
 
-      <div v-else-if="loadError" class="card text-center py-12">
-        <p class="text-xl text-red-600 mb-4">Erreur lors du chargement des activités</p>
-        <ThreeModel model-path="/models/sanglier.glb" />
-        <button @click="loadEvents" class="btn-secondary">
-          Réessayer
-        </button>
-      </div>
-
-      <div v-else-if="events.length === 0" class="card text-center py-12">
-        <p class="text-xl" style="color: var(--color-text);">
-          Aucune activité pour le moment. Créez-en une !
-        </p>
-      </div>
-
-      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- État: Liste des activités -->
+      <Transition name="activities-fade">
+        <div v-if="viewState === 'activities'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <NuxtLink v-for="event in sortedEvents" :key="event._id" :to="`/race/${event._id}`"
           class="relative rounded-2xl border-4 cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl group flex flex-col"
           style="background: var(--color-primary); border-color: var(--color-secondary);">
@@ -373,7 +387,8 @@
             </div>
           </div>
         </NuxtLink>
-      </div>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -420,14 +435,18 @@ interface Address {
 const { getEvents, createEvent } = useEvents()
 const { searchAddresses, formatAddress, getShortAddress } = useAddressAutocomplete()
 
-// État
+// État de la vue principale
+type ViewState = 'loading' | 'error' | 'empty' | 'model' | 'activities'
+const viewState = ref<ViewState>('loading')
+
+// État des données
 const events = ref<Event[]>([])
-const isLoading = ref(false)
-const loadError = ref(false)
+
+// État des modales et formulaires
+const showModal = ref(false)
 const isCreating = ref(false)
 const createSuccess = ref(false)
 const createError = ref(false)
-const showModal = ref(false)
 
 const newEvent = ref<Event>({
   name: '',
@@ -483,17 +502,23 @@ const isPreviousMonthDisabled = computed(() => {
 
 // Fonctions
 const loadEvents = async () => {
-  isLoading.value = true
-  loadError.value = false
+  viewState.value = 'loading'
+
   try {
     events.value = await getEvents()
-  } catch (error) {
-    loadError.value = true
-    console.error('Erreur:', error)
-  } finally {
+
+    // Attendre 5 secondes pour l'animation du modèle 3D
     setTimeout(() => {
-      isLoading.value = false
-    }, 5000) // Petite attente pour l'effet visuel
+      // Déterminer l'état suivant en fonction des données
+      if (events.value.length === 0) {
+        viewState.value = 'empty'
+      } else {
+        viewState.value = 'model'
+      }
+    }, 5000)
+  } catch (error) {
+    viewState.value = 'error'
+    console.error('Erreur lors du chargement des activités:', error)
   }
 }
 
@@ -811,5 +836,35 @@ onMounted(() => {
 .modal-leave-to > div:last-child {
   transform: scale(0.9);
   opacity: 0;
+}
+
+/* Animation du bouton "Voir les activités" */
+.fade-in-enter-active {
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-in-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animation de la liste des activités */
+.activities-fade-enter-active {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.activities-fade-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.activities-fade-enter-to {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>

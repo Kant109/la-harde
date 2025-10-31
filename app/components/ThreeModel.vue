@@ -22,7 +22,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  height: '600px',
+  height: '400px',
   enableRotation: true,
   enableZoom: false,
   backgroundColor: '#1a1a1a',
@@ -102,9 +102,10 @@ const initThreeJS = async () => {
     const center = box.getCenter(new THREE.Vector3())
     const size = box.getSize(new THREE.Vector3())
     const maxDim = Math.max(size.x, size.y, size.z)
-    const scale = 3 / maxDim // Augmenté de 2 à 3 pour un modèle 50% plus grand
+    const scale = 6 / maxDim // Augmenté de 2 à 3 pour un modèle 50% plus grand
 
     model.position.sub(center)
+    model.position.y -= 2 // Baisser le modèle pour éviter que le haut soit coupé
     model.scale.multiplyScalar(scale)
 
     scene.add(model)
@@ -163,5 +164,13 @@ onUnmounted(() => {
   width: 100%;
   background: transparent;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.three-model-container canvas {
+  display: block;
+  margin: 0 auto;
 }
 </style>
