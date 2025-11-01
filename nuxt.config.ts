@@ -53,7 +53,8 @@ export default defineNuxtConfig({
     // Variables privées (côté serveur uniquement)
     // public: Variables publiques (accessibles côté client)
     public: {
-      apiBaseUrl: '' // Sera automatiquement rempli depuis NUXT_PUBLIC_API_BASE_URL
+      apiBaseUrl: '', // Sera automatiquement rempli depuis NUXT_PUBLIC_API_BASE_URL
+      adminKeyHash: '' // Hash SHA-256 de la clé admin - NUXT_PUBLIC_ADMIN_KEY_HASH
     }
   },
 

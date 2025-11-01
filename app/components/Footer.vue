@@ -72,6 +72,10 @@
           <NuxtLink to="/mentions-legales" class="hover:underline font-bold" style="color: var(--color-secondary);">
             Mentions légales
           </NuxtLink>
+          <span class="mx-2" style="color: var(--color-secondary);">•</span>
+          <NuxtLink to="/admin/notifications" class="hover:underline font-bold" style="color: var(--color-secondary);">
+            Admin
+          </NuxtLink>
         </p>
       </div>
     </div>
