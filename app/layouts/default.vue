@@ -126,13 +126,6 @@ const toggleNotifications = async () => {
       if (subscription) {
         notificationsEnabled.value = true
         console.log('Notifications activées')
-
-        // Envoyer une notification de test (optionnel)
-        try {
-          await sendTestNotification()
-        } catch (error) {
-          console.error('Erreur lors de l\'envoi de la notification de test:', error)
-        }
       }
     }
   } catch (error) {

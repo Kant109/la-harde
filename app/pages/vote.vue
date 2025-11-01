@@ -1,18 +1,13 @@
 <template>
   <div class="container mx-auto px-4 py-12">
     <!-- Hero Section -->
-    <div class="text-center mb-12">
+    <div class="text-center mb-8">
       <h1 class="text-4xl md:text-5xl font-bold mb-4 font-heading">
-        Vote pour le Maillot 🏃‍♂️
+        Vote pour le Maillot
       </h1>
-      <p class="text-lg text-gray-300 mb-6">
-        Tu as <span class="text-2xl font-bold text-primary">{{ remainingPoints }}</span> points à répartir comme tu le souhaites
+      <p class="text-lg text-gray-300 mb-2">
+        Swipe à droite si tu aimes, à gauche si tu n'aimes pas
       </p>
-      <div class="bg-secondary/20 border border-secondary rounded-lg p-4 max-w-2xl mx-auto">
-        <p class="text-sm text-gray-300">
-          Répartis tes 5 points entre les différents maillots. Tu peux mettre tous tes points sur un seul maillot ou les répartir comme tu le souhaites !
-        </p>
-      </div>
     </div>
 
     <!-- Loading State -->
@@ -26,97 +21,215 @@
       <p class="text-red-400 mb-4">{{ error }}</p>
     </div>
 
-    <!-- Vote Options -->
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Swipe Cards Container -->
+    <div v-if="!loading && !error && !showRecap" class="relative mx-auto" style="max-width: 500px; height: 600px;">
+      <!-- Stack of cards (showing only top 3 for performance) -->
       <div
-        v-for="option in voteOptions"
+        v-for="(option, index) in visibleCards"
         :key="option.id"
-        class="card p-4 transition-all duration-300 flex flex-col"
-        :class="{ 'ring-2 ring-primary': userVotes[option.id] > 0 }"
+        class="absolute inset-0 transition-all duration-300"
+        :style="{
+          zIndex: visibleCards.length - index,
+          transform: `scale(${1 - index * 0.05}) translateY(${index * 10}px)`,
+          opacity: index === 0 ? 1 : 0.7
+        }"
       >
-        <!-- Image with flip button -->
-        <div class="relative rounded-lg border border-gray-700 bg-[#f0f0f0] flex items-center justify-center p-4 mb-4 min-h-[400px]">
-          <img
-            :src="currentImage[option.id] === 'front' ? option.image1 : option.image2"
-            :alt="`${option.name} - ${currentImage[option.id] === 'front' ? 'Face' : 'Dos'}`"
-            class="w-full h-auto max-h-[380px] object-contain transition-opacity duration-300"
-          />
-
-          <!-- Flip button -->
-          <button
-            @click="toggleImage(option.id)"
-            class="absolute bottom-2 right-2 w-10 h-10 rounded-full bg-secondary/80 hover:bg-secondary text-white flex items-center justify-center transition-all transform hover:scale-110"
-            :title="currentImage[option.id] === 'front' ? 'Voir le dos' : 'Voir la face'"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Option Info -->
-        <div class="mb-4 flex-grow">
-          <h2 class="text-xl font-bold mb-1 font-heading text-center" style="color: var(--color-secondary)">{{ option.name }}</h2>
-        </div>
-
-        <!-- Vote Controls -->
-        <div class="bg-accent/20 rounded-lg p-3">
-          <div class="flex items-center justify-center space-x-3">
-            <button
-              @click="decrementVote(option.id)"
-              :disabled="!userVotes[option.id] || userVotes[option.id] === 0"
-              class="w-8 h-8 rounded-full bg-secondary text-white font-bold disabled:opacity-30 disabled:cursor-not-allowed hover:bg-secondary/80 transition-all transform active:scale-95"
+        <div
+          v-if="index === 0"
+          class="swipe-card bg-accent border-2 border-gray-700 rounded-2xl overflow-hidden shadow-2xl h-full cursor-grab active:cursor-grabbing"
+          :style="{
+            transform: `translateX(${dragOffset}px) rotate(${dragOffset / 20}deg)`,
+            transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+          }"
+          @mousedown="startDrag"
+          @touchstart="startDrag"
+        >
+          <!-- Swipe Overlays -->
+          <div class="absolute inset-0 z-10 pointer-events-none">
+            <!-- Like overlay -->
+            <div
+              class="absolute inset-0 bg-green-500/80 flex items-center justify-center transition-opacity"
+              :style="{ opacity: dragOffset > 0 ? Math.min(dragOffset / 100, 0.8) : 0 }"
             >
-              -
-            </button>
-
-            <div class="text-center min-w-[60px]">
-              <div class="text-2xl font-bold text-primary" style="color: var(--color-secondary)">
-                {{ userVotes[option.id] || 0 }}
-              </div>
-              <div class="text-xs text-gray-400" style="color: var(--color-secondary)">
-                {{ userVotes[option.id] === 1 ? 'point' : 'points' }}
-              </div>
+              <div class="text-white text-6xl font-bold transform rotate-12">❤️</div>
             </div>
-
-            <button
-              @click="incrementVote(option.id)"
-              :disabled="remainingPoints === 0"
-              class="w-8 h-8 rounded-full bg-secondary text-white font-bold disabled:opacity-30 disabled:cursor-not-allowed hover:bg-secondary/80 transition-all transform active:scale-95"
+            <!-- Dislike overlay -->
+            <div
+              class="absolute inset-0 bg-red-500/80 flex items-center justify-center transition-opacity"
+              :style="{ opacity: dragOffset < 0 ? Math.min(Math.abs(dragOffset) / 100, 0.8) : 0 }"
             >
-              +
-            </button>
+              <div class="text-white text-6xl font-bold transform -rotate-12">✖️</div>
+            </div>
           </div>
 
-          <div v-if="showResults" class="text-center pt-2 border-t border-gray-600">
-            <div class="text-xs text-gray-400">Total des votes</div>
-            <div class="text-lg font-bold text-primary">{{ option.votes }}</div>
+          <!-- Card Content -->
+          <div class="relative h-full flex flex-col">
+            <!-- Image -->
+            <div class="relative flex-1 bg-[#f0f0f0] flex items-center justify-center p-6 select-none">
+              <img
+                :src="currentImage[option.id] === 'front' ? option.image1 : option.image2"
+                :alt="`${option.name} - ${currentImage[option.id] === 'front' ? 'Face' : 'Dos'}`"
+                class="w-full h-full object-contain max-h-[450px] pointer-events-none select-none"
+              />
+
+              <!-- Flip button -->
+              <button
+                @click.stop="toggleImage(option.id)"
+                class="absolute bottom-4 right-4 w-12 h-12 rounded-full bg-secondary/90 hover:bg-secondary text-white flex items-center justify-center transition-all transform hover:scale-110 z-20"
+                :title="currentImage[option.id] === 'front' ? 'Voir le dos' : 'Voir la face'"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Option Info -->
+            <div class="p-6 bg-accent">
+              <h2 class="text-2xl font-bold font-heading text-center" style="color: var(--color-primary)">
+                {{ option.name }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- Background cards (not draggable) -->
+        <div v-else class="swipe-card bg-accent border-2 border-gray-700 rounded-2xl overflow-hidden shadow-2xl h-full">
+          <div class="relative h-full flex flex-col">
+            <div class="relative flex-1 bg-[#f0f0f0] flex items-center justify-center p-6">
+              <img
+                :src="option.image1"
+                :alt="option.name"
+                class="w-full h-full object-contain max-h-[450px] opacity-50"
+              />
+            </div>
+            <div class="p-6 bg-accent">
+              <h2 class="text-2xl font-bold font-heading text-center" style="color: var(--color-secondary)">
+                {{ option.name }}
+              </h2>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Submit Button -->
-    <div v-if="!loading && !error" class="mt-8 text-center">
+    <!-- Action Buttons -->
+    <div v-if="!loading && !error && !showRecap && currentIndex < voteOptions.length" class="flex justify-center items-center gap-8 mt-8">
       <button
-        @click="submitVote"
-        :disabled="remainingPoints !== 0 || submitting"
-        class="btn-primary text-lg px-8 py-4 disabled:opacity-50 disabled:cursor-not-allowed"
+        @click="swipeLeft"
+        class="w-16 h-16 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-all transform hover:scale-110 active:scale-95 shadow-lg"
       >
-        <span v-if="submitting">Envoi en cours...</span>
-        <span v-else-if="remainingPoints !== 0">
-          Il te reste {{ remainingPoints }} {{ remainingPoints === 1 ? 'point' : 'points' }} à distribuer
-        </span>
-        <span v-else>Valider mon vote</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
       </button>
 
       <button
-        v-if="Object.values(userVotes).some(v => v > 0)"
-        @click="resetVotes"
-        class="btn-secondary ml-4 text-lg px-8 py-4"
+        @click="undo"
+        :disabled="userVotes.length === 0"
+        class="w-12 h-12 rounded-full bg-gray-600 hover:bg-gray-500 text-white flex items-center justify-center transition-all transform hover:scale-110 active:scale-95 shadow-lg disabled:opacity-30 disabled:cursor-not-allowed"
       >
-        Réinitialiser
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+        </svg>
       </button>
+
+      <button
+        @click="swipeRight"
+        class="w-16 h-16 rounded-full bg-green-500 hover:bg-green-600 text-white flex items-center justify-center transition-all transform hover:scale-110 active:scale-95 shadow-lg"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Recap Screen -->
+    <div v-if="showRecap" class="max-w-2xl mx-auto">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold mb-4 font-heading" style="color: var(--color-secondary)">
+          Récapitulatif de tes votes
+        </h2>
+        <p class="text-gray-300">
+          Tu as aimé {{ likedCount }} maillot{{ likedCount > 1 ? 's' : '' }} sur {{ voteOptions.length }}
+        </p>
+      </div>
+
+      <!-- Liked jerseys -->
+      <div v-if="likedCount > 0" class="mb-8">
+        <h3 class="text-xl font-bold mb-4 text-green-400">Maillots que tu aimes ❤️</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div
+            v-for="vote in userVotes.filter(v => v.liked)"
+            :key="vote.optionId"
+            class="card p-3"
+          >
+            <img
+              :src="getOptionById(vote.optionId)?.image1"
+              :alt="getOptionById(vote.optionId)?.name"
+              class="w-full h-32 object-contain mb-2"
+            />
+            <p class="text-sm text-center font-semibold" style="color: var(--color-secondary)">
+              {{ getOptionById(vote.optionId)?.name }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Disliked jerseys -->
+      <div v-if="dislikedCount > 0" class="mb-8">
+        <h3 class="text-xl font-bold mb-4 text-red-400">Maillots que tu n'aimes pas ✖️</h3>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div
+            v-for="vote in userVotes.filter(v => !v.liked)"
+            :key="vote.optionId"
+            class="card p-3 opacity-60"
+          >
+            <img
+              :src="getOptionById(vote.optionId)?.image1"
+              :alt="getOptionById(vote.optionId)?.name"
+              class="w-full h-32 object-contain mb-2 grayscale"
+            />
+            <p class="text-sm text-center font-semibold text-gray-400">
+              {{ getOptionById(vote.optionId)?.name }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email Form -->
+      <div class="mb-8">
+        <label for="email" class="block text-sm font-medium mb-2 text-gray-300">
+          Adresse email (pour valider ton vote)
+        </label>
+        <input
+          id="email"
+          v-model="userEmail"
+          type="email"
+          placeholder="ton.email@exemple.com"
+          class="w-full px-4 py-3 rounded-lg bg-accent border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          :class="{ 'border-red-500': emailError }"
+        />
+        <p v-if="emailError" class="text-red-400 text-sm mt-1">{{ emailError }}</p>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex gap-4 justify-center mt-8">
+        <button
+          @click="resetVotes"
+          class="btn-secondary px-6 py-3"
+        >
+          Recommencer
+        </button>
+        <button
+          @click="submitVote"
+          :disabled="submitting || likedCount === 0 || !isEmailValid"
+          class="btn-primary px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span v-if="submitting">Envoi en cours...</span>
+          <span v-else>Valider mes votes</span>
+        </button>
+      </div>
     </div>
 
     <!-- Success Message -->
@@ -140,16 +253,6 @@
         </div>
       </div>
     </Teleport>
-
-    <!-- Toggle Results Button -->
-    <div v-if="!loading && !error" class="mt-8 text-center">
-      <button
-        @click="toggleResults"
-        class="text-sm text-gray-400 hover:text-primary transition-colors underline"
-      >
-        {{ showResults ? 'Masquer les résultats' : 'Voir les résultats' }}
-      </button>
-    </div>
   </div>
 </template>
 
@@ -162,9 +265,9 @@ interface VoteOption {
   votes: number
 }
 
-interface UserVote {
+interface SwipeVote {
   optionId: string
-  points: number
+  liked: boolean
 }
 
 // SEO
@@ -173,7 +276,7 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: 'Participe au choix du nouveau maillot de La Harde ! Répartis tes 5 points entre les différentes options.'
+      content: 'Participe au choix du nouveau maillot de La Harde ! Swipe pour voter sur tes maillots préférés.'
     }
   ]
 })
@@ -288,26 +391,43 @@ const voteOptions = ref<VoteOption[]>([
 ])
 
 // State
-const userVotes = ref<Record<string, number>>({})
+const userVotes = ref<SwipeVote[]>([])
 const currentImage = ref<Record<string, 'front' | 'back'>>({})
+const currentIndex = ref(0)
 const loading = ref(false)
 const error = ref<string | null>(null)
 const submitting = ref(false)
 const showSuccess = ref(false)
-const showResults = ref(false)
+const showRecap = ref(false)
+const userEmail = ref('')
+const emailError = ref<string | null>(null)
 
-const TOTAL_POINTS = 5
+// Drag state
+const isDragging = ref(false)
+const dragOffset = ref(0)
+const startX = ref(0)
 
-// Initialize user votes and current images
+// Initialize current images
 voteOptions.value.forEach(option => {
-  userVotes.value[option.id] = 0
   currentImage.value[option.id] = 'front'
 })
 
 // Computed
-const remainingPoints = computed(() => {
-  const usedPoints = Object.values(userVotes.value).reduce((sum, points) => sum + points, 0)
-  return TOTAL_POINTS - usedPoints
+const visibleCards = computed(() => {
+  return voteOptions.value.slice(currentIndex.value, currentIndex.value + 3)
+})
+
+const likedCount = computed(() => {
+  return userVotes.value.filter(v => v.liked).length
+})
+
+const dislikedCount = computed(() => {
+  return userVotes.value.filter(v => !v.liked).length
+})
+
+const isEmailValid = computed(() => {
+  if (!userEmail.value) return false
+  return validateEmail(userEmail.value)
 })
 
 // Functions
@@ -315,26 +435,121 @@ const toggleImage = (optionId: string) => {
   currentImage.value[optionId] = currentImage.value[optionId] === 'front' ? 'back' : 'front'
 }
 
-const incrementVote = (optionId: string) => {
-  if (remainingPoints.value > 0) {
-    userVotes.value[optionId] = (userVotes.value[optionId] || 0) + 1
+const getOptionById = (id: string) => {
+  return voteOptions.value.find(opt => opt.id === id)
+}
+
+// Swipe functions
+const startDrag = (e: MouseEvent | TouchEvent) => {
+  isDragging.value = true
+  const clientX = 'touches' in e ? e.touches[0]?.clientX : e.clientX
+  if (clientX === undefined) return
+  startX.value = clientX
+
+  const moveHandler = (e: MouseEvent | TouchEvent) => {
+    if (!isDragging.value) return
+    const clientX = 'touches' in e ? e.touches[0]?.clientX : e.clientX
+    if (clientX === undefined) return
+    dragOffset.value = clientX - startX.value
+  }
+
+  const endHandler = () => {
+    if (!isDragging.value) return
+
+    // Threshold for swipe
+    if (Math.abs(dragOffset.value) > 100) {
+      if (dragOffset.value > 0) {
+        swipeRight()
+      } else {
+        swipeLeft()
+      }
+    }
+
+    isDragging.value = false
+    dragOffset.value = 0
+
+    document.removeEventListener('mousemove', moveHandler)
+    document.removeEventListener('mouseup', endHandler)
+    document.removeEventListener('touchmove', moveHandler)
+    document.removeEventListener('touchend', endHandler)
+  }
+
+  document.addEventListener('mousemove', moveHandler)
+  document.addEventListener('mouseup', endHandler)
+  document.addEventListener('touchmove', moveHandler)
+  document.addEventListener('touchend', endHandler)
+}
+
+const swipeRight = () => {
+  if (currentIndex.value >= voteOptions.value.length) return
+
+  const currentOption = voteOptions.value[currentIndex.value]
+  if (!currentOption) return
+
+  userVotes.value.push({
+    optionId: currentOption.id,
+    liked: true
+  })
+
+  currentIndex.value++
+
+  if (currentIndex.value >= voteOptions.value.length) {
+    showRecap.value = true
   }
 }
 
-const decrementVote = (optionId: string) => {
-  if (userVotes.value[optionId] > 0) {
-    userVotes.value[optionId]--
+const swipeLeft = () => {
+  if (currentIndex.value >= voteOptions.value.length) return
+
+  const currentOption = voteOptions.value[currentIndex.value]
+  if (!currentOption) return
+
+  userVotes.value.push({
+    optionId: currentOption.id,
+    liked: false
+  })
+
+  currentIndex.value++
+
+  if (currentIndex.value >= voteOptions.value.length) {
+    showRecap.value = true
   }
+}
+
+const undo = () => {
+  if (userVotes.value.length === 0) return
+
+  userVotes.value.pop()
+  currentIndex.value--
+  showRecap.value = false
 }
 
 const resetVotes = () => {
-  Object.keys(userVotes.value).forEach(key => {
-    userVotes.value[key] = 0
-  })
+  userVotes.value = []
+  currentIndex.value = 0
+  showRecap.value = false
+  userEmail.value = ''
+  emailError.value = null
+}
+
+const validateEmail = (email: string): boolean => {
+  // Regex RFC 5322 compliant pour validation d'email
+  // Force la présence d'au moins un point dans le domaine et d'une extension
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/
+  return emailRegex.test(email.trim())
 }
 
 const submitVote = async () => {
-  if (remainingPoints.value !== 0) {
+  emailError.value = null
+
+  // Valider l'email
+  if (!userEmail.value) {
+    emailError.value = 'L\'adresse email est requise'
+    return
+  }
+
+  if (!validateEmail(userEmail.value)) {
+    emailError.value = 'Veuillez entrer une adresse email valide'
     return
   }
 
@@ -342,31 +557,33 @@ const submitVote = async () => {
   error.value = null
 
   try {
-    const votes: UserVote[] = Object.entries(userVotes.value)
-      .filter(([_, points]) => points > 0)
-      .map(([optionId, points]) => ({ optionId, points }))
-
-    // TODO: Implement API call to submit votes
+    // Envoyer les votes au backend
     const config = useRuntimeConfig()
+    const votesToSubmit = userVotes.value
+      .filter(v => v.liked)
+      .map(v => ( v.optionId))
+
     await $fetch(`${config.public.apiBaseUrl}/obtorta/herd/votes`, {
       method: 'POST',
-      body: { votes }
+      body: {
+        votes: votesToSubmit,
+        email: userEmail.value
+      }
     })
 
     showSuccess.value = true
 
-    // Reset votes after successful submission
-    resetVotes()
+    // Reset after successful submission
+    setTimeout(() => {
+      resetVotes()
+      showSuccess.value = false
+    }, 3000)
   } catch (e) {
     error.value = 'Impossible d\'enregistrer ton vote. Veuillez réessayer.'
     console.error(e)
   } finally {
     submitting.value = false
   }
-}
-
-const toggleResults = () => {
-  showResults.value = !showResults.value
 }
 </script>
 
