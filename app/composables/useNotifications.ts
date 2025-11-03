@@ -176,6 +176,35 @@ export const useNotifications = () => {
   }
 
   /**
+   * Envoie une notification personnalisée
+   */
+  const sendNotification = async (
+    title: string,
+    body: string,
+    options?: {
+      url?: string
+      icon?: string
+      badge?: string
+    }
+  ): Promise<void> => {
+    try {
+      await $fetch(`${apiBaseUrl}/obtorta/herd/notifications/send`, {
+        method: 'POST',
+        body: {
+          title,
+          body,
+          url: options?.url,
+          icon: options?.icon || '/pwa-192x192.png',
+          badge: options?.badge || '/pwa-64x64.png'
+        }
+      })
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi de la notification:', error)
+      throw error
+    }
+  }
+
+  /**
    * Convertit une clé VAPID en Uint8Array
    */
   const urlBase64ToUint8Array = (base64String: string): Uint8Array => {
@@ -200,6 +229,7 @@ export const useNotifications = () => {
     subscribe,
     unsubscribe,
     isSubscribed,
-    sendTestNotification
+    sendTestNotification,
+    sendNotification
   }
 }

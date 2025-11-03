@@ -434,6 +434,7 @@ interface Address {
 // Composables
 const { getEvents, createEvent } = useEvents()
 const { searchAddresses, formatAddress, getShortAddress } = useAddressAutocomplete()
+const { sendNotification } = useNotifications()
 
 // État de la vue principale
 type ViewState = 'loading' | 'error' | 'empty' | 'model' | 'activities'
@@ -537,6 +538,20 @@ const handleCreateEvent = async () => {
     const createdEvent = await createEvent(eventData)
 
     events.value.push(createdEvent)
+
+    // Envoyer une notification automatique
+    try {
+      await sendNotification(
+        'Nouvelle activité',
+        `Lieu de RDV: ${createdEvent.localisation} - Distance: ${createdEvent.distance}`,
+        {
+          url: '/activities/' + createdEvent._id
+        }
+      )
+    } catch (notifError) {
+      // Ne pas bloquer si l'envoi de notification échoue
+      console.error('Erreur lors de l\'envoi de la notification:', notifError)
+    }
 
     // Réinitialiser le formulaire
     newEvent.value = {

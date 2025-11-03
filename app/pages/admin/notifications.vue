@@ -146,7 +146,9 @@
 
 <script setup lang="ts">
 const config = useRuntimeConfig()
-const apiBaseUrl = config.public.apiBaseUrl
+
+// Utiliser le composable pour les notifications
+const { sendNotification: sendNotificationToAll } = useNotifications()
 
 // État d'authentification
 const isAuthenticated = ref(false)
@@ -207,16 +209,13 @@ const sendNotification = async () => {
   sendSuccess.value = false
 
   try {
-    await $fetch(`${apiBaseUrl}/obtorta/herd/notifications/send`, {
-      method: 'POST',
-      body: {
-        title: notification.value.title,
-        body: notification.value.body,
-        url: notification.value.url || undefined,
-        icon: '/pwa-192x192.png',
-        badge: '/pwa-64x64.png'
+    await sendNotificationToAll(
+      notification.value.title,
+      notification.value.body,
+      {
+        url: notification.value.url || undefined
       }
-    })
+    )
 
     sendMessage.value = 'Notification envoyée avec succès !'
     sendSuccess.value = true
