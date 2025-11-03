@@ -63,7 +63,7 @@ export default defineNuxtConfig({
     includeAssets: ['favicon.ico', 'pwa-64x64.png', 'pwa-192x192.png', 'pwa-512x512.png', 'maskable-icon-512x512.png'],
     manifest: {
       name: 'LA HARDE - Les Sangliers atomiques',
-      short_name: '',
+      short_name: 'LA HARDE',
       description: 'Site officiel de l\'équipe cycliste LA HARDE - Les Sangliers atomiques',
       theme_color: '#3B2F2F',
       background_color: '#F5F1ED',
