@@ -129,7 +129,8 @@ const navLinks = [
   { name: 'L\'équipe', path: '/equipe' },
   { name: 'Histoire', path: '/histoire' },
   { name: 'Activités', path: '/activites' },
-  { name: 'Boutique', path: '/boutique' }
+  { name: 'Boutique', path: '/boutique' },
+  { name: 'Vote maillot 2026', path: '/vote' }
 ]
 
 const isActive = (path: string) => {
