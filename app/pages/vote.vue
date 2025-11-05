@@ -155,6 +155,40 @@
         </p>
       </div>
 
+      <!-- Email Form -->
+      <div class="mb-8">
+        <label for="email" class="block text-sm font-medium mb-2 text-gray-300">
+          Adresse email ou NOM Prénom (pour valider ton vote)
+        </label>
+        <input
+          id="email"
+          v-model="userEmail"
+          type="email"
+          placeholder="ton.email@exemple.com"
+          class="w-full px-4 py-3 rounded-lg bg-accent border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          :class="{ 'border-red-500': emailError }"
+        />
+        <p v-if="emailError" class="text-red-400 text-sm mt-1">{{ emailError }}</p>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex gap-4 justify-center my-8">
+        <button
+          @click="resetVotes"
+          class="btn-secondary px-6 py-3"
+        >
+          Recommencer
+        </button>
+        <button
+          @click="submitVote"
+          :disabled="userEmail === ''"
+          class="btn-primary px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span v-if="submitting">Envoi en cours...</span>
+          <span v-else>Valider mes votes</span>
+        </button>
+      </div>
+
       <!-- Liked jerseys -->
       <div v-if="likedCount > 0" class="mb-8">
         <h3 class="text-xl font-bold mb-4 text-green-400">Maillots que tu aimes ❤️</h3>
@@ -195,40 +229,6 @@
             </p>
           </div>
         </div>
-      </div>
-
-      <!-- Email Form -->
-      <div class="mb-8">
-        <label for="email" class="block text-sm font-medium mb-2 text-gray-300">
-          Adresse email (pour valider ton vote)
-        </label>
-        <input
-          id="email"
-          v-model="userEmail"
-          type="email"
-          placeholder="ton.email@exemple.com"
-          class="w-full px-4 py-3 rounded-lg bg-accent border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-          :class="{ 'border-red-500': emailError }"
-        />
-        <p v-if="emailError" class="text-red-400 text-sm mt-1">{{ emailError }}</p>
-      </div>
-
-      <!-- Action buttons -->
-      <div class="flex gap-4 justify-center mt-8">
-        <button
-          @click="resetVotes"
-          class="btn-secondary px-6 py-3"
-        >
-          Recommencer
-        </button>
-        <button
-          @click="submitVote"
-          :disabled="submitting || likedCount === 0 || !isEmailValid"
-          class="btn-primary px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <span v-if="submitting">Envoi en cours...</span>
-          <span v-else>Valider mes votes</span>
-        </button>
       </div>
     </div>
 
@@ -425,11 +425,6 @@ const dislikedCount = computed(() => {
   return userVotes.value.filter(v => !v.liked).length
 })
 
-const isEmailValid = computed(() => {
-  if (!userEmail.value) return false
-  return validateEmail(userEmail.value)
-})
-
 // Functions
 const toggleImage = (optionId: string) => {
   currentImage.value[optionId] = currentImage.value[optionId] === 'front' ? 'back' : 'front'
@@ -532,24 +527,12 @@ const resetVotes = () => {
   emailError.value = null
 }
 
-const validateEmail = (email: string): boolean => {
-  // Regex RFC 5322 compliant pour validation d'email
-  // Force la présence d'au moins un point dans le domaine et d'une extension
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/
-  return emailRegex.test(email.trim())
-}
-
 const submitVote = async () => {
   emailError.value = null
 
   // Valider l'email
   if (!userEmail.value) {
     emailError.value = 'L\'adresse email est requise'
-    return
-  }
-
-  if (!validateEmail(userEmail.value)) {
-    emailError.value = 'Veuillez entrer une adresse email valide'
     return
   }
 
