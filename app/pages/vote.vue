@@ -3,7 +3,7 @@
     <!-- Hero Section -->
     <div class="text-center mb-8">
       <h1 class="text-4xl md:text-5xl font-bold mb-4 font-heading">
-        Vote pour le Maillot
+        Votes pour le Maillot 2026 !
       </h1>
       <p class="text-lg text-gray-300 mb-2">
         Swipe à droite si tu aimes, à gauche si tu n'aimes pas
