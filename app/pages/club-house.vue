@@ -9,8 +9,7 @@
       </a-assets>
       
       <!-- Afficher le modèle GLB -->
-
-
+      
       <a-entity 
         gltf-model="/models/clubhouse.glb"
         position="0 0 -5"
