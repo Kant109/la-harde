@@ -91,14 +91,14 @@
         height="1">
     </a-image>
 
-    <a-entity 
+    <!--a-entity 
         gltf-model="/models/jersey.glb"
         id="jersey"
         position="8 1.4 -5"
         rotation="0 -90 0"
         animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"
         scale="1 1 1">
-      </a-entity>
+      </a-entity-->
 
     <a-entity 
         gltf-model="/models/display.glb"
@@ -127,7 +127,7 @@
             position="9 1 -5"></a-light> 
       
       <!-- Caméra avec contrôles -->
-      <a-camera position="4 2.1 -3" rotation="0 0 90"
+      <a-camera position="4 2.1 -5" rotation="0 0 90"
         wasd-controls="acceleration: 20">
 ></a-camera>
       
