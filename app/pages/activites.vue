@@ -366,7 +366,7 @@
                     Distance
                   </div>
                   <div class="text-base font-bold" style="color: var(--color-secondary);">
-                    {{ event.distance }}
+                    {{ event.distance }}km
                   </div>
                 </div>
               </div>
@@ -484,9 +484,12 @@ const monthText = ref('')
 
 // Tri des événements par date
 const sortedEvents = computed(() => {
-  return [...events.value].sort((a, b) => {
-    return new Date(a.date).getTime() - new Date(b.date).getTime()
-  })
+  const now = new Date().getTime()
+  return [...events.value]
+    .filter(event => new Date(event.date).getTime() >= now)
+    .sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime()
+    })
 })
 
 // Computed pour vérifier si le bouton du mois précédent doit être désactivé
