@@ -200,7 +200,7 @@
                       class="w-full px-5 py-4 rounded-xl text-lg font-semibold "
                       style="background-color: rgba(245, 241, 237, 0.95); color: var(--color-accent); border: 3px solid transparent;"
                       :style="{ borderColor: newEvent.distance ? 'var(--color-accent)' : 'transparent' }"
-                      placeholder="Ex: 59km" />
+                      placeholder="Ex: 59" />
                   </div>
                 </div>
 
