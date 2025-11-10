@@ -389,6 +389,101 @@
         </NuxtLink>
         </div>
       </Transition>
+
+      <h2 v-if="viewState === 'activities'" class="text-3xl font-bold m-6" style="color: var(--color-primary);">
+        Les anciennes activités
+      </h2>
+
+      <Transition name="activities-fade">
+        <div v-if="viewState === 'activities'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <NuxtLink v-for="event in pastEvents" :key="event._id" :to="`/race/${event._id}`"
+          class="relative rounded-2xl border-4 cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl group flex flex-col"
+          style="background: var(--color-primary); border-color: var(--color-secondary);">
+          <div class="relative p-6 flex-1 flex flex-col">
+            <!-- Badge de type -->
+            <div class="mb-4">
+              <div class="inline-block px-4 py-2 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg"
+                style="background-color: var(--color-accent); color: var(--color-primary);">
+                {{ getTypeIcon(event.type) }} {{ getTypeLabel(event.type) }}
+              </div>
+            </div>
+
+            <!-- Titre -->
+            <div class="mb-6">
+              <h3 class="text-2xl md:text-3xl font-extrabold leading-tight"
+                style="color: var(--color-accent);">
+                {{ event.name }}
+              </h3>
+            </div>
+
+            <!-- Détails de l'événement -->
+            <div class="space-y-3 mb-6 flex-1">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                  style="background-color: rgba(245, 241, 237, 0.9);">
+                  <span class="text-xl">📅</span>
+                </div>
+                <div>
+                  <div class="text-xs font-bold uppercase tracking-wide opacity-80"
+                    style="color: var(--color-secondary);">
+                    Date
+                  </div>
+                  <div class="text-base font-bold" style="color: var(--color-secondary);">
+                    {{ formatDate(event.date) }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                  style="background-color: rgba(245, 241, 237, 0.9);">
+                  <span class="text-xl">📍</span>
+                </div>
+                <div>
+                  <div class="text-xs font-bold uppercase tracking-wide opacity-80"
+                    style="color: var(--color-secondary);">
+                    Lieu
+                  </div>
+                  <div class="text-base font-bold" style="color: var(--color-secondary);">
+                    {{ event.localisation }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                  style="background-color: rgba(245, 241, 237, 0.9);">
+                  <span class="text-xl">🚴</span>
+                </div>
+                <div>
+                  <div class="text-xs font-bold uppercase tracking-wide opacity-80"
+                    style="color: var(--color-secondary);">
+                    Distance
+                  </div>
+                  <div class="text-base font-bold" style="color: var(--color-secondary);">
+                    {{ event.distance }}km
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bouton d'action -->
+            <div class="mt-6 pt-4 border-t-2" style="border-color: var(--color-secondary); opacity: 0.3;">
+              <div class="flex items-center justify-between">
+                <div class="text-sm font-extrabold uppercase tracking-wider group-hover:translate-x-1 transition-transform duration-300"
+                  style="color: var(--color-accent);">
+                  Voir les détails
+                </div>
+                <span class="text-xl group-hover:translate-x-1 transition-transform duration-300"
+                  style="color: var(--color-accent);">
+                  →
+                </span>
+              </div>
+            </div>
+          </div>
+        </NuxtLink>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -487,6 +582,15 @@ const sortedEvents = computed(() => {
   const now = new Date().getTime()
   return [...events.value]
     .filter(event => new Date(event.date).getTime() >= now)
+    .sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime()
+    })
+})
+
+const pastEvents = computed(() => {
+  const now = new Date().getTime()
+  return [...events.value]
+    .filter(event => new Date(event.date).getTime() < now)
     .sort((a, b) => {
       return new Date(b.date).getTime() - new Date(a.date).getTime()
     })
