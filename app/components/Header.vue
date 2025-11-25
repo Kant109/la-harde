@@ -130,7 +130,6 @@ const navLinks = [
   { name: 'Histoire', path: '/histoire' },
   { name: 'Activités', path: '/activites' },
   { name: 'Boutique', path: '/boutique' },
-  { name: 'Vote maillot 2026', path: '/vote' },
 	{ name: 'Club House', path: '/club-house' }
 ]
 
