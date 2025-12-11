@@ -1,12 +1,12 @@
 <template>
-  <div class="card">
+  <div class="card border">
     <NuxtLink :to="`/produits/${product.slug}`">
       <!-- Image produit -->
-      <div class="relative overflow-hidden h-56">
+      <div class="relative overflow-hidden h-56 bg-white">
         <img
           :src="product.image"
           :alt="product.name"
-          class="w-full h-full object-cover transition-all duration-500 hover:scale-110"
+          class="w-full h-full object-contain transition-all duration-500 hover:scale-110"
           @error="handleImageError"
         />
 

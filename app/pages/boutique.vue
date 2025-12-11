@@ -1,19 +1,16 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <section class="py-16 md:py-24" style="background-color: var(--color-background);">
+    <section class="py-16 md:py-14" style="background-color: var(--color-secondary);">
       <div class="container mx-auto px-4 text-center">
         <h1 class="text-5xl md:text-7xl font-extrabold mb-4" style="color: var(--color-primary); line-height: 1.1;">
           Boutique Officielle
         </h1>
-        <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8" style="color: var(--color-text);">
-          Arborez fièrement les couleurs de LA HARDE avec notre collection officielle
-        </p>
       </div>
     </section>
 
     <!-- Filtres -->
-    <section class="py-8" style="background-color: var(--color-primary);">
+    <section class="py-8" style="background-color: var(--color-secondary);">
       <div class="container mx-auto px-4">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <!-- Catégories -->
@@ -43,7 +40,7 @@
     </section>
 
     <!-- Grille de produits -->
-    <section class="py-20">
+    <section class="py-20" style="background-color: var(--color-secondary);">
       <div class="container mx-auto px-4">
         <div v-if="filteredProducts.length === 0" class="text-center py-12">
           <p class="text-2xl font-medium" style="color: var(--color-text);">
@@ -63,7 +60,7 @@
     </section>
 
     <!-- Section Avantages -->
-    <section class="py-20" style="background-color: var(--color-primary);">
+    <section class="py-20" style="background-color: var(--color-clear);">
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div

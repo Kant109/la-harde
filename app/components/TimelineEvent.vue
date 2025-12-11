@@ -8,7 +8,7 @@
       <!-- Point sur la timeline -->
       <div class="relative z-10 flex-shrink-0">
         <div class="w-16 h-16 rounded-full flex items-center justify-center " style="background-color: var(--color-secondary);">
-          <span class="text-xl font-bold" style="color: var(--color-primary);">{{ event.year }}</span>
+          <span class="text-xl font-bold" style="color: var(--color-secondary);">{{ event.year }}</span>
         </div>
       </div>
 

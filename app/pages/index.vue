@@ -72,10 +72,10 @@
     </section>
 
     <!-- Section Dernières courses -->
-    <section class="py-20" style="background-color: var(--color-primary);">
+    <section class="py-20">
       <div class="container mx-auto px-4">
         <div class="text-center mb-12">
-          <h2 class="text-5xl md:text-6xl font-extrabold mb-6" style="color: var(--color-secondary);">
+          <h2 class="text-5xl md:text-6xl font-extrabold mb-6" style="color: var(--color-primary);">
             Nos Exploits Récents
           </h2>
           <p class="text-xl md:text-2xl max-w-2xl mx-auto font-medium" style="color: var(--color-accent);">
@@ -100,11 +100,11 @@
             <div class="p-6">
               <div class="flex items-center justify-between mb-3">
                 <h3 class="text-2xl font-extrabold" style="color: var(--color-secondary);">{{ race.name }}</h3>
-                <span class="text-base font-bold px-3 py-1 rounded-full" style="background-color: var(--color-accent); color: var(--color-text);">
+                <span class="text-base font-bold px-3 py-1 rounded-full" style="background-color: var(--color-secondary); color: var(--color-text);">
                   {{ race.year }}
                 </span>
               </div>
-              <p class="text-base mb-3 font-medium" style="color: var(--color-accent);">
+              <p class="text-base mb-3 font-medium" style="color: var(--color-secondary);">
                 {{ race.description.substring(0, 100) }}...
               </p>
               <p class="text-base font-bold" style="color: var(--color-secondary);">
