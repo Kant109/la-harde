@@ -6,16 +6,13 @@
         <h1 class="text-5xl md:text-7xl font-extrabold mb-4" style="color: var(--color-primary); line-height: 1.1;">
           L'Équipe LA HARDE
         </h1>
-        <p class="text-lg md:text-xl max-w-2xl mx-auto" style="color: var(--color-text);">
-          Six coureurs unis par la passion du vélo et l'esprit combatif des sangliers
-        </p>
       </div>
     </section>
 
     <!-- Section Membres de l'équipe -->
     <section class="py-20">
     <div ref="containerRef" class="h-screen relative">
-      <div ref="scrollRef" class="flex gap-[300px] h-full items-center pl-32 pr-8 left-0 top-0">
+      <div ref="scrollRef" class="flex gap-[300px] h-full items-center pl-32 pr-8 left-0 top-0 mt-20">
           <div
             v-for="(member, index) in teamMembers"
             :key="member.id"
