@@ -17,7 +17,7 @@
           </div>
           <div class="hidden lg:flex lg:flex-col lg:justify-center min-w-0">
             <h1 class="text-2xl font-extrabold whitespace-nowrap" style="color: var(--color-secondary);">LA HARDE</h1>
-            <div class="text-sm font-semibold whitespace-nowrap" style="color: var(--color-text); opacity: 0.9;">Les Sangliers atomiques</div>
+            <div class="text-sm font-semibold whitespace-nowrap" style="color: var(--color-secondary); opacity: 0.9;">Les Sangliers Atomiques</div>
           </div>
         </NuxtLink>
 
@@ -27,7 +27,7 @@
             <NuxtLink
               :to="link.path"
               class="font-bold text-base lg:text-lg transition-all duration-300 hover:scale-110 inline-block whitespace-nowrap"
-              :style="{ color: isActive(link.path) ? 'var(--color-secondary)' : 'var(--color-text)' }"
+              :style="{ color: isActive(link.path) ? 'var(--color-secondary)' : 'var(--color-secondary)' }"
               @mouseenter="(e) => e.target.style.color = 'var(--color-secondary)'"
               @mouseleave="(e) => e.target.style.color = isActive(link.path) ? 'var(--color-secondary)' : 'var(--color-text)'"
             >
