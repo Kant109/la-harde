@@ -1,17 +1,17 @@
 <template>
-  <div class="card">
+  <div class="card border">
     <NuxtLink :to="`/produits/${product.slug}`">
       <!-- Image produit -->
-      <div class="relative overflow-hidden h-56">
+      <div class="relative overflow-hidden h-56 bg-white">
         <img
           :src="product.image"
           :alt="product.name"
-          class="w-full h-full object-cover transition-all duration-500 hover:scale-110"
+          class="w-full h-full object-contain transition-all duration-500 hover:scale-110"
           @error="handleImageError"
         />
 
       <!-- Badge catégorie -->
-      <div class="absolute top-4 right-4 px-4 py-2 rounded-full text-sm font-bold" style="background-color: var(--color-accent); color: var(--color-text);">
+      <div class="absolute top-4 right-4 px-4 py-2 rounded-full text-sm font-bold" style="background-color: var(--color-primary); color: var(--color-secondary);">
         {{ product.category }}
       </div>
 
@@ -27,7 +27,7 @@
       <NuxtLink :to="`/produits/${product.slug}`">
         <h3 class="text-2xl font-extrabold mb-3 hover:underline" style="color: var(--color-secondary);">{{ product.name }}</h3>
       </NuxtLink>
-      <p class="text-base mb-4 line-clamp-2 font-medium" style="color: var(--color-accent);">
+      <p class="text-base mb-4 line-clamp-2 font-medium" style="color: var(--color-secondary);">
         {{ product.description }}
       </p>
 
@@ -39,7 +39,7 @@
       </div>
 
       <!-- Stock disponible -->
-      <p class="text-sm mt-3 font-semibold" style="color: var(--color-accent);">
+      <p class="text-sm mt-3 font-semibold" style="color: var(--color-secondary);">
         {{ product.stock }} en stock
       </p>
     </div>

@@ -10,7 +10,7 @@
     <div class="mb-12 text-center">
       <button @click="showModal = true"
         class="px-8 py-5 rounded-xl text-xl font-extrabold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
-        style="background-color: var(--color-primary); color: var(--color-accent);">
+        style="background-color: var(--color-primary); color: var(--color-secondary);">
         ✨ Créer une nouvelle activité
       </button>
     </div>
@@ -275,7 +275,7 @@
 
       <!-- État: Aucune activité -->
       <div v-else-if="viewState === 'empty'" class="card text-center">
-        <p class="text-xl" style="color: var(--color-text);">
+        <p class="text-xl" style="color: var(--color-secondary);">
           Aucune activité pour le moment. Créez-en une !
         </p>
       </div>
@@ -287,7 +287,7 @@
             @click="viewState === 'model' ? viewState = 'activities' : null"
             :disabled="viewState === 'loading'"
             class="px-8 py-5 rounded-xl text-xl font-extrabold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-            style="background-color: var(--color-primary); color: var(--color-accent);">
+            style="background-color: var(--color-primary); color: var(--color-secondary);">
             {{ viewState === 'loading' ? '⏳ Chargement des activités...' : '🚴 Voir les activités' }}
           </button>
         </div>
@@ -295,6 +295,7 @@
           model-path="/models/sanglier.glb"
           :auto-rotate="true"
           :auto-rotate-speed="0.02"
+          background-color="#FFFFFF"
         />
       </div>
 
@@ -308,7 +309,7 @@
             <!-- Badge de type -->
             <div class="mb-4">
               <div class="inline-block px-4 py-2 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg"
-                style="background-color: var(--color-accent); color: var(--color-primary);">
+                style="background-color: var(--color-secondary); color: var(--color-primary);">
                 {{ getTypeIcon(event.type) }} {{ getTypeLabel(event.type) }}
               </div>
             </div>
@@ -316,7 +317,7 @@
             <!-- Titre -->
             <div class="mb-6">
               <h3 class="text-2xl md:text-3xl font-extrabold leading-tight"
-                style="color: var(--color-accent);">
+                style="color: var(--color-secondary);">
                 {{ event.name }}
               </h3>
             </div>
@@ -376,11 +377,11 @@
             <div class="mt-6 pt-4 border-t-2" style="border-color: var(--color-secondary); opacity: 0.3;">
               <div class="flex items-center justify-between">
                 <div class="text-sm font-extrabold uppercase tracking-wider group-hover:translate-x-1 transition-transform duration-300"
-                  style="color: var(--color-accent);">
+                  style="color: var(--color-secondary);">
                   Voir les détails
                 </div>
                 <span class="text-xl group-hover:translate-x-1 transition-transform duration-300"
-                  style="color: var(--color-accent);">
+                  style="color: var(--color-secondary);">
                   →
                 </span>
               </div>
@@ -403,7 +404,7 @@
             <!-- Badge de type -->
             <div class="mb-4">
               <div class="inline-block px-4 py-2 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg"
-                style="background-color: var(--color-accent); color: var(--color-primary);">
+                style="background-color: var(--color-secondary); color: var(--color-primary);">
                 {{ getTypeIcon(event.type) }} {{ getTypeLabel(event.type) }}
               </div>
             </div>
@@ -411,7 +412,7 @@
             <!-- Titre -->
             <div class="mb-6">
               <h3 class="text-2xl md:text-3xl font-extrabold leading-tight"
-                style="color: var(--color-accent);">
+                style="color: var(--color-secondary);">
                 {{ event.name }}
               </h3>
             </div>
@@ -471,11 +472,11 @@
             <div class="mt-6 pt-4 border-t-2" style="border-color: var(--color-secondary); opacity: 0.3;">
               <div class="flex items-center justify-between">
                 <div class="text-sm font-extrabold uppercase tracking-wider group-hover:translate-x-1 transition-transform duration-300"
-                  style="color: var(--color-accent);">
+                  style="color: var(--color-secondary);">
                   Voir les détails
                 </div>
                 <span class="text-xl group-hover:translate-x-1 transition-transform duration-300"
-                  style="color: var(--color-accent);">
+                  style="color: var(--color-secondary);">
                   →
                 </span>
               </div>

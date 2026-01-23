@@ -1,19 +1,19 @@
 <template>
   <div>
     <!-- Hero Section -->
-    <section class="py-16 md:py-24" style="background-color: var(--color-background);">
+    <section class="py-16 md:py-14" style="background-color: var(--color-secondary);">
       <div class="container mx-auto px-4 text-center">
         <h1 class="text-5xl md:text-7xl font-extrabold mb-4" style="color: var(--color-primary); line-height: 1.1;">
           Boutique Officielle
         </h1>
-        <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8" style="color: var(--color-text);">
-          Arborez fièrement les couleurs de LA HARDE avec notre collection officielle
-        </p>
+        <h2 class="text-2xl md:text-4xl font-extrabold mb-4" style="color: var(--color-primary); line-height: 1.1;">
+          (bientôt fonctionnelle ;))
+        </h2>
       </div>
     </section>
 
     <!-- Filtres -->
-    <section class="py-8" style="background-color: var(--color-primary);">
+    <section class="py-8" style="background-color: var(--color-secondary);">
       <div class="container mx-auto px-4">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <!-- Catégories -->
@@ -24,9 +24,9 @@
               @click="selectedCategory = category"
               class="px-6 py-3 rounded-lg font-bold text-base transition-all duration-300 hover:scale-105"
               :style="{
-                backgroundColor: selectedCategory === category ? 'var(--color-secondary)' : 'var(--color-accent)',
-                color: selectedCategory === category ? 'var(--color-primary)' : 'var(--color-text)',
-                border: selectedCategory === category ? '3px solid var(--color-secondary)' : '2px solid rgba(109, 42, 49, 0.3)',
+                backgroundColor: selectedCategory === category ? 'var(--color-primary)' : 'var(--color-secondary)',
+                color: selectedCategory === category ? 'var(--color-secondary)' : 'var(--color-primary)',
+                border: selectedCategory === category ? '3px solid var(--color-primary)' : '2px solid rgba(109, 42, 49, 0.3)',
                 boxShadow: selectedCategory === category ? '0 4px 12px rgba(109, 42, 49, 0.4)' : 'none'
               }"
             >
@@ -43,7 +43,7 @@
     </section>
 
     <!-- Grille de produits -->
-    <section class="py-20">
+    <section class="py-20" style="background-color: var(--color-secondary);">
       <div class="container mx-auto px-4">
         <div v-if="filteredProducts.length === 0" class="text-center py-12">
           <p class="text-2xl font-medium" style="color: var(--color-text);">
@@ -63,7 +63,7 @@
     </section>
 
     <!-- Section Avantages -->
-    <section class="py-20" style="background-color: var(--color-primary);">
+    <section class="py-20" style="background-color: var(--color-clear);">
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div
@@ -77,7 +77,7 @@
             <h3 class="text-2xl font-extrabold mb-3" style="color: var(--color-secondary);">
               {{ advantage.title }}
             </h3>
-            <p class="text-base font-medium" style="color: var(--color-accent);">
+            <p class="text-base font-medium" style="color: var(--color-secondary);">
               {{ advantage.description }}
             </p>
           </div>

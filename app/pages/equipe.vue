@@ -14,14 +14,14 @@
 
     <!-- Section Membres de l'équipe -->
     <section class="py-20">
-      <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div ref="containerRef" class="h-screen relative">
+      <div ref="scrollRef" class="flex gap-[300px] h-full items-center pl-32 pr-8 left-0 top-0">
           <div
             v-for="(member, index) in teamMembers"
             :key="member.id"
             :style="{ animationDelay: `${index * 0.1}s` }"
-          >
-            <TeamMemberCard :member="member" />
+            class="cursor-pointer">
+            <TeamMermberScrollViewElement :member="member" class="mx-[1000px]" />
           </div>
         </div>
       </div>
@@ -34,7 +34,7 @@
           <h2 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--color-secondary);">
             Suivez-nous sur Strava
           </h2>
-          <p class="text-lg max-w-2xl mx-auto" style="color: var(--color-accent); opacity: 0.8;">
+          <p class="text-lg max-w-2xl mx-auto" style="color: var(--color-secondary); opacity: 0.8;">
             Découvrez nos performances et nos entraînements en temps réel
           </p>
         </div>
@@ -99,7 +99,7 @@
             <h3 class="text-2xl font-bold mb-4" style="color: var(--color-secondary);">
               {{ value.title }}
             </h3>
-            <p class="text-sm leading-relaxed" style="color: var(--color-accent); opacity: 0.8;">
+            <p class="text-sm leading-relaxed" style="color: var(--color-secondary); opacity: 0.8;">
               {{ value.description }}
             </p>
           </div>
@@ -113,7 +113,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-6" style="color: var(--color-secondary);">
           Soutenez LA HARDE
         </h2>
-        <p class="text-lg mb-8 max-w-2xl mx-auto" style="color: var(--color-accent); opacity: 0.8;">
+        <p class="text-lg mb-8 max-w-2xl mx-auto" style="color: var(--color-secondary); opacity: 0.8;">
           Arborez les couleurs des Sangliers atomiques et montrez votre soutien à notre équipe.
         </p>
         <NuxtLink to="/boutique" class="btn-primary">
@@ -125,8 +125,57 @@
 </template>
 
 <script setup lang="ts">
-import { ref, h } from 'vue'
+import { ref, h, onMounted, onUnmounted } from 'vue'
 import teamData from '~/data/team.json'
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+const containerRef = ref(null);
+const scrollRef = ref(null);
+const isLoaded = ref(false);
+
+let scrollTriggerInstance = null;
+
+onMounted(() => {
+  // Enregistrer le plugin ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Petit délai pour s'assurer que le DOM est prêt
+  setTimeout(() => {
+    if (!containerRef.value || !scrollRef.value) return;
+
+    const container = containerRef.value;
+    const scrollContainer = scrollRef.value;
+    
+    // Largeur totale à parcourir
+    const scrollWidth = scrollContainer.scrollWidth;
+    
+    // Animation horizontale
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: 'top top',
+        end: () => `+=${scrollWidth * 2}`, // Distance de scroll vertical
+        scrub: 0.5, // Animation fluide liée au scroll
+        pin: true, // Épingler la section pendant l'animation
+        anticipatePin: 1,
+        markers: false // Mettre à true pour déboguer
+      }
+    });
+
+    tl.to(scrollContainer, {
+      x: () => -(scrollContainer.scrollWidth - container.offsetWidth),
+      ease: 'none'
+    });
+
+    isLoaded.value = true;
+  }, 100);
+});
+
+onUnmounted(() => {
+  // Nettoyer les ScrollTriggers
+  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+});
 
 // SEO
 useHead({
@@ -210,3 +259,20 @@ const values = [
   }
 ]
 </script>
+<style scoped>
+/* Animations Tailwind */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+</style>

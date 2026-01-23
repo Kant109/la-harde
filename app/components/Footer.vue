@@ -21,7 +21,7 @@
             </div>
           </div>
           <p class="text-base font-medium leading-relaxed" style="color: var(--color-secondary);">
-            La puissance du peloton sauvage. Équipe cycliste professionnelle basée en France.
+            La puissance du peloton sauvage. Équipe cycliste amateur basée en France.
           </p>
         </div>
 
