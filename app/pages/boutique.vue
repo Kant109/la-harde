@@ -6,6 +6,9 @@
         <h1 class="text-5xl md:text-7xl font-extrabold mb-4" style="color: var(--color-primary); line-height: 1.1;">
           Boutique Officielle
         </h1>
+        <h2 class="text-2xl md:text-4xl font-extrabold mb-4" style="color: var(--color-primary); line-height: 1.1;">
+          (bientôt fonctionnelle ;))
+        </h2>
       </div>
     </section>
 
@@ -21,9 +24,9 @@
               @click="selectedCategory = category"
               class="px-6 py-3 rounded-lg font-bold text-base transition-all duration-300 hover:scale-105"
               :style="{
-                backgroundColor: selectedCategory === category ? 'var(--color-secondary)' : 'var(--color-accent)',
-                color: selectedCategory === category ? 'var(--color-primary)' : 'var(--color-text)',
-                border: selectedCategory === category ? '3px solid var(--color-secondary)' : '2px solid rgba(109, 42, 49, 0.3)',
+                backgroundColor: selectedCategory === category ? 'var(--color-primary)' : 'var(--color-secondary)',
+                color: selectedCategory === category ? 'var(--color-secondary)' : 'var(--color-primary)',
+                border: selectedCategory === category ? '3px solid var(--color-primary)' : '2px solid rgba(109, 42, 49, 0.3)',
                 boxShadow: selectedCategory === category ? '0 4px 12px rgba(109, 42, 49, 0.4)' : 'none'
               }"
             >
@@ -74,7 +77,7 @@
             <h3 class="text-2xl font-extrabold mb-3" style="color: var(--color-secondary);">
               {{ advantage.title }}
             </h3>
-            <p class="text-base font-medium" style="color: var(--color-accent);">
+            <p class="text-base font-medium" style="color: var(--color-secondary);">
               {{ advantage.description }}
             </p>
           </div>

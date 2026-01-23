@@ -7,8 +7,8 @@
     <div class="flex items-start space-x-6 mb-12">
       <!-- Point sur la timeline -->
       <div class="relative z-10 flex-shrink-0">
-        <div class="w-16 h-16 rounded-full flex items-center justify-center " style="background-color: var(--color-secondary);">
-          <span class="text-xl font-bold" style="color: var(--color-secondary);">{{ event.year }}</span>
+        <div class="w-16 h-16 rounded-full flex items-center justify-center " style="background-color: var(--color-yellow);">
+          <span class="text-xl font-bold" style="color: var(--color-text);">{{ event.year }}</span>
         </div>
       </div>
 
@@ -30,9 +30,6 @@
           <div class="md:w-2/3 p-6">
             <div class="flex items-start justify-between mb-3">
               <h3 class="text-2xl font-bold" style="color: var(--color-secondary);">{{ event.name }}</h3>
-              <span class="text-sm font-semibold px-3 py-1 rounded-full" style="background-color: var(--color-accent); color: var(--color-text);">
-                {{ event.year }}
-              </span>
             </div>
 
             <p class="text-sm mb-4" style="color: var(--color-secondary); opacity: 0.8;">

@@ -1,6 +1,6 @@
 # LA HARDE - Site Officiel
 
-Site web officiel de l'équipe cycliste professionnelle **LA HARDE - Les Sangliers atomiques**.
+Site web officiel de l'équipe cycliste Amateur **LA HARDE - Les Sangliers atomiques**.
 
 Site moderne et responsive développé avec Nuxt 3, Vue 3, TypeScript et Tailwind CSS.
 

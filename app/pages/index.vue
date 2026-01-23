@@ -161,7 +161,7 @@ import productsData from '~/data/products.json'
 
 // SEO
 useHead({
-  title: 'LA HARDE - Les Sangliers atomiques | Équipe Cycliste Professionnelle',
+  title: 'LA HARDE - Les Sangliers atomiques | Équipe Cycliste Amateur',
   meta: [
     {
       name: 'description',

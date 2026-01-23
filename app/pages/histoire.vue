@@ -49,10 +49,10 @@
     <section class="py-20" style="background-color: var(--color-primary);">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-          <h2 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--color-secondary);">
+          <h2 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--color-secondary);"> 
             Nos Grandes Courses
           </h2>
-          <p class="text-lg max-w-2xl mx-auto" style="color: var(--color-accent); opacity: 0.8;">
+          <p class="text-lg max-w-2xl mx-auto" style="color: var(--color-secondary); opacity: 0.8;">
             Chaque course est une page de notre histoire, chaque kilomètre une nouvelle légende.
           </p>
         </div>
@@ -93,10 +93,10 @@
                 <h3 class="text-xl font-bold mb-2" style="color: var(--color-secondary);">
                   {{ moment.title }}
                 </h3>
-                <p class="text-sm mb-2" style="color: var(--color-accent); filter: brightness(1.5);">
+                <p class="text-sm mb-2" style="color: var(--color-secondary); filter: brightness(1.5);">
                   {{ moment.date }}
                 </p>
-                <p class="text-sm leading-relaxed" style="color: var(--color-accent); opacity: 0.8;">
+                <p class="text-sm leading-relaxed" style="color: var(--color-secondary); opacity: 0.8;">
                   {{ moment.description }}
                 </p>
               </div>
@@ -113,7 +113,7 @@
           <h2 class="text-4xl md:text-5xl font-bold mb-6" style="color: var(--color-secondary);">
             L'Avenir de LA HARDE
           </h2>
-          <p class="text-lg mb-8 leading-relaxed" style="color: var(--color-accent); opacity: 0.9;">
+          <p class="text-lg mb-8 leading-relaxed" style="color: var(--color-secondary); opacity: 0.9;">
             Notre histoire ne fait que commencer. Avec chaque course, nous écrivons un nouveau chapitre.
             Le Tour de France, les Monuments du cyclisme, les classiques : tous ces objectifs alimentent notre feu intérieur.
             LA HARDE continuera à charger, à attaquer, et à faire vibrer les routes avec la puissance d'un peloton sauvage.

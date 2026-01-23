@@ -20,7 +20,7 @@
             v-for="(member, index) in teamMembers"
             :key="member.id"
             :style="{ animationDelay: `${index * 0.1}s` }"
-            class="transition-transform hover:scale-105 cursor-pointer">
+            class="cursor-pointer">
             <TeamMermberScrollViewElement :member="member" class="mx-[1000px]" />
           </div>
         </div>
@@ -34,7 +34,7 @@
           <h2 class="text-4xl md:text-5xl font-bold mb-4" style="color: var(--color-secondary);">
             Suivez-nous sur Strava
           </h2>
-          <p class="text-lg max-w-2xl mx-auto" style="color: var(--color-accent); opacity: 0.8;">
+          <p class="text-lg max-w-2xl mx-auto" style="color: var(--color-secondary); opacity: 0.8;">
             Découvrez nos performances et nos entraînements en temps réel
           </p>
         </div>
@@ -99,7 +99,7 @@
             <h3 class="text-2xl font-bold mb-4" style="color: var(--color-secondary);">
               {{ value.title }}
             </h3>
-            <p class="text-sm leading-relaxed" style="color: var(--color-accent); opacity: 0.8;">
+            <p class="text-sm leading-relaxed" style="color: var(--color-secondary); opacity: 0.8;">
               {{ value.description }}
             </p>
           </div>
@@ -113,7 +113,7 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-6" style="color: var(--color-secondary);">
           Soutenez LA HARDE
         </h2>
-        <p class="text-lg mb-8 max-w-2xl mx-auto" style="color: var(--color-accent); opacity: 0.8;">
+        <p class="text-lg mb-8 max-w-2xl mx-auto" style="color: var(--color-secondary); opacity: 0.8;">
           Arborez les couleurs des Sangliers atomiques et montrez votre soutien à notre équipe.
         </p>
         <NuxtLink to="/boutique" class="btn-primary">
