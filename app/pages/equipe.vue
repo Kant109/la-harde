@@ -25,7 +25,7 @@
       </div>
 
       <!-- Version Mobile : Grille verticale -->
-      <div class="md:hidden container mx-auto px-4">
+      <div class="block md:hidden container mx-auto px-4">
         <div class="flex flex-col gap-8">
           <div
             v-for="(member, index) in teamMembers"
