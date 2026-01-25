@@ -11,14 +11,28 @@
 
     <!-- Section Membres de l'équipe -->
     <section class="py-20">
-    <div ref="containerRef" class="h-screen relative">
-      <div ref="scrollRef" class="flex gap-[300px] h-full items-center pl-32 pr-8 left-0 top-0 mt-20">
+      <!-- Version Desktop/Tablette : Scroll horizontal avec GSAP -->
+      <div ref="containerRef" class="hidden md:block h-screen relative">
+        <div ref="scrollRef" class="flex gap-[300px] h-full items-center pl-32 pr-8 left-0 top-0 mt-20">
           <div
             v-for="(member, index) in teamMembers"
             :key="member.id"
             :style="{ animationDelay: `${index * 0.1}s` }"
             class="cursor-pointer">
             <TeamMermberScrollViewElement :member="member" class="mx-[1000px]" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Version Mobile : Grille verticale -->
+      <div class="block md:hidden container mx-auto px-4">
+        <div class="flex flex-col gap-8">
+          <div
+            v-for="(member, index) in teamMembers"
+            :key="`mobile-${member.id}`"
+            :style="{ animationDelay: `${index * 0.1}s` }"
+            class="cursor-pointer">
+            <TeamMermberScrollViewElement :member="member" />
           </div>
         </div>
       </div>

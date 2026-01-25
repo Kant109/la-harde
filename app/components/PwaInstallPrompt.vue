@@ -17,7 +17,7 @@
         </svg>
       </button>
     </div>
-    <p class="text-sm mb-4" style="color: var(--color-accent);">
+    <p class="text-sm mb-4" style="color: var(--color-secondary);">
       Installez l'application sur votre appareil pour un accès rapide et une expérience optimale.
     </p>
     <div class="flex gap-3">
@@ -31,7 +31,7 @@
       <button
         @click="dismissPrompt"
         class="px-4 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
-        style="background-color: var(--color-accent); color: var(--color-text);"
+        style="background-color: var(--color-accent); color: var(--color-secondary);"
       >
         Plus tard
       </button>
