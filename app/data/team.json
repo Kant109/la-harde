@@ -86,5 +86,16 @@
     "speciality": "L'homme au 1000 hypoglycémies",
     "strava": "https://www.strava.com/athletes/105352604",
     "velo": "/images/team/bbech-bike.png"
+  },
+    {
+    "id": 9,
+    "name": "Yoran",
+    "role": "Le vétéran",
+    "bio": "Jamais laché, toujours au contact ... attention au contre !",
+    "image": "/images/team/yoran.png",
+    "image3d": "/images/team/yoran-3d.png",
+    "speciality": "La rénovation de vélo",
+    "strava": "https://www.strava.com/athletes/105352604",
+    "velo": "/images/team/yoran-bike.png"
   }
 ]

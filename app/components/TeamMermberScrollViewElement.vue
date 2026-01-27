@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col md:flex-row w-full md:w-[900px] md:h-[900px] md:mt-48">
+  <div class="flex flex-col md:flex-row w-full md:w-[1000px] md:h-[900px] md:mt-48">
     <!-- Image 3D - à gauche sur mobile et desktop -->
     <img
       :src="member.image3d"
