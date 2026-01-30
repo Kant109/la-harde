@@ -27,7 +27,7 @@
       <button
         @click="downloadGpx"
         class="px-6 py-3 rounded-xl font-bold uppercase tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-lg inline-flex items-center gap-2"
-        style="background-color: var(--color-accent); color: var(--color-primary);">
+        style="background-color: var(--color-accent); color: var(--color-secondary);">
         <span class="text-xl">📥</span>
         Télécharger le parcours GPX
       </button>
@@ -184,10 +184,10 @@ const parseAndDisplayGpx = async (gpxContentString: string) => {
       // Mettre à jour la popup avec les informations du point de départ
       marker.bindPopup(`
         <div style="text-align: center; font-family: 'Montserrat', sans-serif;">
-          <div style="font-weight: bold; font-size: 16px; color: #3A3A3A; margin-bottom: 4px;">
+          <div style="font-weight: bold; font-size: 16px; color: #3A3A3A; margin-bottom: 4px; color: var(--color-secondary)" >
             🚴 Départ
           </div>
-          <div style="font-size: 12px; color: #6D2A31; opacity: 0.8;">
+          <div style="font-size: 12px; color: #6D2A31; opacity: 0.8; color: var(--color-primary)">
             ${props.location}
           </div>
         </div>
