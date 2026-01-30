@@ -55,7 +55,7 @@
               <!-- Badge de type -->
               <div class="mb-6">
                 <div class="inline-block px-4 py-2 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg"
-                  style="background-color: var(--color-accent); color: var(--color-primary);">
+                  style="background-color: var(--color-secondary); color: var(--color-primary);">
                   {{ getTypeIcon(event.type) }} {{ getTypeLabel(event.type) }}
                 </div>
               </div>
@@ -63,7 +63,7 @@
               <!-- Titre -->
               <div class="mb-8">
                 <h1 class="text-4xl md:text-5xl font-extrabold leading-tight"
-                  style="color: var(--color-accent);">
+                  style="color: var(--color-secondary);">
                   {{ event.name }}
                 </h1>
               </div>
@@ -131,7 +131,7 @@
                         style="color: var(--color-secondary);">
                         Participants
                       </div>
-                      <div class="text-lg font-bold" style="color: var(--color-accent);">
+                      <div class="text-lg font-bold" style="color: var(--color-secondary);">
                         {{ participants.length === 0 ? "0" : participants.length }} inscrit{{ participants.length > 1 ? 's' : '' }}
                       </div>
                     </div>
@@ -143,11 +143,11 @@
               <div class="mt-8 pt-8 border-t-4" style="border-color: var(--color-secondary);">
                 <div class="mb-6">
                   <div class="flex items-center justify-between">
-                    <h3 class="text-2xl font-extrabold" style="color: var(--color-accent);">
+                    <h3 class="text-2xl font-extrabold" style="color: var(--color-secondary);">
                       👥 Participants
                     </h3>
                     <div class="text-lg font-bold px-4 py-2 rounded-full"
-                      style="background-color: var(--color-accent); color: var(--color-primary);">
+                      style="background-color: var(--color-secondary); color: var(--color-primary);">
                       {{ participants.length }}
                     </div>
                   </div>
@@ -176,7 +176,7 @@
                   >
                     <div class="flex items-center gap-3">
                       <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm"
-                        style="background-color: var(--color-accent); color: var(--color-primary);">
+                        style="background-color: var(--color-accent); color: var(--color-secondary);">
                         {{ index + 1 }}
                       </div>
                       <span class="text-base font-bold" style="color: var(--color-accent);">
@@ -204,12 +204,12 @@
             style="background: var(--color-primary); border-color: var(--color-secondary);">
             <div class="relative p-6 md:p-8">
               <div class="text-center mb-6">
-                <div class="inline-block px-6 py-2 rounded-full mb-4" style="background-color: var(--color-accent);">
+                <div class="inline-block px-6 py-2 rounded-full mb-4" style="background-color: var(--color-secondary);">
                   <span class="text-sm font-bold uppercase tracking-wider" style="color: var(--color-primary);">
                     Inscription
                   </span>
                 </div>
-                <h2 class="text-2xl font-extrabold" style="color: var(--color-accent);">
+                <h2 class="text-2xl font-extrabold" style="color: var(--color-secondary);">
                   Ajouter un participant
                 </h2>
               </div>
@@ -217,7 +217,7 @@
               <form @submit.prevent="handleAddParticipant" class="space-y-4">
                 <div class="relative">
                   <label for="participant" class="block text-base font-bold mb-3 uppercase tracking-wide"
-                    style="color: var(--color-accent);">
+                    style="color: var(--color-secondary);">
                     👤 Nom du participant *
                   </label>
                   <input
@@ -236,7 +236,7 @@
                   type="submit"
                   :disabled="isAddingParticipant"
                   class="w-full px-8 py-4 rounded-xl text-xl font-extrabold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                  style="background-color: var(--color-accent); color: var(--color-primary);">
+                  style="background-color: var(--color-secondary); color: var(--color-primary);">
                   {{ isAddingParticipant ? '⏳ Ajout en cours...' : '✨ Ajouter' }}
                 </button>
 
@@ -262,8 +262,8 @@
       <!-- Carte de localisation -->
       <div class="mb-8">
         <div class="mb-6">
-          <div class="inline-block px-6 py-2 rounded-full" style="background-color: var(--color-accent);">
-            <span class="text-sm font-bold uppercase tracking-wider" style="color: var(--color-primary);">
+          <div class="inline-block px-6 py-2 rounded-full" style="background-color: var(--color-primary);">
+            <span class="text-sm font-bold uppercase tracking-wider" style="color: var(--color-secondary);">
               📍 Localisation
             </span>
           </div>
