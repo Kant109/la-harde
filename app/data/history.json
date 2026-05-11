@@ -2,6 +2,16 @@
   {
     "id": 1,
     "name": "La Roue Tourangelle",
+    "year": 2026,
+    "description": "30 bornes full gas. Course dynamité par le vent et notre faible niveau.",
+    "image": "/images/races/roue-tourangelle.png",
+    "result": "Tout le monde a explosé",
+    "location": "Château-Renault, France",
+    "distance": "72 km"
+  },
+  {
+    "id": 2,
+    "name": "La Roue Tourangelle",
     "year": 2025,
     "description": "Première grande sortie de LA HARDE sur les routes de Touraine. Une course mémorable marquée par l'échappée audacieuse de Pierre dans les derniers kilomètres (pas du tout).",
     "image": "/images/races/roue-tourangelle.png",
@@ -10,7 +20,7 @@
     "distance": "58 km"
   },
   {
-    "id": 2,
+    "id": 3,
     "name": "La Vendéenne",
     "year": 2025,
     "description": "Course épique sous le soleil vendéen. L'équipe a démontré sa cohésion et sa force collective, avec un travail remarquable de Matis en queue de peloton.",
@@ -20,7 +30,7 @@
     "distance": "50 km"
   },
   {
-    "id": 3,
+    "id": 4,
     "name": "Paris-Roubaix",
     "year": 2025,
     "description": "Le mythique enfer du Nord. LA HARDE s'attaque aux pavés légendaires. Malgré le manque de condition physique, l'équipe termine la course avec honneur et détermination.",
